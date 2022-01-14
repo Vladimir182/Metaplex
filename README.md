@@ -1,11 +1,6 @@
-# storefront
+# membership-token-admin
 
-the begining of metaplex StoreFront
-
-
-[🚀 App](https://metaplex.github.io/store/main/app/)
-
-[💅 Storybook](https://metaplex.github.io/store/main/storybook/)
+Membership token managing dashboard
 
 ---
 
