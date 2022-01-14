@@ -1,0 +1,65 @@
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.infinite-progress-spinner {
+  animation: rotate 1s linear infinite;
+  background: #00ffbd;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  position: relative;
+}
+
+.infinite-progress-spinner::before,
+.infinite-progress-spinner::after {
+  content: "";
+  position: absolute;
+}
+
+.infinite-progress-spinner::before {
+  border-radius: 50%;
+  background: linear-gradient(
+        0deg,
+        hsla(0, 0%, 18%, 1) 50%,
+        hsla(0, 0%, 18%, 0.9) 100%
+      )
+      0% 0%,
+    linear-gradient(90deg, hsla(0, 0%, 18%, 0.9) 0%, hsla(0, 0%, 18%, 0.6) 100%)
+      100% 0%,
+    linear-gradient(
+        180deg,
+        hsla(0, 0%, 18%, 0.6) 0%,
+        hsla(0, 0%, 18%, 0.3) 100%
+      )
+      100% 100%,
+    linear-gradient(360deg, hsla(0, 0%, 18%, 0.3) 0%, hsla(0, 0%, 18%, 0) 100%)
+      0% 100%;
+  background-repeat: no-repeat;
+  background-size: 50% 50%;
+  top: -1px;
+  bottom: -1px;
+  left: -1px;
+  right: -1px;
+}
+
+.infinite-progress-spinner::after {
+  border-radius: 50%;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  right: 3px;
+}
+
+.spinner-light-background::after {
+  background: #2a2a2a;
+}
+
+.spinner-dark-background::after {
+  background: #121212;
+}
