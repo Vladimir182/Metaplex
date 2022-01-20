@@ -13,7 +13,7 @@ describe("isStoreAdmin", () => {
     },
   };
 
-  const getStore = (owner = "test") => ({ owner });
+  const getStore = (admin = "test") => ({ admin });
 
   it("true", () => {
     const scope = fork({

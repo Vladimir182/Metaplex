@@ -1,38 +1,47 @@
-import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
-import { Store, StoreConfig } from "@metaplex-foundation/mpl-metaplex";
-import { Connection } from "@solana/web3.js";
-import { IStore, IStoreConfig } from "state/store";
-import { loadExtraContent } from "./loadExtraContent";
+import {
+  MembershipTokenProgram,
+  StoreAccountData,
+  StoreAccountDataArgs,
+} from "@metaplex-foundation/mpl-membership-token";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { IStore } from "state/store";
+
+const getStores = async (
+  owner: PublicKey,
+  connection: Connection
+): Promise<StoreAccountDataArgs & { storeId: string }> => {
+  const storeAccounts = await MembershipTokenProgram.getProgramAccounts(
+    connection,
+    {
+      filters: [
+        // Filter for assigned to this store
+        {
+          memcmp: {
+            offset: 8,
+            bytes: owner.toBase58(),
+          },
+        },
+      ],
+    }
+  );
+
+  const stores = storeAccounts.map((account) => ({
+    ...StoreAccountData.fromAccountInfo(account.info)[0],
+    storeId: account.pubkey.toString(),
+  }));
+
+  return stores[0];
+};
 
 export const loadStore = async ({
+  owner,
   connection,
-  storeAddress,
 }: {
+  owner: PublicKey;
   connection: Connection;
-  storeAddress: AnyPublicKey;
-}): Promise<IStore | null> => {
-  const storeAccount = await Store.load(connection, storeAddress);
-  if (!storeAccount.data) {
-    return null;
-  }
-
+}): Promise<null | IStore> => {
   try {
-    const configId = await StoreConfig.getPDA(storeAddress);
-    const configAccount = await StoreConfig.load(connection, configId);
-    const {
-      data: { settingsUri },
-    } = configAccount;
-
-    if (!settingsUri) {
-      return null;
-    }
-
-    const config = await loadExtraContent<IStoreConfig>(settingsUri);
-
-    return {
-      ...config,
-      storeId: storeAccount.pubkey.toString(),
-    };
+    return getStores(owner, connection);
   } catch {
     return null;
   }

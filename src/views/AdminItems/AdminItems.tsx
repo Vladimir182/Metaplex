@@ -30,13 +30,7 @@ export const AdminItems: FC = () => {
 
   const navigate = useNavigate();
   const onCreate = useCallback(
-    () =>
-      storeId &&
-      navigate(
-        ROUTES.createNft({
-          ":storeId": storeId,
-        })
-      ),
+    () => storeId && navigate(ROUTES.createNft()),
     [storeId, navigate]
   );
 

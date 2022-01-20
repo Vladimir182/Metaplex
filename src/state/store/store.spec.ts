@@ -6,11 +6,7 @@ describe("store", () => {
 
   const STORE: IStore = {
     name: "name",
-    logoImg: "logoImg",
-    coverImg: "coverImg",
-    description: "description",
-    link: "link",
-    owner: "owner",
+    admin: "owner",
     storeId: STORE_ADDRESS,
   };
 
@@ -24,7 +20,6 @@ describe("store", () => {
 
     await allSettled(loadStoreFx, {
       scope,
-      params: STORE_ADDRESS,
     });
 
     expect(scope.getState($store)).toBe(STORE);
@@ -43,7 +38,6 @@ describe("store", () => {
       });
       await allSettled(loadStoreFx, {
         scope,
-        params: STORE_ADDRESS,
       });
       expect(scope.getState($hasStore)).toBe(true);
     });
@@ -53,7 +47,6 @@ describe("store", () => {
       });
       await allSettled(loadStoreFx, {
         scope,
-        params: STORE_ADDRESS,
       });
       expect(scope.getState($hasStore)).toBe(false);
     });

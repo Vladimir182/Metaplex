@@ -20,7 +20,7 @@ export const fetchStoreArtworksFx = attach({
 
     return await loadArtworksByCreators({
       connection,
-      creators: [store.owner],
+      creators: [store.admin],
     });
   },
   source: {

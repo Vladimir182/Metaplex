@@ -1,49 +1,66 @@
-import { ArweaveStorage, Wallet } from "@metaplex/js";
-import { actions } from "@metaplex/js";
-import { Connection } from "@solana/web3.js";
-import { EUploadProgress, uploadJson2Arweave } from "./uploadJson2Arweave";
-
-const { initStoreV2 } = actions;
+import { createCreateStoreInstruction } from "@metaplex-foundation/mpl-membership-token";
+import { Wallet } from "@metaplex/js";
+import { Connection, Keypair, Transaction } from "@solana/web3.js";
+import { IStore } from "state/store";
+import { EUploadProgress } from "./uploadJson2Arweave";
 
 export interface InitStoreProps {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  json: Object;
-  files: File[];
-  updateProgress?: (status: EUploadProgress | null) => void;
+  name: string;
   connection: Connection;
   wallet: Wallet;
-  storage: ArweaveStorage;
+  updateProgress: (status: EUploadProgress | null) => void;
 }
 
-export const initStore = async ({
-  json,
-  files,
-  updateProgress,
+const createTransaction = async ({
+  name,
   connection,
   wallet,
-  storage,
 }: InitStoreProps) => {
-  const { settingsUri } = await uploadJson2Arweave({
+  const store = Keypair.generate();
+
+  const instruction = createCreateStoreInstruction(
+    {
+      store: store.publicKey,
+      admin: wallet.publicKey,
+    },
+    {
+      name,
+      description: " ".repeat(60),
+    }
+  );
+
+  const storeTx = new Transaction();
+  storeTx.add(instruction);
+  storeTx.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
+  storeTx.feePayer = wallet.publicKey;
+  storeTx.partialSign(store);
+
+  return { store, storeTx };
+};
+
+export const initStore = async ({
+  name,
+  connection,
+  wallet,
+  updateProgress,
+}: InitStoreProps): Promise<Pick<IStore, "storeId">> => {
+  const { store, storeTx } = await createTransaction({
+    name,
     connection,
     wallet,
-    files,
-    json,
-    mintKey: wallet.publicKey.toString(),
-    storage,
     updateProgress,
   });
+  updateProgress(EUploadProgress.signing_metadata_transaction);
+  const signedTx = await wallet.signTransaction(storeTx);
 
-  const store = await initStoreV2({
-    connection,
-    wallet,
-    isPublic: false,
-    settingsUri,
+  const txId = await connection.sendRawTransaction(signedTx.serialize(), {
+    skipPreflight: true,
   });
+  updateProgress(EUploadProgress.sending_transaction_to_solana);
 
-  await connection.confirmTransaction(store.txId, "max");
   // Force wait for max confirmations
-  // await connection.confirmTransaction(txid, 'max');
-  connection.getParsedConfirmedTransaction(store.txId, "confirmed");
+  await connection.confirmTransaction(txId, "max");
+  updateProgress(EUploadProgress.waiting_for_final_confirmation);
 
-  return store;
+  return { storeId: store.publicKey.toString() };
 };

@@ -45,6 +45,9 @@ export const $connection = combine($network, (network) => {
   const endpoint =
     network === "mainnet-beta"
       ? "https://api.metaplex.solana.com/"
+      : network === "devnet"
+      ? "https://liquid.devnet.rpcpool.com/5ebea512d12be102f53d319dafc8/"
       : clusterApiUrl(network);
+
   return new Connection(endpoint);
 });

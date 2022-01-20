@@ -13,7 +13,7 @@ export const ROUTES = {
   createStore: route("store", "create"),
   profile: route("profile"),
   store,
-  createNft: storeFrom("nft", "create"),
+  createNft: route("nft", "create"),
   admin,
   adminHome: adminFrom(""),
   adminStorefront: adminFrom("storefront"),

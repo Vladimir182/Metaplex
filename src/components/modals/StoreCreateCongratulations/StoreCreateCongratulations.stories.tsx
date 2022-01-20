@@ -6,6 +6,4 @@ export default {
   component: StoreCreateCongratulations,
 } as ComponentMeta<typeof StoreCreateCongratulations>;
 
-export const Default = () => (
-  <StoreCreateCongratulations storeName="Sweet Dreams" storeId="test" />
-);
+export const Default = () => <StoreCreateCongratulations />;

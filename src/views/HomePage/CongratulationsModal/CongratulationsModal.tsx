@@ -34,8 +34,6 @@ export const CongratulationsModal: FC<Props> = ({ forceOpen }) => {
       bodyProps={{ p: 0 }}
     >
       <StoreCreateCongratulations
-        storeId={store.storeId ?? ""}
-        storeName={store.name ?? ""}
         h={mdUp ? "400px" : undefined}
         flexGrow={mdUp ? undefined : 1}
         onClose={() => show(false)}

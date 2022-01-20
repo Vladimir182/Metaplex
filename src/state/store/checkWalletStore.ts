@@ -1,4 +1,3 @@
-import { Store } from "@metaplex-foundation/mpl-metaplex";
 import { attach, createEffect, restore, sample, StoreValue } from "effector";
 import { loadStore } from "sdk/loadStore";
 import { $connection } from "state/connection";
@@ -13,9 +12,8 @@ const checkWalletStoreOriginFx = createEffect(
     wallet: StoreValue<typeof $wallet>;
   }) => {
     if (!wallet) return null;
-    const storeAddress = await Store.getPDA(wallet.publicKey);
-    const store = await loadStore({ connection, storeAddress });
-    return (store?.owner && store.storeId) || null;
+    const store = await loadStore({ connection, owner: wallet.publicKey });
+    return (store?.admin && store.storeId) || null;
   }
 );
 

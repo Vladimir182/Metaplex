@@ -1,46 +1,45 @@
+import { NAME_MAX_LEN } from "@metaplex-foundation/mpl-membership-token";
 import { attach, createEffect, StoreValue } from "effector";
 import { initStore } from "sdk/initStore";
 import { EUploadProgress } from "sdk/uploadJson2Arweave";
 import { $connection } from "state/connection";
-import { $storage } from "state/nft";
 import { $wallet } from "state/wallet";
 
-export interface IUploadJSON2ArweaveParams {
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  json: Object;
-  files: File[];
-  updateProgress?: (status: EUploadProgress | null) => void;
+export interface IParams {
+  name: string;
+  updateProgress: (status: EUploadProgress | null) => void;
 }
 
-export interface IMintArweaveSource {
+export interface ISource {
   connection: StoreValue<typeof $connection>;
-  storage: StoreValue<typeof $storage>;
   wallet: StoreValue<typeof $wallet>;
 }
 
-export type IUploadJSON2ArweaveParamsWithSource = IUploadJSON2ArweaveParams &
-  IMintArweaveSource;
+export type IParamsWithSource = IParams & ISource;
+
+// Since transaction requires name to be fixed length add spaces on the end
+const prepareName = (name: string) => {
+  let result = name;
+  const bytesLength = Buffer.from(result, "utf8").byteLength;
+
+  if (bytesLength < NAME_MAX_LEN) {
+    result += " ".repeat(NAME_MAX_LEN - bytesLength);
+  }
+
+  return result;
+};
 
 export const initStoreFx = attach({
   effect: createEffect(
-    async ({
-      json,
-      files,
-      updateProgress,
-      connection,
-      wallet,
-      storage,
-    }: IUploadJSON2ArweaveParamsWithSource) => {
+    async ({ name, updateProgress, connection, wallet }: IParamsWithSource) => {
       if (!wallet) {
         throw new Error("Wallet wasn't connected");
       }
 
       const store = await initStore({
+        name: prepareName(name),
         connection,
         wallet,
-        storage,
-        json,
-        files,
         updateProgress,
       });
 
@@ -49,10 +48,9 @@ export const initStoreFx = attach({
   ),
   source: {
     connection: $connection,
-    storage: $storage,
     wallet: $wallet,
   },
-  mapParams: (params: IUploadJSON2ArweaveParams, sources) => ({
+  mapParams: (params: IParams, sources) => ({
     ...sources,
     ...params,
   }),

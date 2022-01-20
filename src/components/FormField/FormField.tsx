@@ -70,6 +70,7 @@ export const FormField: React.FC<FormFieldProps> = ({
     >
       <FormLabel
         requiredIndicator={<RequiredIndicator>(required)</RequiredIndicator>}
+        color="white"
       >
         {title}
       </FormLabel>
