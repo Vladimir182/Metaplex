@@ -6,7 +6,7 @@ export function getArtworks(): IArt[] {
       id: "FEp9ndozRPtpaDdoWKQtZW2Bfr3xMJiaTin1DRV4CDKE",
       image:
         "https://www.arweave.net/SqZqaaoj6iZDYVwSxD_qQx9CgR2ur4g-oMWtDAh-Uic?ext=png",
-      title: "tree",
+      title: "Long long long long long long name for item",
       description: "",
       creators: [
         {
@@ -33,8 +33,8 @@ export function getArtworks(): IArt[] {
         },
       ],
       format: "image",
-      type: ArtType.Print,
-      prints: { edition: 2, supply: 2 },
+      type: ArtType.Master,
+      prints: { supply: 2, maxSupply: 100 },
     },
     {
       id: "7T2sfYLScN3R4fiutHWjhYZuhq9sHUPL9oyE2ypbbWPE",
@@ -50,8 +50,8 @@ export function getArtworks(): IArt[] {
         },
       ],
       format: "image",
-      type: ArtType.Print,
-      prints: { edition: 2, supply: 2 },
+      type: ArtType.Master,
+      prints: { supply: 12, maxSupply: 12 },
     },
     {
       id: "GcAs2sG42EqJwSNPCTif6C8q6Soqgsf9aeZqp8GhTTPw",
@@ -67,8 +67,8 @@ export function getArtworks(): IArt[] {
         },
       ],
       format: "image",
-      type: ArtType.Print,
-      prints: { edition: 1, supply: 2 },
+      type: ArtType.Master,
+      prints: { supply: 2, maxSupply: 0 },
     },
     {
       id: "DKtkzzrqSbonYoEsKJdRZi3krcxQfEpB4muSdWcNzL3u",
@@ -85,7 +85,7 @@ export function getArtworks(): IArt[] {
       ],
       format: "image",
       type: ArtType.Master,
-      prints: { supply: 2 },
+      prints: { supply: 2, maxSupply: 90 },
     },
     {
       id: "GboK7dXicn8Wgz42dn295G3dR7kJY7ZhUt93bjapKTJh",
@@ -135,8 +135,8 @@ export function getArtworks(): IArt[] {
         },
       ],
       format: "image",
-      type: ArtType.Print,
-      prints: { edition: 1, supply: 2 },
+      type: ArtType.Master,
+      prints: { supply: 50, maxSupply: 0 },
     },
   ];
 }

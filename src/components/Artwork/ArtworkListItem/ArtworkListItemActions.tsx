@@ -33,7 +33,7 @@ export const ArtworkListItemActions: React.FC<Props> = ({
         spacing={2}
         className="buttons"
         alignSelf="stretch"
-        alignItems="stretch"
+        alignItems="center"
         ml="auto"
       >
         {isSeller ? (
@@ -41,14 +41,9 @@ export const ArtworkListItemActions: React.FC<Props> = ({
             Cancel Listing
           </Button>
         ) : (
-          <>
-            <Button onClick={newEdition} height="unset" variant="tertiary">
-              New edition
-            </Button>
-            <Button onClick={sell} height="unset" variant="tertiary">
-              Sell
-            </Button>
-          </>
+          <Button onClick={sell} variant="tertiary">
+            Sell Tokens
+          </Button>
         )}
       </HStack>
     );

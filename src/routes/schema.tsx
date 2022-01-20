@@ -17,6 +17,7 @@ import { WalletNotConnected } from "views/routes/WalletNotConnected";
 import { Redirect } from "./Redirect";
 import { useParams } from "react-router-dom";
 import { AdminItems } from "views/AdminItems";
+import { TokensList } from "../views/TokensList";
 
 export const SCHEMA: ISchema[] = [
   { path: ROUTES.home, view: Home },
@@ -69,6 +70,7 @@ export const SCHEMA: ISchema[] = [
         path: ROUTES.item,
         view: () => <ItemView variant="buy" notFound={<NotFoundView />} />,
       },
+      { path: ROUTES.tokens, view: TokensList },
       { path: "*", view: NotFoundView },
     ],
   },

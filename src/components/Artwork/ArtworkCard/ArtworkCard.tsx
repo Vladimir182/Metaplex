@@ -46,8 +46,6 @@ export const ArtworkCard: React.FC<Props> = ({
   const authorImg = artHelpers.getAuthorImg(artwork);
   const sol = artHelpers.getPrice(artwork);
   const type = artwork.type;
-  const editions = artHelpers.getEditions(artwork);
-  const date = artHelpers.getDate(artwork);
   const { convert } = useSolToUsd();
   const priceUSD = convert(sol);
 
@@ -71,14 +69,7 @@ export const ArtworkCard: React.FC<Props> = ({
         <ArtworkSubtitle type={type} expanded={expanded} smUp={smUp} />
       </Box>
       <Box p={4} pt={2} pb={2}>
-        <ArtworkInfo
-          date={date}
-          editions={editions ?? ""}
-          supplyType="limited"
-          sol={sol ?? 0}
-          usd={priceUSD ?? 0}
-          mb={2}
-        />
+        <ArtworkInfo sol={sol ?? 0} usd={priceUSD ?? 0} mb={2} />
         <ArtworkCardButtons
           primaryAction={onSell}
           secondaryAction={onNewEdition}

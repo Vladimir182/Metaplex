@@ -10,7 +10,7 @@ import { useLocalState } from "./StoreCreate.state";
 
 function goToSuccessPage(storeId: string, navigate: NavigateFunction) {
   navigate(
-    ROUTES.store({
+    ROUTES.tokens({
       ":storeId": storeId,
     })
   );

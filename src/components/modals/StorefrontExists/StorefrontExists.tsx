@@ -37,7 +37,7 @@ export const StorefrontExists: FC<Props> = ({
             as={Link}
             variant="primary"
             h={14}
-            to={ROUTES.store({
+            to={ROUTES.tokens({
               ":storeId": storeId,
             })}
           >

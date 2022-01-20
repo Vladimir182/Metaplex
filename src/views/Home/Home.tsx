@@ -30,7 +30,7 @@ export const Home: React.FC = () => {
             size="lg"
             variant="primary"
             as={Link}
-            to={ROUTES.store({
+            to={ROUTES.tokens({
               ":storeId": store.storeId,
             })}
           >

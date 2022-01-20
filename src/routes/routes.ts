@@ -20,4 +20,5 @@ export const ROUTES = {
   adminListings: adminFrom("listings"),
   adminItems: adminFrom("items"),
   item: route(itemID, "item"),
+  tokens: storeFrom("tokens"),
 } as const;
