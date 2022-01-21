@@ -22,7 +22,7 @@ export const TokensList: React.FC = () => {
     <>
       <VStack spacing={4} p={3} align="stretch" mb={5}>
         <Flex justifyContent="space-between">
-          <Heading variant="h3">Membership Tokens</Heading>
+          <Heading variant="h3">Token Management Console</Heading>
           <Button background="#00FFBD" onClick={onCreate}>
             Create New
           </Button>

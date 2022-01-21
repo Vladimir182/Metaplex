@@ -119,8 +119,8 @@ describe("NftCreationView.state", () => {
 
     it("ENftProgress.minting", () => {
       expect(getContent(ENftProgress.minting)).toEqual({
-        title: "Minting",
-        subtitle: "Starting Mint Process",
+        title: "Creating",
+        subtitle: "Starting Token Creation Process",
       });
     });
 

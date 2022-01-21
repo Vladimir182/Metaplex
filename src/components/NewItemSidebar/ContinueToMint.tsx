@@ -10,7 +10,7 @@ export const ContinueToMint: React.FC<Props> = ({ continueMint, cancel }) => {
   return (
     <>
       <Button variant="primary" size="lg" w="full" onClick={continueMint}>
-        Continue to Minting
+        Select
       </Button>
       <Button variant="ghost" size="lg" w="full" onClick={cancel}>
         Cancel

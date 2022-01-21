@@ -78,7 +78,7 @@ export const NftCreationView: FC = () => {
         onCategorySelect={onCategorySelect}
         category={category}
       />
-    ) : step === NewItemSidebarEnum.MINT ? (
+    ) : step === NewItemSidebarEnum.CREATE ? (
       <NftCreationForm
         onSubmit={onSubmitForm}
         onUpdate={(form, isValid) => {

@@ -102,8 +102,8 @@ export function getContent(state: ENftProgress | null) {
   switch (state) {
     case ENftProgress.minting:
       return {
-        title: "Minting",
-        subtitle: "Starting Mint Process",
+        title: "Creating",
+        subtitle: "Starting Token Creation Process",
       };
     case ENftProgress.preparing_assets:
       return {

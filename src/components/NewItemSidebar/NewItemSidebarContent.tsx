@@ -50,7 +50,7 @@ export const NewItemSidebarContent: FC<
     setState(NewItemSidebarEnum.MEDIA_TYPE);
   }, []);
   const gotToMint = useCallback(() => {
-    setState(NewItemSidebarEnum.MINT);
+    setState(NewItemSidebarEnum.CREATE);
   }, []);
 
   return (
@@ -75,9 +75,9 @@ export const NewItemSidebarContent: FC<
 
       <NewItemSidebarMenuItem
         step={2}
-        isActive={state === NewItemSidebarEnum.MINT}
+        isActive={state === NewItemSidebarEnum.CREATE}
       >
-        Mint
+        Create
       </NewItemSidebarMenuItem>
 
       <NewItemSidebarMenuItem
@@ -92,7 +92,7 @@ export const NewItemSidebarContent: FC<
       {state === NewItemSidebarEnum.MEDIA_TYPE && (
         <ContinueToMint continueMint={gotToMint} cancel={() => navigate(-1)} />
       )}
-      {state === NewItemSidebarEnum.MINT && (
+      {state === NewItemSidebarEnum.CREATE && (
         <Commission
           price={price}
           dollarPrice={dollarPrice}

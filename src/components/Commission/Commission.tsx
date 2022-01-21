@@ -34,7 +34,7 @@ export const Commission: React.FC<Props> = ({
           h={"56px"}
           variant={isActive ? "primary" : "tertiary"}
         >
-          Confirm & Mint
+          Confirm & Create
         </Button>
       </Box>
       <Button
