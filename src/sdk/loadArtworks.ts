@@ -2,7 +2,7 @@ import { AnyPublicKey, TokenAccount } from "@metaplex-foundation/mpl-core";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { MetadataJson } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";
-import { IArt } from "state/artworks/types";
+import { ArtType, IArt } from "state/artworks/types";
 import { excludesFalsy } from "utils/excludeFalsy";
 import { loadArtworkEdition } from "./loadArtworkEdition";
 import { loadExtraContent } from "./loadExtraContent";
@@ -71,9 +71,15 @@ export const loadArtworkData = async ({
 }: {
   connection: Connection;
   account: Metadata;
-}): Promise<IArt> => {
-  const artworkContent = await loadExtraContent<MetadataJson>(uri);
+}): Promise<undefined | IArt> => {
   const editionProps = await loadArtworkEdition({ connection, mint });
+
+  // We ignore non-master editions
+  if (!editionProps || editionProps.type !== ArtType.Master) {
+    return;
+  }
+
+  const artworkContent = await loadExtraContent<MetadataJson>(uri);
 
   return {
     id: pubkey.toString(),
