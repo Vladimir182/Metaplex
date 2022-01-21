@@ -1,4 +1,4 @@
-# membership-token-admin
+# membership-token-console
 
 Membership token managing dashboard
 
