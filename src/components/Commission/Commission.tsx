@@ -23,7 +23,7 @@ export const Commission: React.FC<Props> = ({
   return (
     <Flex flexDirection="column">
       <Box bg="whiteAlpha.50" p={4} borderRadius="xl">
-        <TitledBlock title="Price" variant="sm">
+        <TitledBlock title="Creation Fee" variant="sm">
           <SolUsdDisplay sol={price} usd={dollarPrice} />
         </TitledBlock>
         <Button
@@ -44,7 +44,7 @@ export const Commission: React.FC<Props> = ({
         alignSelf="stretch"
         variant="ghost"
       >
-        Cancel
+        Back
       </Button>
     </Flex>
   );
