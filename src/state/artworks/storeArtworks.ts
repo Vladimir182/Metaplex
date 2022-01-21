@@ -1,5 +1,5 @@
 import { attach, createStore, forward, StoreValue } from "effector";
-import { loadArtworksByCreators } from "sdk/loadArtworks";
+import { loadArtworksByOwner } from "sdk/loadArtworks";
 import { IArt } from "state/artworks/types";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
@@ -18,9 +18,9 @@ export const fetchStoreArtworksFx = attach({
       return [];
     }
 
-    return await loadArtworksByCreators({
+    return await loadArtworksByOwner({
       connection,
-      creators: [store.admin],
+      owner: store.admin,
     });
   },
   source: {
