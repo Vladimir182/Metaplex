@@ -15,7 +15,6 @@ import { useEvent, useStore } from "effector-react";
 import { reshape } from "patronum/reshape";
 import { RefObject, useCallback, useMemo } from "react";
 import { $connection } from "state/connection";
-import { submitInstantSaleFx } from "state/instant-sale";
 import { mintArweaveFx } from "state/nft";
 import { createEntry } from "state/utils";
 import { $user, $walletAddress } from "state/wallet";
@@ -387,9 +386,6 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
   );
 
   const embed = useCallback(() => {}, []);
-  const onSubmitInstantSale = useCallback((price: number, endDate: Date) => {
-    submitInstantSaleFx({ price, endDate });
-  }, []);
 
   const step = useStore($state.$node);
   const category = useStore(metadataCategory.$node);
@@ -401,7 +397,6 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
   const setVisibleListForSale = useEvent($listForSale.set);
 
   return {
-    onSubmitInstantSale,
     isShowListForSale,
     setVisibleListForSale,
     file,

@@ -12,7 +12,6 @@ import { Hamburger } from "../Hamburger";
 import { MobileNotifications } from "../MobileNotifications";
 import { useBalance } from "state/react/useBalance";
 import { useMemo } from "react";
-import { $walletStoreId } from "state/store";
 
 export interface NavbarActionsProps {
   user?: (PersonProps & { notifications?: number }) | null;
@@ -25,7 +24,6 @@ export const NavbarActions: React.FC<NavbarActionsProps> = ({
 }) => {
   const { mdUp } = useCustomBreakpoints();
   const network = useStore($network);
-  const walletStoreId = useStore($walletStoreId);
   const refBalance = useBalance();
   const balance = useMemo(() => {
     return {
@@ -47,7 +45,6 @@ export const NavbarActions: React.FC<NavbarActionsProps> = ({
             networks={NETWORK_LIST}
             currentNetwork={network}
             setNetwork={setNetwork}
-            walletStoreId={walletStoreId}
           >
             <PersonButton {...user} variant="ghost" />
           </UserProfile>

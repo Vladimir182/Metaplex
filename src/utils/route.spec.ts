@@ -1,10 +1,4 @@
-import {
-  combineRoute,
-  extractName,
-  route,
-  routeFromRoot,
-  variable,
-} from "./route";
+import { combineRoute, extractName, route, variable } from "./route";
 
 function typeCheck<T extends string>(t: T): boolean {
   return !!t;
@@ -40,16 +34,5 @@ describe("route", () => {
     expect(
       typeCheck<`/${string}/store/admin/${string}`>(formedPath)
     ).toBeTruthy();
-  });
-
-  it("routeFromRoot", () => {
-    const store = route(variable(":id"));
-
-    const fromStore = routeFromRoot(store);
-    const path = fromStore("admin");
-    expect(path.path).toBe("/:id/admin");
-    expect(typeCheck<"/:id/admin">(path.path));
-    expect(path.routeName).toBe("admin");
-    expect(typeCheck<"admin">(path.routeName)).toBeTruthy();
   });
 });

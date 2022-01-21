@@ -18,8 +18,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "routes";
 import { MintedStep } from "./MintedStep";
 import { useLocalState } from "./NftCreationView.state";
 
@@ -43,10 +41,8 @@ export const NftCreationView: FC = () => {
     supply,
     isShowListForSale,
     setVisibleListForSale,
-    onSubmitInstantSale,
     error,
   } = useLocalState(refForm);
-  const navigate = useNavigate();
   const refTriggerValidationFn = useRef<null | (() => void)>(null);
   const [isFormValid, setIsFormValid] = useState(false);
   const [sourceUrl] = useFileReader(file);
@@ -110,8 +106,6 @@ export const NftCreationView: FC = () => {
             isActive && refTriggerValidationFn.current?.();
             return continueToMint();
           }}
-          viewInProfile={() => navigate(ROUTES.profile())}
-          listForSale={() => setVisibleListForSale(true)}
           isFormReady={isFormValid}
         />
       }
@@ -121,7 +115,6 @@ export const NftCreationView: FC = () => {
         isVisible={isShowListForSale}
         hideModal={() => setVisibleListForSale(false)}
         artworkSummary={artworkSummary}
-        onSubmit={onSubmitInstantSale}
       />
       <InfiniteProgress
         isOpen={progressMeta.isOpen}

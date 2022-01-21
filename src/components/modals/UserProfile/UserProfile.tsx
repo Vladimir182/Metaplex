@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Divider,
   Popover,
   PopoverBody,
@@ -11,16 +10,13 @@ import {
 import { NetworkSelector, NetworkSelectorProps } from "./NetworkSelector";
 
 import { Balance } from "components/MainSidebar/Balance";
-import { Link } from "react-router-dom";
 import { PersonProps } from "components/Person";
 import { SolUsdDisplay } from "components/SolUsdDisplay";
 import { UserInfo } from "components/MainSidebar/UserInfo";
-import { ROUTES } from "routes";
 
 interface Props extends NetworkSelectorProps {
   user: PersonProps;
   balance?: React.ComponentProps<typeof SolUsdDisplay>;
-  walletStoreId?: string | null;
   forceOpen?: boolean;
 }
 
@@ -31,7 +27,6 @@ export const UserProfile: React.FC<Props> = ({
   setNetwork,
   currentNetwork,
   balance,
-  walletStoreId,
   forceOpen,
 }) => {
   return (
@@ -52,28 +47,6 @@ export const UserProfile: React.FC<Props> = ({
       <PopoverContent>
         <PopoverBody bgColor="gray.800" borderRadius="md" p={4}>
           <UserInfo user={user} variant="profile-popover" />
-          <Button
-            variant="link"
-            w="full"
-            color="whiteAlpha.700"
-            as={Link}
-            to="/profile"
-          >
-            View Profile
-          </Button>
-          {walletStoreId && (
-            <Button
-              variant="link"
-              w="full"
-              color="whiteAlpha.700"
-              as={Link}
-              to={ROUTES.admin({
-                ":storeId": walletStoreId,
-              })}
-            >
-              View Dashboard
-            </Button>
-          )}
           <Divider my={4} />
           <VStack spacing={6}>
             {balance ? (

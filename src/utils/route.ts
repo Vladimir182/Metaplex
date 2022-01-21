@@ -87,16 +87,3 @@ export function route<T extends (string | Var<string>)[]>(
   ret.path = path;
   return ret;
 }
-
-export function routeFromRoot<TRoot extends (string | Var<string>)[]>(
-  root: IRouteResult<TRoot>
-) {
-  return <T extends (string | Var<string>)[]>(...params: T) => {
-    const newParams = [...root.args, ...params] as const;
-    const r = route(...newParams);
-    const name = extractName(root.path, r.path);
-    const result = r as typeof r & { routeName: typeof name };
-    result.routeName = name;
-    return result;
-  };
-}

@@ -1,4 +1,4 @@
-import { attach, createEffect, restore, sample, StoreValue } from "effector";
+import { attach, createEffect, sample, StoreValue } from "effector";
 import { loadStore } from "sdk/loadStore";
 import { $connection } from "state/connection";
 import { $wallet } from "state/wallet";
@@ -32,5 +32,3 @@ export const checkWalletStoreFx = attach({
     wallet: $wallet,
   },
 });
-
-export const $walletStoreId = restore(checkWalletStoreOriginFx, null);
