@@ -1,5 +1,5 @@
 import { FC, useMemo } from "react";
-import { Md3DRotation, MdCheck, MdMusicNote } from "react-icons/md";
+import { MdOutlineImage, MdOutlinePlayCircle } from "react-icons/md";
 import { MediaTypeItem } from "./MediaTypeItem";
 import { FileType } from "./FileType";
 import { VStack } from "@chakra-ui/layout";
@@ -18,9 +18,7 @@ export const MediaTypeSelector: FC<Props> = ({
   const handlers = useMemo(() => {
     return {
       image: () => onCategorySelect(FileType.IMAGE),
-      video: undefined, // () => onCategorySelect(FileType.VIDEO),
-      audio: undefined, //() => onCategorySelect(FileType.AUDIO),
-      vr: undefined, //() => onCategorySelect(FileType.VR),
+      video: () => onCategorySelect(FileType.VIDEO),
     };
   }, [onCategorySelect]);
 
@@ -33,39 +31,18 @@ export const MediaTypeSelector: FC<Props> = ({
         <MediaTypeItem
           isActive={category === FileType.IMAGE}
           typeName="Image"
-          accept="JPG, PNG, GIF"
+          accept="JPG, PNG, SVG, GIF"
           onClick={handlers.image}
         >
-          <MdCheck size={fontSizes["2xl"]} />
+          <MdOutlineImage size={fontSizes["2xl"]} />
         </MediaTypeItem>
         <MediaTypeItem
           isActive={category === FileType.VIDEO}
           typeName="video"
-          accept="MP4, MOV"
+          accept="MP4"
           onClick={handlers.video}
-          disabled
         >
-          <MdCheck size={fontSizes["2xl"]} />
-        </MediaTypeItem>
-
-        <MediaTypeItem
-          isActive={category === FileType.AUDIO}
-          typeName="Audio"
-          accept="MP3, WAV, FLAC"
-          onClick={handlers.audio}
-          disabled
-        >
-          <MdMusicNote size={fontSizes["2xl"]} />
-        </MediaTypeItem>
-
-        <MediaTypeItem
-          isActive={category === FileType.VR}
-          typeName="AR/3D"
-          accept="GLB"
-          onClick={handlers.vr}
-          disabled
-        >
-          <Md3DRotation size={fontSizes["2xl"]} />
+          <MdOutlinePlayCircle size={fontSizes["2xl"]} />
         </MediaTypeItem>
       </VStack>
     </Box>

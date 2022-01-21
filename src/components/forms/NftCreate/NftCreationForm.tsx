@@ -7,7 +7,7 @@ import { FormField } from "components/FormField";
 import { FileType } from "components/MediaTypeSelector";
 import { TitledBlock } from "components/TitledBlock";
 
-import { NftAttributes } from "./NftAttributes";
+import { MaximumSupply } from "./MaximumSupply";
 
 export interface IFormData {
   preview: File | Record<string, never>;
@@ -34,6 +34,29 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
   refForm,
   refTriggerValidationFn,
 }) => {
+  const PAGE_TEXT = {
+    [FileType.IMAGE]: {
+      label: "IMAGE",
+      title: "Create new image Membership token",
+      subtitle: [
+        "We recommend an image of at least 800x800.",
+        "You can upload a PNG, JPG, SVG, or an animated GIF under 10 MB.",
+      ],
+    },
+    [FileType.VIDEO]: {
+      label: "VIDEO",
+      title: "Create new video Membership token",
+      subtitle: [
+        "We recommend an video of at least under 10 MB.",
+        "You can upload a MP4.",
+      ],
+    },
+  }[
+    metadataCategory === FileType.IMAGE || metadataCategory === FileType.VIDEO
+      ? metadataCategory
+      : FileType.IMAGE
+  ];
+
   const methods = useForm<IFormData>({ mode: "onChange" });
   refTriggerValidationFn.current = () =>
     methods.trigger(["title", "file"], {
@@ -58,10 +81,11 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     return handleSubmit((data) => onSubmit(data));
   }, [handleSubmit, onSubmit]);
+
   return (
     <Box>
       <Box mb={10}>
-        <Heading variant="h2">Create single collectible</Heading>
+        <Heading variant="h2">{PAGE_TEXT.title}</Heading>
         <Text mt={4} color="whiteAlpha.500" fontSize="lg" lineHeight="base">
           Need help? <Link href="#">Read our creators guide.</Link>
         </Text>
@@ -77,13 +101,10 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
           ref={refForm as any}
         >
           <TitledBlock
-            title="NFT Image (REQUIRED)"
+            title={PAGE_TEXT.label}
             variant="lg"
             fontWeight={600}
-            subtitle={[
-              "We recommend an image of at least 600x600.",
-              "You can upload a PNG, JPG, or an animated GIF under 10 MB.",
-            ]}
+            subtitle={PAGE_TEXT.subtitle}
           >
             <Controller
               name="file"
@@ -113,22 +134,20 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
             customInputFactory={(register) => <Textarea h={32} {...register} />}
           />
 
-          <FormField
+          <MaximumSupply
             id="supply"
             title="maximum supply"
             placeholder="0"
-            type="number"
+            description="Maximum amount of tokens could be distributed"
           />
 
-          <NftAttributes />
-
-          <FormField
+          {/* <FormField
             id="royalty"
             type="number"
             title="Royalty percentage"
             placeholder="0%"
             description="Suggested: 0%, 5%, 10%, 20%. Maximum is 50%."
-          />
+          /> */}
         </VStack>
       </FormProvider>
     </Box>

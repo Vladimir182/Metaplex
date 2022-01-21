@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { NftCreationForm } from "components/forms/NftCreate";
 import { Layout } from "components/Layout";
 import { ListForSaleDialog } from "components/ListForSaleDialog";
@@ -18,6 +19,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { ROUTES } from "routes";
 import { MintedStep } from "./MintedStep";
 import { useLocalState } from "./NftCreationView.state";
 
@@ -37,7 +39,6 @@ export const NftCreationView: FC = () => {
     onSubmitForm,
     onUpdateForm,
     continueToMint,
-    embed,
     supply,
     isShowListForSale,
     setVisibleListForSale,
@@ -46,6 +47,7 @@ export const NftCreationView: FC = () => {
   const refTriggerValidationFn = useRef<null | (() => void)>(null);
   const [isFormValid, setIsFormValid] = useState(false);
   const [sourceUrl] = useFileReader(file);
+  const navigate = useNavigate();
 
   const formError = useStore(error);
   const toast = useToast();
@@ -87,8 +89,8 @@ export const NftCreationView: FC = () => {
         refTriggerValidationFn={refTriggerValidationFn}
         metadataCategory={category}
       />
-    ) : step === NewItemSidebarEnum.Sales ? (
-      <MintedStep metadata={metadata} file={file} maxSupply={supply} />
+    ) : step === NewItemSidebarEnum.PREVIEW ? (
+      <MintedStep file={file} type={category} />
     ) : null;
 
   return (
@@ -101,11 +103,12 @@ export const NftCreationView: FC = () => {
           dollarPrice={dollarPrice}
           state={step}
           setState={setStep}
-          embed={embed}
           continueToMint={(isActive) => {
             isActive && refTriggerValidationFn.current?.();
             return continueToMint();
           }}
+          viewList={() => navigate(ROUTES.home())}
+          listForSale={() => {}}
           isFormReady={isFormValid}
         />
       }

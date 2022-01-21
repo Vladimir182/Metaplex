@@ -2,15 +2,13 @@ import { FC, useEffect } from "react";
 import { Flex, Heading, Text } from "@chakra-ui/react";
 
 import { ArtImage } from "components/ArtPreview";
-import { MetadataJson } from "@metaplex/js";
-import { TitledBlock } from "components/TitledBlock";
 import { useFileReader } from "hooks/useFileReader";
+import { FileType } from "components/MediaTypeSelector/FileType";
 
 export const MintedStep: FC<{
   file: File | null;
-  metadata: MetadataJson | null;
-  maxSupply: number | null | undefined;
-}> = ({ file, metadata, maxSupply }) => {
+  type: FileType;
+}> = ({ file, type }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sourceUrl, _, read] = useFileReader();
 
@@ -21,13 +19,13 @@ export const MintedStep: FC<{
   }, [file]);
   return (
     <Flex direction="column" mb={10}>
-      <Heading variant="h2">Minted</Heading>
+      <Heading variant="h2">Your membership token has been created!</Heading>
       <Text mt={4} color="whiteAlpha.500" fontSize="lg" lineHeight="base">
-        Congrats! You created a new NFT and added it to you profile. You can
-        list it for instant sale if you’d like.
+        Need Congrats! You created a new NFT and added it to you profile. You
+        can list it for instant sale if you’d like..
       </Text>
 
-      {sourceUrl && (
+      {sourceUrl && type === FileType.IMAGE && (
         <ArtImage
           uri={sourceUrl}
           my={12}
@@ -35,25 +33,16 @@ export const MintedStep: FC<{
           borderRadius="xl"
         />
       )}
-
-      <Heading variant="h3">{metadata?.name}</Heading>
-      {metadata?.description && (
-        <Text mt={4} color="whiteAlpha.500" fontSize="lg" lineHeight="base">
-          {metadata.description}
-        </Text>
+      {sourceUrl && type === FileType.VIDEO && (
+        <video
+          style={{
+            position: "relative",
+            zIndex: -1,
+            width: "100%",
+          }}
+          src={sourceUrl}
+        />
       )}
-
-      <TitledBlock title="Copies" variant="sm" mt={12}>
-        <Text>{maxSupply ?? 0}</Text>
-      </TitledBlock>
-
-      <TitledBlock title="Royalty Percentage" variant="sm" mt={12}>
-        <Text>
-          {metadata?.seller_fee_basis_points
-            ? `${metadata?.seller_fee_basis_points / 100}%`
-            : "0%"}
-        </Text>
-      </TitledBlock>
     </Flex>
   );
 };

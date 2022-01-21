@@ -3,14 +3,22 @@ import { VStack } from "@chakra-ui/layout";
 import { BoxProps, Button } from "@chakra-ui/react";
 
 interface Props extends BoxProps {
-  embed: () => void;
+  listForSale: () => void;
+  viewList: () => void;
 }
 
-export const ListForSale: React.FC<Props> = ({ embed, ...boxProps }) => {
+export const ListForSale: React.FC<Props> = ({
+  listForSale,
+  viewList,
+  ...boxProps
+}) => {
   return (
     <VStack spacing={4} {...boxProps} alignItems="stretch">
-      <Button variant="ghost" size="lg" onClick={embed}>
-        Embed
+      <Button variant="primary" size="lg" onClick={listForSale}>
+        Continue to sell copies
+      </Button>
+      <Button variant="ghost" size="lg" onClick={viewList}>
+        Back to list of tokens
       </Button>
     </VStack>
   );

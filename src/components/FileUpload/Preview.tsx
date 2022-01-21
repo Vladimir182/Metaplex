@@ -1,6 +1,7 @@
 import { CloseButton, Flex, Image } from "@chakra-ui/react";
 
 import { ConditionalWrapper } from "components/utility/ConditionalWrapper";
+import { FileType } from "components/MediaTypeSelector/FileType";
 import { FC } from "react";
 import { FileUploadProps } from ".";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
@@ -8,10 +9,11 @@ import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 interface Props {
   variant: FileUploadProps["variant"];
   imgUrl: string | null;
-  setImgUrl: (url: string | null) => void;
+  onClear: () => void;
+  type: FileType;
 }
 
-export const ImagePreview: FC<Props> = ({ variant, imgUrl, setImgUrl }) => {
+export const Preview: FC<Props> = ({ variant, imgUrl, onClear, type }) => {
   const { mdUp } = useCustomBreakpoints();
 
   if (!imgUrl) return null;
@@ -31,7 +33,7 @@ export const ImagePreview: FC<Props> = ({ variant, imgUrl, setImgUrl }) => {
           pos="absolute"
           top={4}
           right={4}
-          onClick={() => setImgUrl(null)}
+          onClick={onClear}
           hidden={imgUrl == null}
         />
       )}
@@ -51,19 +53,33 @@ export const ImagePreview: FC<Props> = ({ variant, imgUrl, setImgUrl }) => {
               pos="absolute"
               top={4}
               right={4}
-              onClick={() => setImgUrl(null)}
+              onClick={onClear}
               hidden={imgUrl == null}
             />
           </Flex>
         )}
       >
-        <Image
-          pos="relative"
-          zIndex={-1}
-          width="full"
-          objectFit="cover"
-          src={imgUrl}
-        />
+        <>
+          {type === FileType.IMAGE && (
+            <Image
+              pos="relative"
+              zIndex={-1}
+              width="full"
+              objectFit="cover"
+              src={imgUrl}
+            />
+          )}
+          {type === FileType.VIDEO && (
+            <video
+              style={{
+                position: "relative",
+                zIndex: -1,
+                width: "100%",
+              }}
+              src={imgUrl}
+            />
+          )}
+        </>
       </ConditionalWrapper>
     </>
   );

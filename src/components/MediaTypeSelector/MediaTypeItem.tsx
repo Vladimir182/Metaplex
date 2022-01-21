@@ -26,7 +26,10 @@ export const MediaTypeItem: React.FC<Props> = ({
   return (
     <Box
       layerStyle={isActive ? "active" : "base"}
-      _hover={{ backgroundColor: disabled ? undefined : "whiteAlpha.100" }}
+      _hover={{
+        backgroundColor: disabled ? undefined : "whiteAlpha.100",
+        cursor: disabled ? "auto" : "pointer",
+      }}
       {...props}
     >
       <HStack spacing={6}>

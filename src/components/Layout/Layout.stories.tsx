@@ -56,8 +56,7 @@ WithSidebar.args = {
 };
 
 const sidebarState = {
-  viewInProfile: () => {},
-  embed: () => {},
+  viewList: () => {},
   listForSale: () => {},
   state: NewItemSidebarEnum.MEDIA_TYPE,
   price: 1,

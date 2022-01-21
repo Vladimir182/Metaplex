@@ -1,6 +1,6 @@
-import { Box, Center, Divider, Flex, Text, VStack } from "@chakra-ui/react";
+import React from "react";
+import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { DragAndDrop } from "components/DragAndDrop";
-import { FileInput } from "components/FileInput";
 import {
   FileType,
   FiletypeAcceptMap,
@@ -8,23 +8,20 @@ import {
 import { UploadButton } from "components/UploadButton";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 import { useFileReader } from "hooks/useFileReader";
-import { useRef } from "react";
 import { FileUploadProps } from "./FileUploadProps";
-import { ImagePreview } from "./ImagePreview";
+import { Preview } from "./Preview";
 
 export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
   onFileChange,
   isInvalid,
   variant = "preview",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  type,
+  type = FileType.IMAGE,
   value,
   disabled,
   ...props
 }) => {
   const { mdUp } = useCustomBreakpoints();
   const [imgUrl, setImgUrl, read] = useFileReader(value);
-  const fileRef = useRef<HTMLInputElement>(null);
 
   const dropHandler = (file: File) => {
     onFileChange(file);
@@ -36,12 +33,9 @@ export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
     read(files[0]);
   };
 
-  const handleSubmitExternalLink = () => {
-    const value = fileRef.current?.value;
-    if (value) {
-      onFileChange(value);
-      setImgUrl(value);
-    }
+  const clearHandler = () => {
+    onFileChange("");
+    setImgUrl(null);
   };
 
   const background =
@@ -101,39 +95,26 @@ export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
                 )}
                 <UploadButton
                   onUpload={uploadHandler}
-                  accept={FiletypeAcceptMap[FileType.IMAGE]}
+                  accept={FiletypeAcceptMap[type]}
                   size="xl"
                   mt={6}
                   disabled={disabled}
                   visibility={imgUrl === null ? undefined : "hidden"}
                   _groupHover={{ visibility: "visible" }}
+                  imgUrl={imgUrl}
                 >
                   {imgUrl === null ? "Choose file" : "Replace file"}
                 </UploadButton>
               </Flex>
             </Center>
-            <ImagePreview
+            <Preview
               imgUrl={imgUrl}
-              setImgUrl={setImgUrl}
+              onClear={clearHandler}
               variant={variant}
+              type={type}
             />
           </Flex>
         </DragAndDrop>
-        <Divider />
-        <Box mt={8}>
-          <VStack align="start">
-            <Text fontSize="sm" fontWeight="bold" color="whiteAlpha.500">
-              OR USE ABSOLUTE URL TO CONTENT
-            </Text>
-            <FileInput
-              ref={fileRef}
-              actionText="Submit"
-              disabled={disabled}
-              action={handleSubmitExternalLink}
-              w="full"
-            />
-          </VStack>
-        </Box>
       </Box>
     </Box>
   );

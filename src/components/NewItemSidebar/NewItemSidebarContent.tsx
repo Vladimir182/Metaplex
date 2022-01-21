@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 
 export interface NewItemSidebarContentProps {
   continueToMint?: (isActive: boolean) => Promise<void>;
-  embed(): void;
+  viewList(): void;
+  listForSale(): void;
   state: NewItemSidebarEnum;
   price: number;
   isFormReady: boolean;
@@ -23,7 +24,8 @@ export const NewItemSidebarContent: FC<
   NewItemSidebarContentProps & BoxProps
 > = ({
   continueToMint,
-  embed,
+  viewList,
+  listForSale,
   state,
   setState,
   children,
@@ -39,7 +41,7 @@ export const NewItemSidebarContent: FC<
       if (continueToMint) {
         await continueToMint(isActive);
       }
-      setState(NewItemSidebarEnum.Sales);
+      setState(NewItemSidebarEnum.PREVIEW);
     },
     [continueToMint]
   );
@@ -80,9 +82,9 @@ export const NewItemSidebarContent: FC<
 
       <NewItemSidebarMenuItem
         step={3}
-        isActive={state === NewItemSidebarEnum.Sales}
+        isActive={state === NewItemSidebarEnum.PREVIEW}
       >
-        Sales
+        Preview
       </NewItemSidebarMenuItem>
 
       <Spacer />
@@ -100,7 +102,9 @@ export const NewItemSidebarContent: FC<
         />
       )}
 
-      {state === NewItemSidebarEnum.Sales && <ListForSale embed={embed} />}
+      {state === NewItemSidebarEnum.PREVIEW && (
+        <ListForSale listForSale={listForSale} viewList={viewList} />
+      )}
       {children}
     </VStack>
   );

@@ -1,19 +1,27 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Button, ButtonProps } from "@chakra-ui/react";
 
 const defaultAccept = ".png,.jpg,.gif,.mp4,.svg";
 interface UploadButtonProps extends ButtonProps {
   onUpload: (files: FileList) => void;
   accept?: string;
+  imgUrl?: string | null;
 }
 
 export const UploadButton: React.FC<UploadButtonProps> = ({
   onUpload,
   accept = defaultAccept,
+  imgUrl,
   children,
   ...buttonProps
 }) => {
   const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (imgUrl === null && ref.current) {
+      ref.current.value = "";
+    }
+  }, [imgUrl]);
 
   return (
     <>
