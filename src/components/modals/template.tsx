@@ -3,6 +3,7 @@ import {
   Modal,
   ModalBody,
   ModalBodyProps,
+  ModalCloseButton,
   ModalContent,
   ModalContentProps,
   ModalOverlay,
@@ -15,6 +16,10 @@ interface Props extends ModalProps {
   bodyProps?: ModalBodyProps;
   contentProps?: ModalContentProps;
 }
+
+const closeButtonStyles = {
+  boxShadow: "none",
+};
 
 export const ModalTemplate: FC<Props> = ({
   size,
@@ -35,6 +40,7 @@ export const ModalTemplate: FC<Props> = ({
       <ModalOverlay />
       <ModalContent {...contentProps}>
         {header}
+        <ModalCloseButton _focus={closeButtonStyles} />
         <ModalBody display="flex" flexDirection="column" {...bodyProps}>
           {children}
         </ModalBody>

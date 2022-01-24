@@ -31,7 +31,7 @@ export const colors: Record<string, ColorHues> = {
     200: "#F0B2F7",
     300: "#E372F1",
     400: "#DD56EE",
-    500: "#D83AEB",
+    500: "rgba(235, 58, 175, 0.2)",
     600: "#D21EE8",
     700: "#BE15D2",
     800: "#A513B7",
