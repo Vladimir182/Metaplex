@@ -1,6 +1,6 @@
 # membership-token-console
 
-Membership token managing dashboard
+Membership token managing console
 
 ---
 
