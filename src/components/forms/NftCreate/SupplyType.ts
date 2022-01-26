@@ -13,3 +13,5 @@ export const SupplyTypesMap = [
     label: "Limited",
   },
 ];
+
+export const MAXIMUM_SUPPLY_DEFAULT = "10000";

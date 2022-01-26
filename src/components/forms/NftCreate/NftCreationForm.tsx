@@ -137,7 +137,6 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
           <MaximumSupply
             id="supply"
             title="maximum supply"
-            placeholder="0"
             description="Maximum amount of tokens could be distributed"
           />
 

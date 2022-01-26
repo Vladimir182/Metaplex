@@ -380,7 +380,10 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
         });
         return;
       }
-      formSubmitting.submit({ data, maxSupply: supply ?? 0 });
+      formSubmitting.submit({
+        data,
+        maxSupply: toNumber(data.supply ?? "0"),
+      });
     },
     [user]
   );

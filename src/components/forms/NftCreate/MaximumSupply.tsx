@@ -20,7 +20,11 @@ import {
 } from "react-hook-form";
 import { RegisterOptions } from "react-hook-form/dist/types/validator";
 
-import { SupplyType, SupplyTypesMap } from "./SupplyType";
+import {
+  SupplyType,
+  SupplyTypesMap,
+  MAXIMUM_SUPPLY_DEFAULT,
+} from "./SupplyType";
 
 interface FormFieldProps {
   id: string;
@@ -38,10 +42,10 @@ interface FormFieldProps {
 
 export const MaximumSupply: React.FC<FormFieldProps> = ({
   id,
-  defaultValue = "0",
-  min = 0,
+  defaultValue = MAXIMUM_SUPPLY_DEFAULT,
+  min = 1,
   title,
-  placeholder = title,
+  placeholder = MAXIMUM_SUPPLY_DEFAULT,
   description,
   options,
 }) => {
@@ -62,7 +66,10 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
 
   useEffect(() => {
     if (activeSupplyType === SupplyType.UNLIMITED) {
-      setValue(id, "0");
+      setValue(id, "");
+    }
+    if (activeSupplyType === SupplyType.LIMITED) {
+      setValue(id, MAXIMUM_SUPPLY_DEFAULT);
     }
   }, [activeSupplyType]);
 
@@ -108,8 +115,13 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
         name={id}
         defaultValue={defaultValue}
         rules={options}
-        render={({ field: { ref, ...restField } }) => (
-          <NumberInput min={min} {...restField} isInvalid={isInvalid}>
+        render={({ field: { ref, onChange, ...restField } }) => (
+          <NumberInput
+            {...restField}
+            min={min}
+            onChange={(value) => onChange(value || `${min}`)}
+            isInvalid={isInvalid}
+          >
             <NumberInputField
               disabled={activeSupplyType === 1}
               ref={ref}
