@@ -58,6 +58,8 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
   ];
 
   const methods = useForm<IFormData>({ mode: "onChange" });
+  const { handleSubmit, formState, watch } = methods;
+
   refTriggerValidationFn.current = () =>
     methods.trigger(["title", "file"], {
       shouldFocus: true,
@@ -65,15 +67,15 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
 
   useEffect(() => {
     const cancel = onUpdate
-      ? methods.watch((data) => {
+      ? watch((data) => {
+          const isValid = !!data.title && !!data.file;
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-          onUpdate(data as any, methods.formState.isValid);
+          onUpdate(data as any, isValid);
         })
       : undefined;
     return () => cancel?.unsubscribe();
-  }, [methods.formState.isValid]);
+  }, [formState]);
 
-  const { handleSubmit } = methods;
   const onSubmitHandle = useMemo(() => {
     if (!onSubmit) {
       return;
