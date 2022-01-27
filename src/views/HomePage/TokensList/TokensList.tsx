@@ -11,7 +11,7 @@ import { useLocalState } from "./TokensList.state";
 
 export const TokensList: React.FC = () => {
   const navigate = useNavigate();
-  const { artworks, pendingArtworks, storeId } = useLocalState();
+  const { artworks, pending, storeId } = useLocalState();
 
   const onCreate = useCallback(
     () => storeId && navigate(ROUTES.createNft()),
@@ -28,7 +28,7 @@ export const TokensList: React.FC = () => {
           </Button>
         </Flex>
       </VStack>
-      {pendingArtworks ? (
+      {pending ? (
         <Center width="full">
           <LoaderComponent title="loading items" darkBg />
         </Center>

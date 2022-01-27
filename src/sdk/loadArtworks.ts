@@ -19,9 +19,21 @@ export const loadArtworksByOwner = async ({
     connection,
     owner
   );
+
+  return loadArtworksByAccounts({ connection, accounts });
+};
+
+export const loadArtworksByAccounts = async ({
+  connection,
+  accounts,
+}: {
+  connection: Connection;
+  accounts: TokenAccount[];
+}) => {
   const accountsWithAmount = accounts
     .map(({ data }) => data)
     .filter(({ amount }) => amount?.toNumber() > 0);
+
   const accountByMint = accounts.reduce<Map<string, TokenAccount>>(
     (prev: Map<string, TokenAccount>, acc: TokenAccount) => {
       prev.set(acc.data.mint.toBase58(), acc);
@@ -77,7 +89,8 @@ export const loadArtworkData = async ({
   }
 
   const artworkContent = await loadExtraContent<MetadataJson>(uri);
-  const token = accountByMint.get(mint)?.pubkey.toBase58();
+  const account = accountByMint.get(mint);
+  const token = account?.pubkey.toBase58();
 
   return {
     id: pubkey.toString(),

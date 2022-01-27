@@ -1,5 +1,5 @@
 import { getArtworks } from "./artworks/artworks.mock";
-import { $storeArtworks, $profileArtworks } from "./artworks";
+import { $storeArtworks } from "./artworks";
 import { createEvent, forward, Store } from "effector";
 
 function init<T>(store: Store<T>, data?: T) {
@@ -13,4 +13,3 @@ function init<T>(store: Store<T>, data?: T) {
 }
 
 init($storeArtworks, getArtworks());
-init($profileArtworks, getArtworks());
