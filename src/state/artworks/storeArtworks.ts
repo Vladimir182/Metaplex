@@ -1,9 +1,12 @@
 import { attach, createStore, forward, StoreValue } from "effector";
-import { loadArtworksByAccounts, loadArtworksByOwner } from "sdk/loadArtworks";
+import {
+  loadArtworksByOwner,
+  loadArtworksBySellingResource,
+} from "sdk/loadArtworks";
 import { IArt } from "state/artworks/types";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
-import { loadSellingResourcesTokenAccounts } from "../../sdk/loadSellingResources";
+import { $markets } from "../markets";
 import { $sellingResources } from "../sellingResources";
 
 export const $storeArtworks = createStore<IArt[]>([]);
@@ -13,10 +16,12 @@ export const fetchStoreArtworksFx = attach({
     connection,
     store,
     sellingResources,
+    markets,
   }: {
     connection: StoreValue<typeof $connection>;
     store: StoreValue<typeof $store>;
     sellingResources: StoreValue<typeof $sellingResources>;
+    markets: StoreValue<typeof $markets>;
   }) => {
     if (!store) {
       return [];
@@ -27,19 +32,12 @@ export const fetchStoreArtworksFx = attach({
       owner: store.admin,
     });
 
-    const sellingResourcesTokenAccounts =
-      await loadSellingResourcesTokenAccounts({
-        connection,
-        sellingResources,
-      });
-
     // artworks that are on sale
-    const storeArtworks = sellingResourcesTokenAccounts
-      ? await loadArtworksByAccounts({
-          connection,
-          accounts: sellingResourcesTokenAccounts,
-        })
-      : [];
+    const storeArtworks = await loadArtworksBySellingResource({
+      connection,
+      sellingResources,
+      markets,
+    });
 
     return [...userArtworks, ...storeArtworks];
   },
@@ -47,11 +45,12 @@ export const fetchStoreArtworksFx = attach({
     connection: $connection,
     store: $store,
     sellingResources: $sellingResources,
+    markets: $markets,
   },
 });
 forward({ from: fetchStoreArtworksFx.doneData, to: $storeArtworks });
 forward({
-  from: [$connection, $store, $sellingResources],
+  from: [$connection, $store, $sellingResources, $markets],
   to: fetchStoreArtworksFx,
 });
 

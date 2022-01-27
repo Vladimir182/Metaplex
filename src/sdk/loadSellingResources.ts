@@ -55,7 +55,7 @@ export const loadSellingResourcesTokenAccounts = async ({
 }: {
   connection: Connection;
   sellingResources: Map<string, SellingResourceAccountDataArgs>;
-}): Promise<null | TokenAccount[]> => {
+}): Promise<TokenAccount[]> => {
   try {
     return await Promise.all(
       Array.from(sellingResources).map(
@@ -64,6 +64,6 @@ export const loadSellingResourcesTokenAccounts = async ({
       )
     );
   } catch {
-    return null;
+    return [];
   }
 };

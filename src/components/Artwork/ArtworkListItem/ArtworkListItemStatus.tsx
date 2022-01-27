@@ -1,8 +1,9 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
+import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
 
 interface Props {
-  status: number;
+  state?: MarketState;
 }
 
 interface StatusThemeType {
@@ -13,34 +14,39 @@ interface StatusThemeType {
 
 const StatusTheme: StatusThemeType = {
   border: {
-    1: "pink.600",
-    2: "green.500",
-    4: "gray.700",
+    [MarketState.Uninitialized]: "pink.600",
+    [MarketState.Created]: "pink.600",
+    [MarketState.Active]: "green.500",
+    [MarketState.Ended]: "gray.700",
   },
   color: {
-    1: "white",
-    2: "white",
-    4: "whiteAlpha.300",
+    [MarketState.Uninitialized]: "white",
+    [MarketState.Created]: "white",
+    [MarketState.Active]: "white",
+    [MarketState.Ended]: "whiteAlpha.300",
   },
   text: {
-    1: "New",
-    2: "On Sale",
-    4: "Sale Ended",
+    [MarketState.Uninitialized]: "New",
+    [MarketState.Created]: "Sale Not Started",
+    [MarketState.Active]: "On Sale",
+    [MarketState.Ended]: "Sale Ended",
   },
 };
 
-export const ArtworkListItemStatus: React.FC<Props> = ({ status }) => {
-  return (
-    <Box
-      borderRadius={8}
-      border="1px"
-      borderColor={StatusTheme.border[status]}
-      py={1}
-      px={4}
-    >
-      <Text fontWeight="bold" fontSize={14} color={StatusTheme.color[status]}>
-        {StatusTheme.text[status]}
-      </Text>
-    </Box>
-  );
-};
+export const ArtworkListItemStatus: React.FC<Props> = ({
+  state = MarketState.Uninitialized,
+}) => (
+  <Box
+    borderRadius={8}
+    border="1px"
+    borderColor={StatusTheme.border[state]}
+    py={1}
+    px={4}
+    height="100%"
+    margin="auto 0"
+  >
+    <Text fontWeight="bold" fontSize={14} color={StatusTheme.color[state]}>
+      {StatusTheme.text[state]}
+    </Text>
+  </Box>
+);

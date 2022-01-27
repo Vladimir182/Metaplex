@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
 import {
   MetaDataJsonCategory,
   MetadataJsonCreator,
@@ -24,6 +25,7 @@ export interface IArt {
   price?: number; // TODO: remove price from artwork
   mint?: string;
   token?: string;
+  state?: MarketState;
 }
 
 export interface IPrintNumbers {

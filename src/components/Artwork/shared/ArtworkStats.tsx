@@ -24,7 +24,7 @@ export const ArtworkStats: React.FC<Props> = ({
 
   return (
     <HStack
-      width="65%"
+      width="20%"
       spacing={4}
       divider={<StackDivider borderColor="whiteAlpha.100" />}
       {...rest}

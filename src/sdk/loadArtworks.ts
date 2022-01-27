@@ -1,4 +1,9 @@
 import { AnyPublicKey, TokenAccount } from "@metaplex-foundation/mpl-core";
+import {
+  MarketAccountDataArgs,
+  SellingResourceAccountDataArgs,
+} from "@metaplex-foundation/mpl-membership-token";
+import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { MetadataJson } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";
@@ -7,6 +12,45 @@ import { ArtType, IArt } from "state/artworks/types";
 import { excludesFalsy } from "utils/excludeFalsy";
 import { loadArtworkEdition } from "./loadArtworkEdition";
 import { loadExtraContent } from "./loadExtraContent";
+import { loadSellingResourcesTokenAccounts } from "./loadSellingResources";
+
+export const loadArtworksBySellingResource = async ({
+  connection,
+  sellingResources,
+  markets,
+}: {
+  connection: Connection;
+  sellingResources: Map<string, SellingResourceAccountDataArgs>;
+  markets: Map<string, MarketAccountDataArgs>;
+}) => {
+  const accounts = await loadSellingResourcesTokenAccounts({
+    connection,
+    sellingResources,
+  });
+
+  const artworks = await loadArtworksByAccounts({ connection, accounts });
+
+  const storeArtworksWithState = artworks.map((artwork) => {
+    const [sellingResource] =
+      Array.from(sellingResources).find(
+        ([, data]) => data.vault.toBase58() === artwork.token
+      ) || [];
+
+    if (!sellingResource) return artwork;
+
+    const [, market] =
+      Array.from(markets).find(
+        ([, data]) => data.sellingResource.toBase58() === sellingResource
+      ) || [];
+
+    if (!market) return artwork;
+    const state = Number(MarketState[market.state]);
+
+    return { ...artwork, state };
+  });
+
+  return storeArtworksWithState;
+};
 
 export const loadArtworksByOwner = async ({
   connection,
