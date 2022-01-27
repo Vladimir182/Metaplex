@@ -16,8 +16,15 @@ import { PreviewStep } from "./PreviewStep";
 export const CreateSaleView: FC = () => {
   const refForm = useRef<HTMLFormElement | null>(null);
   const { itemId } = useParams();
-  const { step, setStep, artworkSummary, preview, onSubmitForm, onSubmit } =
-    useLocalState(refForm, itemId);
+  const {
+    step,
+    setStep,
+    artworkSummary,
+    preview,
+    onSubmitForm,
+    onSubmit,
+    onCreateSale,
+  } = useLocalState(refForm, itemId);
   const refTriggerValidationFn = useRef<null | (() => void)>(null);
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -51,6 +58,7 @@ export const CreateSaleView: FC = () => {
             isActive && refTriggerValidationFn.current?.();
             return onSubmit();
           }}
+          onCreate={onCreateSale}
           state={step}
           setState={setStep}
           isFormReady={isFormValid}

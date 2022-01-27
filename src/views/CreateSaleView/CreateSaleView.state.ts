@@ -1,10 +1,9 @@
 import { useStore } from "effector-react";
 import { useMemo, useCallback, RefObject } from "react";
-import { attach, createEffect, StoreValue } from "effector";
+import { attach, createEffect, createStore, StoreValue } from "effector";
 
 import { CreateSaleSidebarEnum } from "components/CreateSaleSidebar";
 import { IForm } from "components/forms/SaleCreate";
-import { useToast } from "components/modals/Toast";
 import { createEntry } from "state/utils";
 import { $storeArtworks, IArt } from "state/artworks";
 import { $user, $wallet } from "state/wallet";
@@ -18,50 +17,44 @@ import {
   NAME_MAX_LEN,
 } from "@metaplex-foundation/mpl-membership-token";
 
-export interface IParams {
-  price: string;
-  startDate: Date;
-  endDate: Date;
-  artwork: IArt;
-}
-
 export interface ISource {
   connection: StoreValue<typeof $connection>;
   wallet: StoreValue<typeof $wallet>;
   store: StoreValue<typeof $store>;
+  preview: StoreValue<typeof $preview>;
 }
 
-export type IParamsWithSource = IParams & ISource;
+const submitSaleFx = createEffect((data: SubmitFormProps) => data);
+
+export const $preview = createStore<SubmitFormProps | null>(null).on(
+  submitSaleFx.doneData,
+  (_, preview) => preview
+);
 
 const createMarketFx = attach({
   effect: createEffect(
-    async ({
-      store,
-      wallet,
-      startDate,
-      endDate,
-      artwork,
-      price,
-      ...params
-    }: IParamsWithSource) => {
-      if (!artwork?.mint || !artwork.token) {
-        throw new Error("No artwork");
+    async ({ store, wallet, connection, preview }: ISource) => {
+      if (!preview) {
+        return;
       }
-      if (!artwork?.prints) {
-        throw new Error("Artwork can't have prints");
-      }
-      if (!wallet) {
-        throw new Error("Wallet wasn't connected");
-      }
-      if (!store) {
-        throw new Error("Store isnt't created");
+      const { startDate, endDate, artwork, price, ...params } = preview;
+
+      if (
+        !wallet ||
+        !store ||
+        !artwork?.mint ||
+        !artwork.token ||
+        !artwork.prints
+      ) {
+        return;
       }
 
       const maxSupply = artwork.prints.maxSupply
         ? artwork.prints.maxSupply - (artwork.prints.supply || 0)
         : null;
 
-      const market = await createMarket({
+      return await createMarket({
+        connection,
         wallet,
         store: new PublicKey(store.storeId),
         resourceMint: new PublicKey(artwork.mint),
@@ -76,18 +69,16 @@ const createMarketFx = attach({
         price: Number(price),
         ...params,
       });
-
-      return market;
     }
   ),
   source: {
     connection: $connection,
     wallet: $wallet,
     store: $store,
+    preview: $preview,
   },
-  mapParams: (params: IParams, sources) => ({
+  mapParams: (_: void, sources) => ({
     ...sources,
-    ...params,
   }),
 });
 
@@ -99,13 +90,6 @@ export function createLocalState() {
   const $state = createEntry<CreateSaleSidebarEnum>(
     CreateSaleSidebarEnum.CONFIGURE
   );
-  const $preview = createEntry<Partial<SubmitFormProps>>({});
-
-  const submitSaleFx = createEffect(async (data: SubmitFormProps) => {
-    $preview.set(data);
-
-    await createMarketFx(data);
-  });
 
   return {
     $state,
@@ -130,10 +114,9 @@ export function useLocalState(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const user = useStore($user);
-  const toast = useToast();
 
   const step = useStore($state.$node);
-  const preview = useStore($preview.$node);
+  const preview = useStore($preview);
 
   const artwork = useMemo(
     () => artworks.find(({ id }) => id === itemId),
@@ -154,24 +137,16 @@ export function useLocalState(
     };
   }, [artwork]);
 
+  const onCreateSale = useCallback(async () => {
+    return createMarketFx();
+  }, []);
+
   const onSubmitForm = useCallback(
     (data: IForm) => {
-      if (!user) {
-        toast({
-          title: "Transaction Failed",
-          text: "Your transaction failed because your wallet is not connected.",
-          duration: 9000,
-        });
+      if (!user || !artwork) {
         return;
       }
-      if (!artwork) {
-        toast({
-          title: "Transaction Failed",
-          text: "Your transaction failed because no artwork.",
-          duration: 9000,
-        });
-        return;
-      }
+
       formSubmitting.submit({ ...data, artwork });
     },
     [user]
@@ -192,5 +167,6 @@ export function useLocalState(
     artworkSummary,
     onSubmit,
     onSubmitForm,
+    onCreateSale,
   };
 }

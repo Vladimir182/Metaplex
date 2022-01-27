@@ -1,6 +1,5 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 
-import { MdAdd } from "react-icons/md";
 import React from "react";
 import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
@@ -9,6 +8,7 @@ interface Props {
   price?: number;
   dollarPrice?: number;
   isActive: boolean;
+  submitText?: string;
   onClick: (isActive: boolean) => void;
   onCancel: () => void;
 }
@@ -17,6 +17,7 @@ export const Commission: React.FC<Props> = ({
   price,
   dollarPrice,
   isActive,
+  submitText = "Confirm & Create",
   onClick,
   onCancel,
 }) => {
@@ -29,14 +30,13 @@ export const Commission: React.FC<Props> = ({
           </TitledBlock>
         )}
         <Button
-          leftIcon={isActive ? <MdAdd /> : undefined}
           onClick={() => onClick(isActive)}
           mt={6}
           width={"full"}
           h={"56px"}
           variant={isActive ? "primary" : "tertiary"}
         >
-          Confirm & Create
+          {submitText}
         </Button>
       </Box>
       <Button

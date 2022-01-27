@@ -11,12 +11,21 @@ export interface CreateSaleSidebarContentProps {
   state: CreateSaleSidebarEnum;
   setState(state: CreateSaleSidebarEnum): void;
   submit: (isActive: boolean) => Promise<void>;
+  onCreate: () => Promise<{ market: string } | undefined>;
   isFormReady: boolean;
 }
 
 export const CreateSaleSidebarContent: FC<
   CreateSaleSidebarContentProps & BoxProps
-> = ({ state, setState, submit, isFormReady, children, ...boxProps }) => {
+> = ({
+  state,
+  setState,
+  submit,
+  onCreate,
+  isFormReady,
+  children,
+  ...boxProps
+}) => {
   const navigate = useNavigate();
 
   const onSubmit = useCallback(
@@ -63,6 +72,16 @@ export const CreateSaleSidebarContent: FC<
           isActive={isFormReady}
           onClick={onSubmit}
           onCancel={() => navigate(-1)}
+          submitText="Next"
+        />
+      )}
+
+      {state === CreateSaleSidebarEnum.PREVIEW && (
+        <Commission
+          isActive={isFormReady}
+          onClick={onCreate}
+          onCancel={() => navigate(-1)}
+          submitText="List for sale"
         />
       )}
 
