@@ -16,15 +16,16 @@ const spacing = {
   lg: 6,
 };
 
-export const TitledBlock: React.FC<TitledBlockProps> = ({
-  title,
-  subtitle,
-  content,
-  children,
-  variant = "md",
-  fontWeight,
-  ...props
-}) => {
+export const TitledBlock: React.FC<TitledBlockProps> = (props) => {
+  const {
+    title,
+    subtitle,
+    content,
+    children,
+    variant = "md",
+    fontWeight,
+    ...rest
+  } = props;
   const isXs = variant === "xs";
 
   const subtitleString = Array.isArray(subtitle)
@@ -32,11 +33,12 @@ export const TitledBlock: React.FC<TitledBlockProps> = ({
     : subtitle;
 
   return (
-    <Flex align="stretch" direction="column" {...props}>
+    <Flex align="stretch" direction="column" {...rest}>
       <Text
         fontWeight={fontWeight}
         variant={isXs ? "small" : "label"}
         mb={subtitleString ? 1 : spacing[variant]}
+        color="white"
       >
         {title}
       </Text>

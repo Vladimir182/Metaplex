@@ -35,7 +35,7 @@ export const ArtworkSummary: React.FC<Props> = ({
       </VStack>
       <Fraction
         flexShrink={0}
-        variant="chip"
+        variant="short"
         current={edition}
         total={total}
         m={2}

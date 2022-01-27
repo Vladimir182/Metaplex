@@ -5,6 +5,7 @@ import { StoreCreate } from "views/StoreCreate";
 import { NftCreationView } from "views/NftCreationView";
 import { $hasConnectedWallet } from "state/wallet";
 import { WalletNotConnected } from "views/routes/WalletNotConnected";
+import { CreateSaleView } from "views/CreateSaleView/CreateSaleView";
 
 export const SCHEMA: ISchema[] = [
   {
@@ -20,4 +21,5 @@ export const SCHEMA: ISchema[] = [
     guardView: WalletNotConnected,
   },
   { path: ROUTES.createNft, view: NftCreationView },
+  { path: ROUTES.createSale, view: CreateSaleView },
 ];

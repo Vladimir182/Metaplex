@@ -6,8 +6,8 @@ import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
 
 interface Props {
-  price: number;
-  dollarPrice: number;
+  price?: number;
+  dollarPrice?: number;
   isActive: boolean;
   onClick: (isActive: boolean) => void;
   onCancel: () => void;
@@ -23,9 +23,11 @@ export const Commission: React.FC<Props> = ({
   return (
     <Flex flexDirection="column">
       <Box bg="whiteAlpha.50" p={4} borderRadius="xl">
-        <TitledBlock title="Creation Fee" variant="sm">
-          <SolUsdDisplay sol={price} usd={dollarPrice} />
-        </TitledBlock>
+        {price && dollarPrice && (
+          <TitledBlock title="Creation Fee" variant="sm">
+            <SolUsdDisplay sol={price} usd={dollarPrice} />
+          </TitledBlock>
+        )}
         <Button
           leftIcon={isActive ? <MdAdd /> : undefined}
           onClick={() => onClick(isActive)}

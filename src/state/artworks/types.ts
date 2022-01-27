@@ -22,6 +22,8 @@ export interface IArt {
   type: ArtType;
   prints?: IPrintNumbers;
   price?: number; // TODO: remove price from artwork
+  mint?: string;
+  token?: string;
 }
 
 export interface IPrintNumbers {

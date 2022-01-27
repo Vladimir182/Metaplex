@@ -1,0 +1,84 @@
+import {
+  Connection,
+  Keypair,
+  PublicKey,
+  TransactionInstruction,
+} from "@solana/web3.js";
+import { bignum, COption } from "@metaplex-foundation/beet";
+import { findVaultOwnerAddress } from "@metaplex-foundation/mpl-membership-token";
+import { Wallet } from "@metaplex/js";
+import { createTokenAccount } from "./createTokenAccount";
+import {
+  MasterEdition,
+  MetadataProgram,
+} from "@metaplex-foundation/mpl-token-metadata";
+import { createInitSellingResourceTransaction } from "./createInitSellingResourceTransaction";
+
+export interface InitSellingResourceProps {
+  resourceMint: PublicKey;
+  resourceToken: PublicKey;
+  store: PublicKey;
+  maxSupply: COption<bignum>;
+  connection: Connection;
+  wallet: Wallet;
+}
+
+export const initSellingResource = async ({
+  resourceMint,
+  resourceToken,
+  store,
+  maxSupply,
+  connection,
+  wallet,
+}: InitSellingResourceProps): Promise<{
+  sellingResource: Keypair;
+  initSellingResourceInstructions: TransactionInstruction[];
+  sellingResourceSigners: Keypair[];
+}> => {
+  const [vaultOwner, vaultOwnerBump] = await findVaultOwnerAddress(
+    resourceMint,
+    store
+  );
+
+  const { tokenAccount: vault, instructions } = await createTokenAccount({
+    payer: wallet.publicKey,
+    mint: resourceMint,
+    connection,
+    owner: vaultOwner,
+  });
+
+  const [masterEdition, masterEditionBump] = await findMasterEditionPDA(
+    resourceMint
+  );
+
+  const { instruction, signers, sellingResource } =
+    createInitSellingResourceTransaction({
+      payer: wallet,
+      store,
+      masterEdition,
+      masterEditionBump,
+      resourceMint,
+      resourceToken,
+      vault,
+      owner: vaultOwner,
+      vaultOwnerBump,
+      maxSupply,
+    });
+
+  return {
+    sellingResource,
+    initSellingResourceInstructions: [...instructions, instruction],
+    sellingResourceSigners: [vault, ...signers],
+  };
+};
+
+const findMasterEditionPDA = (mint: PublicKey) =>
+  PublicKey.findProgramAddress(
+    [
+      Buffer.from(MetadataProgram.PREFIX),
+      MetadataProgram.PUBKEY.toBuffer(),
+      mint.toBuffer(),
+      Buffer.from(MasterEdition.EDITION_PREFIX),
+    ],
+    MetadataProgram.PUBKEY
+  );

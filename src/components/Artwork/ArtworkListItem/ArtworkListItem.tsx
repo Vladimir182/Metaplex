@@ -27,10 +27,6 @@ export const ArtworkListItem: React.FC<Props> = ({
     props.onNewEdition?.(artwork);
   }, [props.onNewEdition, artwork]);
 
-  const onSell = useCallback(() => {
-    props.onSell?.(artwork);
-  }, [props.onSell, artwork]);
-
   const onRemove = useCallback(() => {
     props.onRemove?.(artwork);
   }, [props.onRemove, artwork]);
@@ -51,8 +47,8 @@ export const ArtworkListItem: React.FC<Props> = ({
         />
       </HStack>
       <ArtworkListItemActions
+        id={artwork.id}
         newEdition={onNewEdition}
-        sell={onSell}
         remove={onRemove}
         variant={variant}
       />

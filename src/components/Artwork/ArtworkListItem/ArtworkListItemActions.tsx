@@ -6,21 +6,23 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { ArtworkCardVariant } from "state/artworks";
 import { MdMoreVert } from "react-icons/md";
 import { fontSizes } from "theme/typography";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+import { ROUTES } from "routes";
 
 interface Props {
+  id: string;
   newEdition?: () => void;
-  sell?: () => void;
   remove?: () => void;
   variant?: ArtworkCardVariant;
 }
 
 export const ArtworkListItemActions: React.FC<Props> = ({
+  id,
   newEdition,
-  sell,
   remove,
   variant,
 }) => {
@@ -41,7 +43,11 @@ export const ArtworkListItemActions: React.FC<Props> = ({
             Cancel Listing
           </Button>
         ) : (
-          <Button onClick={sell} variant="tertiary">
+          <Button
+            variant="tertiary"
+            as={Link}
+            to={ROUTES.createSale({ ":itemId": id })}
+          >
             Sell Tokens
           </Button>
         )}
@@ -67,7 +73,9 @@ export const ArtworkListItemActions: React.FC<Props> = ({
         ) : (
           <>
             <MenuItem onClick={newEdition}>New edition</MenuItem>
-            <MenuItem onClick={sell}>Sell</MenuItem>
+            <MenuItem as={Link} to={ROUTES.createSale({ ":itemId": id })}>
+              Sell
+            </MenuItem>
           </>
         )}
       </MenuList>

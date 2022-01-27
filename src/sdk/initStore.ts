@@ -59,7 +59,7 @@ export const initStore = async ({
   updateProgress(EUploadProgress.sending_transaction_to_solana);
 
   // Force wait for max confirmations
-  await connection.confirmTransaction(txId, "max");
+  await connection.confirmTransaction(txId, "recent");
   updateProgress(EUploadProgress.waiting_for_final_confirmation);
 
   return { storeId: store.publicKey.toString() };

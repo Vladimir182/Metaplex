@@ -11,7 +11,7 @@ import {
   sample,
   StoreValue,
 } from "effector";
-import { useEvent, useStore } from "effector-react";
+import { useStore } from "effector-react";
 import { reshape } from "patronum/reshape";
 import { RefObject, useCallback, useMemo } from "react";
 import { $connection } from "state/connection";
@@ -254,7 +254,6 @@ export function createLocalState(WebFile = File) {
   const metadataCategory = createEntry<FileType>(FileType.IMAGE);
 
   const $state = createEntry<NewItemSidebarEnum>(NewItemSidebarEnum.MEDIA_TYPE);
-  const $listForSale = createEntry(false);
 
   const submitMetadataSourceFx = createEffect(
     async ({
@@ -317,7 +316,6 @@ export function createLocalState(WebFile = File) {
   });
 
   return {
-    $listForSale,
     updateCostFx,
     metadataCategory,
     fileObject: $fileObject,
@@ -343,7 +341,6 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
     $progressMeta,
     $state,
     $price,
-    $listForSale,
     formSubmitting,
     error,
     updateCost,
@@ -396,12 +393,8 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
   const file = useStore(fileObject);
   const progressMeta = useStore($progressMeta);
   const price = useStore($price);
-  const isShowListForSale = useStore($listForSale.$node);
-  const setVisibleListForSale = useEvent($listForSale.set);
 
   return {
-    isShowListForSale,
-    setVisibleListForSale,
     file,
     error,
     metadata,

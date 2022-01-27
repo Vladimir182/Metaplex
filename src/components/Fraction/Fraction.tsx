@@ -6,7 +6,7 @@ import { useCustomBreakpoints } from "../../hooks/useCustomBreakpoints";
 interface Props extends BoxProps {
   current: number | string;
   total: number | string;
-  variant?: "normal" | "chip";
+  variant?: "normal" | "chip" | "short";
 }
 
 export const Fraction: React.FC<Props> = ({
@@ -16,6 +16,14 @@ export const Fraction: React.FC<Props> = ({
   ...rest
 }) => {
   const { smUp } = useCustomBreakpoints();
+
+  if (variant === "short") {
+    return (
+      <Tag {...rest} px={smUp ? 4 : 3}>
+        <Text variant={smUp ? "subtitle" : "small"}>{total}</Text>
+      </Tag>
+    );
+  }
 
   return variant === "normal" ? (
     <HStack spacing={1} fontWeight="bold" {...rest}>

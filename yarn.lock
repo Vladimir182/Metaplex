@@ -2466,6 +2466,15 @@
     debug "^4.3.3"
     text-encoding-utf-8 "^1.0.2"
 
+"@metaplex-foundation/beet@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@metaplex-foundation/beet/-/beet-0.0.7.tgz#b9aaaa333e3e861eabff8b7ee9025ac0baf9e2fa"
+  integrity sha512-by8XNqfB9zcaVBC3+YRgSMBk+UNbouDUyO0qXuqsAn03+ao3Ig8UrL7paOCkDS0MSRgb9pIiousqW43meeGopw==
+  dependencies:
+    ansicolors "^0.3.2"
+    bn.js "^5.2.0"
+    debug "^4.3.3"
+
 "@metaplex-foundation/mpl-auction@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@metaplex-foundation/mpl-auction/-/mpl-auction-0.0.2.tgz#3de3c982e88d6a88f0ef05be73453cf3cfaccf26"

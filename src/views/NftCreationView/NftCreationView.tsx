@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { NftCreationForm } from "components/forms/NftCreate";
 import { Layout } from "components/Layout";
-import { ListForSaleDialog } from "components/ListForSaleDialog";
 import { MediaTypeSelector } from "components/MediaTypeSelector";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { useToast } from "components/modals/Toast";
@@ -10,20 +9,10 @@ import {
   NewItemSidebarEnum,
 } from "components/NewItemSidebar";
 import { useStore } from "effector-react";
-import { useFileReader } from "hooks/useFileReader";
-import {
-  ComponentProps,
-  FC,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { ROUTES } from "routes";
 import { MintedStep } from "./MintedStep";
 import { useLocalState } from "./NftCreationView.state";
-
-type ListForSaleDialogProps = ComponentProps<typeof ListForSaleDialog>;
 
 export const NftCreationView: FC = () => {
   const refForm = useRef<HTMLFormElement | null>(null);
@@ -32,21 +21,16 @@ export const NftCreationView: FC = () => {
     step,
     file,
     category,
-    metadata,
     setStep,
     progressMeta,
     onCategorySelect,
     onSubmitForm,
     onUpdateForm,
     continueToMint,
-    supply,
-    isShowListForSale,
-    setVisibleListForSale,
     error,
   } = useLocalState(refForm);
   const refTriggerValidationFn = useRef<null | (() => void)>(null);
   const [isFormValid, setIsFormValid] = useState(false);
-  const [sourceUrl] = useFileReader(file);
   const navigate = useNavigate();
 
   const formError = useStore(error);
@@ -60,17 +44,6 @@ export const NftCreationView: FC = () => {
       });
     }
   }, [formError]);
-
-  const artworkSummary = useMemo(() => {
-    const ret: ListForSaleDialogProps["artworkSummary"] = {
-      img: sourceUrl ?? undefined,
-      title: metadata?.name ?? "",
-      artist: "", // TODO: ???
-      edition: "", // TODO: ???
-      total: supply ?? 0,
-    };
-    return ret;
-  }, [sourceUrl, metadata, supply]);
 
   const content =
     step === NewItemSidebarEnum.MEDIA_TYPE ? (
@@ -114,11 +87,6 @@ export const NftCreationView: FC = () => {
       }
     >
       {content}
-      <ListForSaleDialog
-        isVisible={isShowListForSale}
-        hideModal={() => setVisibleListForSale(false)}
-        artworkSummary={artworkSummary}
-      />
       <InfiniteProgress
         isOpen={progressMeta.isOpen}
         title={progressMeta.title}
