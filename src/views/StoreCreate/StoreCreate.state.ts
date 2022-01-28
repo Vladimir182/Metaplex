@@ -6,6 +6,7 @@ import type { NavigateFunction } from "react-router-dom";
 import { EUploadProgress } from "sdk/uploadJson2Arweave";
 import { createProgressTools } from "utils/createProgressTools";
 import { submitStoreFx, setShowStoreCongratulations } from "state/store";
+import { WalletSignTransactionError } from "@solana/wallet-adapter-base";
 
 export interface IOptions {
   navigate: NavigateFunction;
@@ -43,13 +44,20 @@ function createLocalState({ goToSuccessPage, navigate }: IOptions) {
     null as EUploadProgress | null
   );
   const submitFx = createEffect(async (data: StoreFormProps) => {
-    const { storeId } = await submitStoreFx({
-      data,
-      updateProgress: (state) => $progress.set(state),
-    });
-    if (!storeId) {
-      throw new Error("Fail to create store");
+    try {
+      await submitStoreFx({
+        data,
+        updateProgress: (state) => $progress.set(state),
+      });
+    } catch (e) {
+      if (e instanceof WalletSignTransactionError) {
+        $progress.set(null);
+      }
+
+      // TODO: Introduce error logging
+      return;
     }
+
     setShowStoreCongratulations(true);
     goToSuccessPage(navigate);
   });
