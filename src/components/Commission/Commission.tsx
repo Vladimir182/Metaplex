@@ -24,7 +24,7 @@ export const Commission: React.FC<Props> = ({
   return (
     <Flex flexDirection="column">
       <Box bg="whiteAlpha.50" p={4} borderRadius="xl">
-        {price && dollarPrice && (
+        {!!(price || dollarPrice) && (
           <TitledBlock title="Creation Fee" variant="sm">
             <SolUsdDisplay sol={price} usd={dollarPrice} />
           </TitledBlock>

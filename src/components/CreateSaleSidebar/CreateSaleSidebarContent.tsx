@@ -80,7 +80,7 @@ export const CreateSaleSidebarContent: FC<
         <Commission
           isActive={isFormReady}
           onClick={onCreate}
-          onCancel={() => navigate(-1)}
+          onCancel={() => setState(CreateSaleSidebarEnum.CONFIGURE)}
           submitText="List for sale"
         />
       )}
