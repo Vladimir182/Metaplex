@@ -44,7 +44,6 @@ export const CreateSaleView: FC = () => {
         artworkSummary={artworkSummary}
         price={toNumber(preview?.price ?? "0")}
         startDate={preview?.startDate}
-        endDate={preview?.endDate}
       />
     ) : null;
 

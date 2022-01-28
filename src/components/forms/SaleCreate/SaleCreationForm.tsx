@@ -26,7 +26,6 @@ import { DateTimePicker } from "components/Datepicker/DateTimePicker";
 export interface IForm {
   price: string;
   startDate: Date;
-  endDate: Date;
 }
 
 export interface SaleCreationFormProps {
@@ -60,7 +59,7 @@ export const SaleCreationForm: FC<SaleCreationFormProps> = ({
   }, [handleSubmit, onSubmit]);
 
   refTriggerValidationFn.current = () =>
-    methods.trigger(["price", "startDate", "endDate"], {
+    methods.trigger(["price", "startDate"], {
       shouldFocus: true,
     });
 
@@ -129,26 +128,6 @@ export const SaleCreationForm: FC<SaleCreationFormProps> = ({
           />
         </InputGroup>
       </Flex>
-
-      <Heading textTransform="uppercase" fontSize="sm" variant="h5">
-        End Date
-      </Heading>
-      <Text color="whiteAlpha.700" mb={4}>
-        When would you like your sale to end?
-      </Text>
-      <InputGroup>
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <DateTimePicker
-              minDate={minDate}
-              onChange={field.onChange}
-              flexGrow={1}
-            />
-          )}
-          name="endDate"
-        />
-      </InputGroup>
     </Box>
   );
 };

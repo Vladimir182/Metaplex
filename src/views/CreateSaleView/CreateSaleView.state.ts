@@ -37,7 +37,7 @@ const createMarketFx = attach({
       if (!preview) {
         return;
       }
-      const { startDate, endDate, artwork, price, ...params } = preview;
+      const { startDate, artwork, price, ...params } = preview;
 
       if (
         !wallet ||
@@ -60,7 +60,7 @@ const createMarketFx = attach({
         resourceMint: new PublicKey(artwork.mint),
         resourceToken: new PublicKey(artwork.token),
         startDate: Math.round(startDate.getTime() / 1000),
-        endDate: Math.round(endDate.getTime() / 1000),
+        endDate: null,
         name: " ".repeat(NAME_MAX_LEN),
         description: " ".repeat(DESCRIPTION_MAX_LEN),
         piecesInOneWallet: 1,
