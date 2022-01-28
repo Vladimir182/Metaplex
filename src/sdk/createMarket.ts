@@ -35,6 +35,9 @@ export const createMarket = async (
     skipPreflight: true,
   });
 
+  // eslint-disable-next-line no-console
+  console.log({ txId });
+
   await connection.confirmTransaction(txId, "recent");
 
   return { market: market.publicKey.toBase58() };
