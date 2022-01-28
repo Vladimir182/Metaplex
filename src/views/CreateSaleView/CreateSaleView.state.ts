@@ -1,6 +1,12 @@
 import { useStore } from "effector-react";
 import { useMemo, useCallback, RefObject } from "react";
-import { attach, createEffect, createStore, StoreValue } from "effector";
+import {
+  attach,
+  createEffect,
+  createStore,
+  StoreValue,
+  forward,
+} from "effector";
 
 import { CreateSaleSidebarEnum } from "components/CreateSaleSidebar";
 import { IForm } from "components/forms/SaleCreate";
@@ -8,7 +14,7 @@ import { createEntry } from "state/utils";
 import { $storeArtworks, IArt } from "state/artworks";
 import { $user, $wallet } from "state/wallet";
 import { FormSubmitting } from "utils/FormSubmitting";
-import { createMarket } from "sdk/createMarket";
+import { createMarket, EСreateMarket } from "sdk/createMarket";
 import { $connection } from "state/connection";
 import { PublicKey } from "@solana/web3.js";
 import { $store } from "state/store";
@@ -19,11 +25,16 @@ import {
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
+import { createProgressTools } from "utils/createProgressTools";
+
 export interface ISource {
   connection: StoreValue<typeof $connection>;
   wallet: StoreValue<typeof $wallet>;
   store: StoreValue<typeof $store>;
   preview: StoreValue<typeof $preview>;
+}
+export interface IParams {
+  updateProgress: (status: EСreateMarket | null) => void;
 }
 
 const submitSaleFx = createEffect((data: SubmitFormProps) => data);
@@ -33,9 +44,19 @@ export const $preview = createStore<SubmitFormProps | null>(null).on(
   (_, preview) => preview
 );
 
+const $error = createStore<{
+  error: Error;
+} | null>(null);
+
 const createMarketFx = attach({
   effect: createEffect(
-    async ({ store, wallet, connection, preview }: ISource) => {
+    async ({
+      store,
+      wallet,
+      connection,
+      preview,
+      updateProgress,
+    }: ISource & IParams) => {
       if (!preview) {
         return;
       }
@@ -72,6 +93,7 @@ const createMarketFx = attach({
         maxSupply,
         price: Number(price),
         ...params,
+        updateProgress,
       });
     }
   ),
@@ -81,8 +103,9 @@ const createMarketFx = attach({
     store: $store,
     preview: $preview,
   },
-  mapParams: (_: void, sources) => ({
+  mapParams: ({ updateProgress }: IParams, sources) => ({
     ...sources,
+    updateProgress,
   }),
 });
 
@@ -90,15 +113,58 @@ interface SubmitFormProps extends IForm {
   artwork: IArt;
 }
 
+function getContent(state: EСreateMarket | null) {
+  switch (state) {
+    case EСreateMarket.creating_market_transaction:
+      return {
+        title: "Signing Creation Transaction",
+        subtitle: "Approve the transaction from your wallet",
+      };
+    case EСreateMarket.signing_market_transaction:
+      return {
+        title: "Signing Transaction",
+        subtitle: "Approve the transaction from your wallet",
+      };
+    case EСreateMarket.sending_transaction_to_solana:
+      return {
+        title: "Sending Transaction to Solana",
+        subtitle: "This will take a few seconds",
+      };
+    case EСreateMarket.waiting_for_final_confirmation:
+      return {
+        title: "Waiting for Final Confirmation",
+        subtitle: "",
+      };
+    default:
+      return {
+        title: "",
+        subtitle: "",
+      };
+  }
+}
+
 export function createLocalState() {
+  const { $progressMeta, $progress } = createProgressTools(
+    getContent,
+    null as EСreateMarket | null
+  );
+
   const $state = createEntry<CreateSaleSidebarEnum>(
     CreateSaleSidebarEnum.CONFIGURE
   );
 
+  const $shouldSuccess = createEntry<boolean>(false);
+
+  forward({ from: createMarketFx.fail, to: $error });
+
   return {
     $state,
+    error: $error,
+    $shouldSuccess,
     $preview,
     submitSaleFx,
+    $progressMeta,
+    $progress,
   };
 }
 
@@ -107,7 +173,15 @@ export function useLocalState(
   itemId?: string
 ) {
   const artworks = useStore($storeArtworks);
-  const { $state, $preview, formSubmitting } = useMemo(() => {
+  const {
+    $state,
+    $preview,
+    $progress,
+    $progressMeta,
+    formSubmitting,
+    error,
+    $shouldSuccess,
+  } = useMemo(() => {
     const ret = createLocalState();
     const formSubmitting = new FormSubmitting(ret.submitSaleFx);
 
@@ -121,6 +195,8 @@ export function useLocalState(
 
   const step = useStore($state.$node);
   const preview = useStore($preview);
+  const progressMeta = useStore($progressMeta);
+  const shouldSuccess = useStore($shouldSuccess.$node);
 
   const artwork = useMemo(
     () => artworks.find(({ id }) => id === itemId),
@@ -142,7 +218,12 @@ export function useLocalState(
   }, [artwork]);
 
   const onCreateSale = useCallback(async () => {
-    return createMarketFx();
+    try {
+      await createMarketFx({
+        updateProgress: (state) => $progress.set(state),
+      });
+      $shouldSuccess.set(true);
+    } catch {}
   }, []);
 
   const onSubmitForm = useCallback(
@@ -169,6 +250,9 @@ export function useLocalState(
     setStep: $state.set,
     artwork,
     artworkSummary,
+    progressMeta,
+    error,
+    shouldSuccess,
     onSubmit,
     onSubmitForm,
     onCreateSale,

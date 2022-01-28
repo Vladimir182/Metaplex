@@ -11,7 +11,7 @@ export interface CreateSaleSidebarContentProps {
   state: CreateSaleSidebarEnum;
   setState(state: CreateSaleSidebarEnum): void;
   submit: (isActive: boolean) => Promise<void>;
-  onCreate: () => Promise<{ market: string } | undefined>;
+  onCreate: () => Promise<void>;
   isFormReady: boolean;
 }
 

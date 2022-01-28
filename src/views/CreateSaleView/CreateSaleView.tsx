@@ -1,10 +1,14 @@
-import { FC, useRef, useState } from "react";
+import { FC, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Layout } from "components/Layout";
+import { InfiniteProgress } from "components/modals/InfiniteProgress";
+import { ListingSuccess, TransactionFailure } from "components/modals/NftSale";
+import { ModalTemplate } from "components/modals/template";
 
 import { useLocalState } from "./CreateSaleView.state";
 import { toNumber } from "utils/base";
 
+import { useStore } from "effector-react";
 import {
   CreateSaleSidebarContent,
   CreateSaleSidebarEnum,
@@ -24,9 +28,20 @@ export const CreateSaleView: FC = () => {
     onSubmitForm,
     onSubmit,
     onCreateSale,
+    progressMeta,
+    error,
+    shouldSuccess,
   } = useLocalState(refForm, itemId);
   const refTriggerValidationFn = useRef<null | (() => void)>(null);
   const [isFormValid, setIsFormValid] = useState(false);
+  const formError = useStore(error);
+
+  const [open, setOpen] = useState(!!formError || shouldSuccess);
+  const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    setOpen(!!formError || shouldSuccess);
+  }, [formError, shouldSuccess]);
 
   const content =
     step === CreateSaleSidebarEnum.CONFIGURE && artworkSummary ? (
@@ -65,6 +80,19 @@ export const CreateSaleView: FC = () => {
       }
     >
       {content}
+
+      <InfiniteProgress
+        isOpen={progressMeta.isOpen}
+        title={progressMeta.title}
+        subtitle={progressMeta.subtitle}
+      />
+      <ModalTemplate isOpen={open} onClose={handleClose} bodyProps={{ p: 0 }}>
+        {formError ? (
+          <TransactionFailure onDismiss={handleClose} />
+        ) : (
+          <ListingSuccess img={artworkSummary?.img} my={16} />
+        )}
+      </ModalTemplate>
     </Layout>
   );
 };

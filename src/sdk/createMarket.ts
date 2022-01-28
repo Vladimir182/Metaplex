@@ -7,6 +7,12 @@ import { initSellingResource } from "./initSellingResource";
 import { createMarketTransaction } from "./createMarketTransaction";
 import { createAndSignTransaction } from "./createAndSignTransaction";
 
+export enum EСreateMarket {
+  creating_market_transaction,
+  signing_market_transaction,
+  sending_transaction_to_solana,
+  waiting_for_final_confirmation,
+}
 export interface CreateMarketTransactionProps {
   wallet: Wallet;
   connection: Connection;
@@ -21,16 +27,21 @@ export interface CreateMarketTransactionProps {
   startDate: bignum;
   endDate: COption<bignum>;
   maxSupply: COption<bignum>;
+  updateProgress: (status: EСreateMarket | null) => void;
 }
 
 export const createMarket = async (
   params: CreateMarketTransactionProps
 ): Promise<{ market: string }> => {
-  const { connection, wallet } = params;
+  const { connection, wallet, updateProgress } = params;
 
   const { market, marketTx } = await createTransaction(params);
-  const signedTx = await wallet.signTransaction(marketTx);
+  updateProgress(EСreateMarket.creating_market_transaction);
 
+  const signedTx = await wallet.signTransaction(marketTx);
+  updateProgress(EСreateMarket.signing_market_transaction);
+
+  updateProgress(EСreateMarket.sending_transaction_to_solana);
   const txId = await connection.sendRawTransaction(signedTx.serialize(), {
     skipPreflight: true,
   });
@@ -38,7 +49,17 @@ export const createMarket = async (
   // eslint-disable-next-line no-console
   console.log({ txId });
 
-  await connection.confirmTransaction(txId, "recent");
+  updateProgress(EСreateMarket.waiting_for_final_confirmation);
+
+  await connection.confirmTransaction(txId, "max");
+
+  const errors = await getErrorForTransaction(connection, txId);
+
+  updateProgress(null);
+
+  if (errors?.length) {
+    throw new Error(`Raw transaction ${txId} failed`);
+  }
 
   return { market: market.publicKey.toBase58() };
 };
@@ -117,4 +138,32 @@ const createTransaction = async ({
     market,
     marketTx,
   };
+};
+
+export const getErrorForTransaction = async (
+  connection: Connection,
+  txid: string
+) => {
+  // wait for all confirmation before geting transaction
+  const tx = await connection.getParsedConfirmedTransaction(txid);
+
+  const errors: string[] = [];
+  if (tx?.meta && tx.meta.logMessages) {
+    tx.meta.logMessages.forEach((log) => {
+      const regex = /error: (.*)/gm;
+      let m;
+      while ((m = regex.exec(log)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (m.index === regex.lastIndex) {
+          regex.lastIndex++;
+        }
+
+        if (m.length > 1) {
+          errors.push(m[1]);
+        }
+      }
+    });
+  }
+
+  return errors;
 };
