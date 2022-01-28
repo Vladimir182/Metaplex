@@ -16,6 +16,8 @@ import {
   DESCRIPTION_MAX_LEN,
   NAME_MAX_LEN,
 } from "@metaplex-foundation/mpl-membership-token";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
 export interface ISource {
   connection: StoreValue<typeof $connection>;
@@ -53,13 +55,15 @@ const createMarketFx = attach({
         ? artwork.prints.maxSupply - (artwork.prints.supply || 0)
         : null;
 
+      dayjs.extend(utc);
+
       return await createMarket({
         connection,
         wallet,
         store: new PublicKey(store.storeId),
         resourceMint: new PublicKey(artwork.mint),
         resourceToken: new PublicKey(artwork.token),
-        startDate: Math.round(startDate.getTime() / 1000),
+        startDate: dayjs.utc(startDate).unix(),
         endDate: null,
         name: " ".repeat(NAME_MAX_LEN),
         description: " ".repeat(DESCRIPTION_MAX_LEN),
