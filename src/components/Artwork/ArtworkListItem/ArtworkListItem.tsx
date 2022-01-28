@@ -6,13 +6,15 @@ import { ArtworkListItemStatus } from "./ArtworkListItemStatus";
 import { ArtworkListItemActions } from "./ArtworkListItemActions";
 import { ArtworkListItemHeader } from "./ArtworkListItemHeader";
 import { ArtworkStats } from "../shared";
+import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
+
 interface Props {
   artwork: IArt;
   variant?: ArtworkCardVariant;
 }
 
 export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
-  const { image, title, state } = artwork;
+  const { image, title, state = MarketState.Uninitialized } = artwork;
   const type = artwork.type;
 
   return (
@@ -20,7 +22,7 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
       <HStack
         spacing={4}
         align="middle"
-        w="100%"
+        w="calc(100% - 140px)"
         divider={<StackDivider borderColor="whiteAlpha.100" />}
       >
         <ArtworkListItemHeader imgUrl={image} name={title} type={type} />
@@ -32,8 +34,9 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
 
         <ArtworkListItemStatus state={state} />
       </HStack>
-
-      <ArtworkListItemActions id={artwork.id} />
+      {state === MarketState.Uninitialized && (
+        <ArtworkListItemActions id={artwork.id} />
+      )}
     </HStack>
   );
 };
