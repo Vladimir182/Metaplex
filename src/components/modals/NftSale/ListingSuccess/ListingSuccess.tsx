@@ -27,7 +27,7 @@ export const ListingSuccess: React.FC<ListingSuccessProps> = ({
       </ArtworkBadge>
       <Heading variant="h4">Your item is up for sale!</Heading>
       <Button variant="link" p="10px" as={Link} to={ROUTES.home()}>
-        All items
+        All Items
       </Button>
     </VStack>
   );
