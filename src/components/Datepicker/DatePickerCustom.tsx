@@ -52,11 +52,11 @@ export const DatePickerCustom: React.FC<DatePickerProps> = ({
               p={0}
               size="xs"
               isDisabled={prevMonthButtonDisabled}
+              onClick={decreaseMonth}
             >
               <MdChevronLeft
                 color={prevMonthButtonDisabled ? "gray" : "white"}
                 size={20}
-                onClick={decreaseMonth}
               />
             </Button>
             <Button
@@ -64,11 +64,11 @@ export const DatePickerCustom: React.FC<DatePickerProps> = ({
               p={0}
               size="xs"
               isDisabled={nextMonthButtonDisabled}
+              onClick={increaseMonth}
             >
               <MdChevronRight
                 color={nextMonthButtonDisabled ? "gray" : "white"}
                 size={20}
-                onClick={increaseMonth}
               />
             </Button>
           </HStack>
