@@ -30,6 +30,7 @@ export const CreateSaleView: FC = () => {
     onCreateSale,
     progressMeta,
     error,
+    resetError: resetFormError,
     shouldSuccess,
   } = useLocalState(refForm, itemId);
   const refTriggerValidationFn = useRef<null | (() => void)>(null);
@@ -37,7 +38,10 @@ export const CreateSaleView: FC = () => {
   const formError = useStore(error);
 
   const [open, setOpen] = useState(!!formError || shouldSuccess);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    resetFormError();
+  };
 
   useEffect(() => {
     setOpen(!!formError || shouldSuccess);

@@ -2,6 +2,7 @@ import { useStore } from "effector-react";
 import { useMemo, useCallback, RefObject } from "react";
 import {
   attach,
+  createEvent,
   createEffect,
   createStore,
   StoreValue,
@@ -47,6 +48,10 @@ export const $preview = createStore<SubmitFormProps | null>(null).on(
 const $error = createStore<{
   error: Error;
 } | null>(null);
+
+const resetErrorTrigger = createEvent();
+
+$error.reset(resetErrorTrigger);
 
 const createMarketFx = attach({
   effect: createEffect(
@@ -223,7 +228,10 @@ export function useLocalState(
         updateProgress: (state) => $progress.set(state),
       });
       $shouldSuccess.set(true);
-    } catch {}
+    } catch {
+      $progress.set(null);
+      // TODO: introduce error logging
+    }
   }, []);
 
   const onSubmitForm = useCallback(
@@ -252,6 +260,7 @@ export function useLocalState(
     artworkSummary,
     progressMeta,
     error,
+    resetError: resetErrorTrigger,
     shouldSuccess,
     onSubmit,
     onSubmitForm,
