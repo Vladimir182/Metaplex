@@ -7,19 +7,10 @@ import {
 } from "@metaplex/js";
 import { METADATA_FILE_NAME } from "utils/arweave-cost";
 import { Pipeline } from "utils/pipeline";
+import { EUploadProgress } from "../../enums/uploadProgress";
 import { payForFiles } from "./payForFiles";
 
 const { sendTransaction } = actions;
-
-export enum EUploadProgress {
-  minting,
-  preparing_assets,
-  signing_metadata_transaction,
-  sending_transaction_to_solana,
-  waiting_for_initial_confirmation,
-  waiting_for_final_confirmation,
-  uploading_to_arweave,
-}
 
 export interface IUploadFile2ArweaveResponse {
   txId: string;

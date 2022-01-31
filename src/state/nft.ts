@@ -1,7 +1,7 @@
 import { attach, createEffect, StoreValue } from "effector";
 import { File } from "@web-std/file";
 import { ArweaveStorage, MetadataJson } from "@metaplex/js";
-import { ENftProgress, mintArweaveNFT } from "sdk/mintArveaweNFT";
+import { ENftProgress, mintArweaveNFT } from "sdk/createNft/mintArveaweNFT";
 import { $network, $connection } from "./connection";
 import { $wallet } from "./wallet";
 

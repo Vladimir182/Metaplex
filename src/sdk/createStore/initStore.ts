@@ -2,13 +2,13 @@ import { createCreateStoreInstruction } from "@metaplex-foundation/mpl-membershi
 import { Wallet } from "@metaplex/js";
 import { Connection, Keypair, Transaction } from "@solana/web3.js";
 import { IStore } from "state/store";
-import { EUploadProgress } from "./uploadJson2Arweave";
+import { ETransactionProgress } from "enums/transactionProgress";
 
 export interface InitStoreProps {
   name: string;
   connection: Connection;
   wallet: Wallet;
-  updateProgress: (status: EUploadProgress | null) => void;
+  updateProgress: (status: ETransactionProgress | null) => void;
 }
 
 const createTransaction = async ({
@@ -44,23 +44,24 @@ export const initStore = async ({
   wallet,
   updateProgress,
 }: InitStoreProps): Promise<Pick<IStore, "storeId">> => {
+  updateProgress(ETransactionProgress.creating_transaction);
   const { store, storeTx } = await createTransaction({
     name,
     connection,
     wallet,
     updateProgress,
   });
-  updateProgress(EUploadProgress.signing_metadata_transaction);
+  updateProgress(ETransactionProgress.signing_transaction);
   const signedTx = await wallet.signTransaction(storeTx);
 
   const txId = await connection.sendRawTransaction(signedTx.serialize(), {
     skipPreflight: true,
   });
-  updateProgress(EUploadProgress.sending_transaction_to_solana);
+  updateProgress(ETransactionProgress.sending_transaction_to_solana);
 
   // Force wait for max confirmations
   await connection.confirmTransaction(txId, "recent");
-  updateProgress(EUploadProgress.waiting_for_final_confirmation);
+  updateProgress(ETransactionProgress.waiting_for_final_confirmation);
 
   return { storeId: store.publicKey.toString() };
 };

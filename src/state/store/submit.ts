@@ -1,11 +1,11 @@
 import { StoreFormProps } from "components/forms/StoreCreateForm";
 import { attach, createEffect, StoreValue } from "effector";
-import { EUploadProgress } from "sdk/uploadJson2Arweave";
+import { ETransactionProgress } from "enums/transactionProgress";
 import { $walletAddress } from "state/wallet";
 import { initStoreFx } from "./init";
 
 export interface ISubmitProps {
-  updateProgress: (status: EUploadProgress | null) => void;
+  updateProgress: (status: ETransactionProgress | null) => void;
   data: StoreFormProps;
 }
 

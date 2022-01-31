@@ -1,4 +1,4 @@
-import { PROGRAM_ID } from "@metaplex-foundation/mpl-membership-token";
+import { findTresuryOwnerAddress } from "@metaplex-foundation/mpl-membership-token";
 import { Wallet } from "@metaplex/js";
 import { NATIVE_MINT } from "@solana/spl-token";
 import {
@@ -8,15 +8,13 @@ import {
   TransactionInstruction,
 } from "@solana/web3.js";
 
-import { createTokenAccount } from "./createTokenAccount";
+import { createTokenAccount } from "../createTokenAccount";
 
 export interface CreateTreasuryProps {
   connection: Connection;
   wallet: Wallet;
   sellingResource: PublicKey;
 }
-
-const TREASURY_OWNER_PREFIX = "holder";
 
 export const createTreasury = async ({
   sellingResource,
@@ -31,7 +29,7 @@ export const createTreasury = async ({
   createTreasurySigners: Keypair[];
 }> => {
   const treasuryMint = new PublicKey(NATIVE_MINT);
-  const [treasuryOwner, treasuryOwnerBump] = await findTreasuryOwnerAddress(
+  const [treasuryOwner, treasuryOwnerBump] = await findTresuryOwnerAddress(
     treasuryMint,
     sellingResource
   );
@@ -53,18 +51,4 @@ export const createTreasury = async ({
     createTreasuryInstructions,
     createTreasurySigners: [treasuryHolder],
   };
-};
-
-const findTreasuryOwnerAddress = (
-  treasuryMint: PublicKey,
-  sellingResource: PublicKey
-) => {
-  return PublicKey.findProgramAddress(
-    [
-      Buffer.from(TREASURY_OWNER_PREFIX),
-      treasuryMint.toBuffer(),
-      sellingResource.toBuffer(),
-    ],
-    new PublicKey(PROGRAM_ID)
-  );
 };

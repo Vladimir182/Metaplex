@@ -2,7 +2,7 @@
 import { ArweaveStorage, Connection, MetadataJson } from "@metaplex/js";
 import { File } from "@web-std/file";
 import { allSettled, fork } from "effector";
-import { MintArveaweNFTResponse } from "sdk/mintArveaweNFT";
+import { MintArveaweNFTResponse } from "sdk/createNft/mintArveaweNFT";
 import { $network } from "./connection";
 import {
   mintArweaveFx,

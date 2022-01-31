@@ -26,7 +26,7 @@ import {
 } from "utils/arweave-cost";
 import { toNumber } from "utils/base";
 import { FormSubmitting } from "utils/FormSubmitting";
-import { ENftProgress } from "sdk/mintArveaweNFT";
+import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
 import { createProgressTools } from "utils/createProgressTools";
 import { throttle } from "utils/throttle";
 import debug from "debug";

@@ -7,12 +7,12 @@ import {
 import { bignum, COption } from "@metaplex-foundation/beet";
 import { findVaultOwnerAddress } from "@metaplex-foundation/mpl-membership-token";
 import { Wallet } from "@metaplex/js";
-import { createTokenAccount } from "./createTokenAccount";
+import { createTokenAccount } from "../createTokenAccount";
 import {
   MasterEdition,
   MetadataProgram,
 } from "@metaplex-foundation/mpl-token-metadata";
-import { createInitSellingResourceTransaction } from "./createInitSellingResourceTransaction";
+import { createInitSellingResourceTransaction } from "./initSellingResourceTransaction";
 
 export interface InitSellingResourceProps {
   resourceMint: PublicKey;

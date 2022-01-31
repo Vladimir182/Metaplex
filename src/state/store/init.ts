@@ -1,13 +1,13 @@
 import { NAME_MAX_LEN } from "@metaplex-foundation/mpl-membership-token";
 import { attach, createEffect, StoreValue } from "effector";
-import { initStore } from "sdk/initStore";
-import { EUploadProgress } from "sdk/uploadJson2Arweave";
+import { initStore } from "sdk/createStore/initStore";
 import { $connection } from "state/connection";
 import { $wallet } from "state/wallet";
+import { ETransactionProgress } from "enums/transactionProgress";
 
 export interface IParams {
   name: string;
-  updateProgress: (status: EUploadProgress | null) => void;
+  updateProgress: (status: ETransactionProgress | null) => void;
 }
 
 export interface ISource {

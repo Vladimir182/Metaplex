@@ -15,7 +15,7 @@ import { createEntry } from "state/utils";
 import { $storeArtworks, IArt } from "state/artworks";
 import { $user, $wallet } from "state/wallet";
 import { FormSubmitting } from "utils/FormSubmitting";
-import { createMarket, EСreateMarket } from "sdk/createMarket";
+import { createMarket } from "sdk/createSale/createMarket";
 import { $connection } from "state/connection";
 import { PublicKey } from "@solana/web3.js";
 import { $store } from "state/store";
@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 
 import { createProgressTools } from "utils/createProgressTools";
+import { ETransactionProgress } from "../../enums/transactionProgress";
 
 export interface ISource {
   connection: StoreValue<typeof $connection>;
@@ -35,7 +36,7 @@ export interface ISource {
   preview: StoreValue<typeof $preview>;
 }
 export interface IParams {
-  updateProgress: (status: EСreateMarket | null) => void;
+  updateProgress: (status: ETransactionProgress | null) => void;
 }
 
 const submitSaleFx = createEffect((data: SubmitFormProps) => data);
@@ -118,24 +119,24 @@ interface SubmitFormProps extends IForm {
   artwork: IArt;
 }
 
-function getContent(state: EСreateMarket | null) {
+function getContent(state: ETransactionProgress | null) {
   switch (state) {
-    case EСreateMarket.creating_market_transaction:
+    case ETransactionProgress.creating_transaction:
       return {
         title: "Signing Creation Transaction",
         subtitle: "Approve the transaction from your wallet",
       };
-    case EСreateMarket.signing_market_transaction:
+    case ETransactionProgress.signing_transaction:
       return {
         title: "Signing Transaction",
         subtitle: "Approve the transaction from your wallet",
       };
-    case EСreateMarket.sending_transaction_to_solana:
+    case ETransactionProgress.sending_transaction_to_solana:
       return {
         title: "Sending Transaction to Solana",
         subtitle: "This will take a few seconds",
       };
-    case EСreateMarket.waiting_for_final_confirmation:
+    case ETransactionProgress.waiting_for_final_confirmation:
       return {
         title: "Waiting for Final Confirmation",
         subtitle: "",
@@ -151,7 +152,7 @@ function getContent(state: EСreateMarket | null) {
 export function createLocalState() {
   const { $progressMeta, $progress } = createProgressTools(
     getContent,
-    null as EСreateMarket | null
+    null as ETransactionProgress | null
   );
 
   const $state = createEntry<CreateSaleSidebarEnum>(

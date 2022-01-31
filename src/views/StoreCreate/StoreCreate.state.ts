@@ -3,7 +3,7 @@ import { createEffect } from "effector";
 import { useEvent, useStore } from "effector-react";
 import { useMemo } from "react";
 import type { NavigateFunction } from "react-router-dom";
-import { EUploadProgress } from "sdk/uploadJson2Arweave";
+import { ETransactionProgress } from "enums/transactionProgress";
 import { createProgressTools } from "utils/createProgressTools";
 import { submitStoreFx, setShowStoreCongratulations } from "state/store";
 import { WalletSignTransactionError } from "@solana/wallet-adapter-base";
@@ -13,19 +13,23 @@ export interface IOptions {
   goToSuccessPage(navigate: NavigateFunction): void;
 }
 
-function getContent(state: EUploadProgress | null) {
+function getContent(state: ETransactionProgress | null) {
   switch (state) {
-    case EUploadProgress.signing_metadata_transaction:
+    case ETransactionProgress.creating_transaction:
+      return {
+        title: "Creating Transaction",
+      };
+    case ETransactionProgress.signing_transaction:
       return {
         title: "Signing Creation Transaction",
         subtitle: "Approve the transaction from your wallet",
       };
-    case EUploadProgress.sending_transaction_to_solana:
+    case ETransactionProgress.sending_transaction_to_solana:
       return {
         title: "Sending Transaction to Solana",
         subtitle: "This will take a few seconds",
       };
-    case EUploadProgress.waiting_for_final_confirmation:
+    case ETransactionProgress.waiting_for_final_confirmation:
       return {
         title: "Waiting for Final Confirmation",
         subtitle: "",
@@ -41,7 +45,7 @@ function getContent(state: EUploadProgress | null) {
 function createLocalState({ goToSuccessPage, navigate }: IOptions) {
   const { $progressMeta, $progress } = createProgressTools(
     getContent,
-    null as EUploadProgress | null
+    null as ETransactionProgress | null
   );
   const submitFx = createEffect(async (data: StoreFormProps) => {
     try {
