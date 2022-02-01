@@ -95,7 +95,7 @@ const createMarketFx = attach({
         name: " ".repeat(NAME_MAX_LEN),
         description: " ".repeat(DESCRIPTION_MAX_LEN),
         piecesInOneWallet: 1,
-        mutable: false,
+        mutable: true,
         maxSupply,
         price: Number(price),
         ...params,
