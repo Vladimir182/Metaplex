@@ -8,6 +8,7 @@ import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { $markets } from "../markets";
 import { $sellingResources } from "../sellingResources";
+import { logAsyncExecTime } from "../../utils/logAsyncExecTime";
 
 export const $storeArtworks = createStore<IArt[]>([]);
 
@@ -27,16 +28,21 @@ export const fetchStoreArtworksFx = attach({
       return [];
     }
 
-    const userArtworks = await loadArtworksByOwner({
-      connection,
-      owner: store.admin,
-    });
+    let userArtworks: IArt[] = [];
+    let storeArtworks: IArt[] = [];
 
-    // artworks that are on sale
-    const storeArtworks = await loadArtworksBySellingResource({
-      connection,
-      sellingResources,
-      markets,
+    await logAsyncExecTime("storeArtworks time", async () => {
+      userArtworks = await loadArtworksByOwner({
+        connection,
+        owner: store.admin,
+      });
+
+      // artworks that are on sale
+      storeArtworks = await loadArtworksBySellingResource({
+        connection,
+        sellingResources,
+        markets,
+      });
     });
 
     return [...userArtworks, ...storeArtworks];
