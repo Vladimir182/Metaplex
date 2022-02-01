@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
-  const { image, title, state = MarketState.Uninitialized } = artwork;
+  const { image, title, endDate, state = MarketState.Uninitialized } = artwork;
   const type = artwork.type;
 
   return (
@@ -34,9 +34,7 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
 
         <ArtworkListItemStatus state={state} />
       </HStack>
-      {state === MarketState.Uninitialized && (
-        <ArtworkListItemActions id={artwork.id} />
-      )}
+      <ArtworkListItemActions id={artwork.id} state={state} endDate={endDate} />
     </HStack>
   );
 };

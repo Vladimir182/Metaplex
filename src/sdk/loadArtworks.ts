@@ -7,6 +7,7 @@ import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { MetadataJson } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";
+import dayjs from "dayjs";
 
 import { ArtType, IArt } from "state/artworks/types";
 import { excludesFalsy } from "utils/excludeFalsy";
@@ -45,8 +46,9 @@ export const loadArtworksBySellingResource = async ({
 
     if (!market) return artwork;
     const state = Number(MarketState[market.state]);
+    const endDate = market.endDate && dayjs.unix(Number(market.endDate));
 
-    return { ...artwork, state };
+    return { ...artwork, state, ...(endDate && { endDate }) };
   });
 
   return storeArtworksWithState;

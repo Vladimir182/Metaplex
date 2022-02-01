@@ -5,6 +5,7 @@ import {
   MetadataJsonCreator,
   MetadataJsonFile,
 } from "@metaplex/js";
+import dayjs from "dayjs";
 
 export enum ArtType {
   Master = "Master",
@@ -26,6 +27,7 @@ export interface IArt {
   mint?: string;
   token?: string;
   state?: MarketState;
+  endDate?: dayjs.Dayjs;
 }
 
 export interface IPrintNumbers {
