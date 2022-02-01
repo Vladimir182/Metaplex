@@ -2,7 +2,7 @@ import { Currency, MetadataJson, MetadataJsonCreator } from "@metaplex/js";
 import type { IFormData } from "components/forms/NftCreate/NftCreationForm";
 import { FileType } from "components/MediaTypeSelector";
 import { useToast } from "components/modals/Toast";
-import { NewItemSidebarEnum } from "components/NewItemSidebar";
+import { NewItemSidebarEnum } from "views/NftCreationView/components/NewItemSidebar";
 import {
   attach,
   createEffect,

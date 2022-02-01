@@ -7,11 +7,11 @@ import { useToast } from "components/modals/Toast";
 import {
   NewItemSidebarContent,
   NewItemSidebarEnum,
-} from "components/NewItemSidebar";
+} from "views/NftCreationView/components/NewItemSidebar";
 import { useStore } from "effector-react";
 import { FC, useEffect, useRef, useState } from "react";
 import { ROUTES } from "routes";
-import { MintedStep } from "./MintedStep";
+import { MintedStep } from "./components/MintedStep";
 import { useLocalState } from "./NftCreationView.state";
 
 export const NftCreationView: FC = () => {

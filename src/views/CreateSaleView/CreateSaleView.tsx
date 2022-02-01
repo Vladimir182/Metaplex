@@ -2,7 +2,8 @@ import { FC, useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Layout } from "components/Layout";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
-import { ListingSuccess, TransactionFailure } from "components/modals/NftSale";
+import { ListingSuccess } from "components/modals/ListingSuccess";
+import { TransactionFailure } from "components/modals/TransactionFailure";
 import { ModalTemplate } from "components/modals/template";
 
 import { useLocalState } from "./CreateSaleView.state";
@@ -12,10 +13,10 @@ import { useStore } from "effector-react";
 import {
   CreateSaleSidebarContent,
   CreateSaleSidebarEnum,
-} from "components/CreateSaleSidebar";
+} from "views/CreateSaleView/components/CreateSaleSidebar";
 import { SaleCreationForm } from "components/forms/SaleCreate";
 
-import { PreviewStep } from "./PreviewStep";
+import { PreviewStep } from "./components/PreviewStep";
 
 export const CreateSaleView: FC = () => {
   const refForm = useRef<HTMLFormElement | null>(null);

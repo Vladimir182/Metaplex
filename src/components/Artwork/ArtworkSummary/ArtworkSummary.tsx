@@ -3,7 +3,7 @@ import { Flex, FlexProps, Text, VStack } from "@chakra-ui/layout";
 import { Fraction } from "components/Fraction";
 import React from "react";
 
-interface Props extends FlexProps {
+export interface ArtworkSummaryProps extends FlexProps {
   img?: string;
   title: string;
   artist: string;
@@ -11,7 +11,7 @@ interface Props extends FlexProps {
   total: string | number;
 }
 
-export const ArtworkSummary: React.FC<Props> = ({
+export const ArtworkSummary: React.FC<ArtworkSummaryProps> = ({
   img,
   title,
   artist,

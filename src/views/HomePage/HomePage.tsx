@@ -6,11 +6,12 @@ import { ROUTES } from "routes";
 import { loadStoreFx } from "state/store";
 import { Layout } from "components/Layout";
 import { CreateMessage } from "components/CreateMessage";
-
-import { CongratulationsModal } from "./CongratulationsModal/CongratulationsModal";
-import { useLocalState } from "./HomePage.state";
-import { TokensList } from "./TokensList";
 import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
+
+import { useLocalState } from "./HomePage.state";
+
+import { TokensList } from "./components/TokensList";
+import { CongratulationsModal } from "./components/CongratulationsModal/CongratulationsModal";
 
 export const HomePage: FC = () => {
   const { storeId, pendingStore } = useLocalState();

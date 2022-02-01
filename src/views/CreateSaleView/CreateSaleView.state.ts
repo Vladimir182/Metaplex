@@ -9,7 +9,7 @@ import {
   forward,
 } from "effector";
 
-import { CreateSaleSidebarEnum } from "components/CreateSaleSidebar";
+import { CreateSaleSidebarEnum } from "views/CreateSaleView/components/CreateSaleSidebar";
 import { IForm } from "components/forms/SaleCreate";
 import { createEntry } from "state/utils";
 import { $storeArtworks, IArt } from "state/artworks";

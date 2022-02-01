@@ -6,7 +6,7 @@ import { MainSidebarContent } from "components/MainSidebar";
 import {
   NewItemSidebarContent,
   NewItemSidebarEnum,
-} from "components/NewItemSidebar";
+} from "views/NftCreationView/components/NewItemSidebar";
 
 export default {
   title: "Compound/Layout",

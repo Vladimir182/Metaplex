@@ -18,8 +18,10 @@ import {
 } from "@chakra-ui/react";
 import { Controller, useForm } from "react-hook-form";
 
-import { ArtworkSummary } from "components/Artwork/ArtworkSummary";
-import { ArtworkSummaryProps } from "components/modals/NftSale";
+import {
+  ArtworkSummary,
+  ArtworkSummaryProps,
+} from "components/Artwork/ArtworkSummary";
 import { SolanaIcon } from "components/Icons";
 import { DateTimePicker } from "components/Datepicker/DateTimePicker";
 
