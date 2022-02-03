@@ -26,19 +26,17 @@ export const LoaderComponent: FC<LoaderProps> = ({
     <Flex direction="column" flexGrow={1}>
       <Center
         w="full"
-        h="250px"
+        h="220px"
         flexDirection="column"
         flexGrow={1}
-        px={mdUp ? 16 : 0}
+        px={mdUp ? 10 : 0}
         my={mdUp ? 16 : 6}
       >
-        <Spinner darkBg={darkBg} mb={12} />
-        <Heading variant="h4" mb={1} align="center">
+        <Spinner w="64px" h="64px" darkBg={darkBg} mb={10} />
+        <Heading variant="h4" mb={3} align="center">
           {title}
         </Heading>
-        <Text align="center" color="whiteAlpha.700">
-          {subtitle}
-        </Text>
+        <Text align="center">{subtitle}</Text>
       </Center>
       <ModalFootnote icon={noteIcon} text={noteText} />
     </Flex>

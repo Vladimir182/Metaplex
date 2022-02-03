@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { InfiniteProgress } from ".";
-import { MdOutlineAccountBalanceWallet } from "react-icons/md";
+import { BsWallet2 } from "react-icons/bs";
 import { fontSizes } from "theme/typography";
 
 export default {
@@ -15,14 +15,10 @@ const Template: ComponentStory<typeof InfiniteProgress> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   isOpen: true,
-  title: "Finding your NFT",
-  subtitle: "NFTs are randomly distributed throughout the total supply.",
-  noteIcon: (
-    <MdOutlineAccountBalanceWallet
-      size={fontSizes["2xl"]}
-      color="whiteAlpha.700"
-    />
-  ),
+  title: "Your token is being put for sale",
+  subtitle:
+    "After you approve the transcation with your wallt, your NFT will be listed for sale.",
+  noteIcon: <BsWallet2 size={fontSizes["2xl"]} color="whiteAlpha.700" />,
   noteText:
     'You may also have to approve the purchase in your wallet if you don\'t have "auto-approve" turned on.',
 };
