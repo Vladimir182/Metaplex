@@ -1,3 +1,4 @@
+import BN from "bn.js";
 import { useStore } from "effector-react";
 import { useMemo, useCallback, RefObject } from "react";
 import {
@@ -17,7 +18,7 @@ import { $user, $wallet } from "state/wallet";
 import { FormSubmitting } from "utils/FormSubmitting";
 import { createMarket } from "sdk/createSale/createMarket";
 import { $connection } from "state/connection";
-import { PublicKey } from "@solana/web3.js";
+import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { $store } from "state/store";
 import {
   DESCRIPTION_MAX_LEN,
@@ -97,7 +98,7 @@ const createMarketFx = attach({
         piecesInOneWallet: 1,
         mutable: true,
         maxSupply,
-        price: Number(price),
+        price: new BN(Number(price) * LAMPORTS_PER_SOL),
         ...params,
         updateProgress,
       });
