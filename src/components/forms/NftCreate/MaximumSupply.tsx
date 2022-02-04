@@ -126,7 +126,11 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
               disabled={activeSupplyType === 1}
               ref={ref}
               name={restField.name}
-              placeholder={placeholder}
+              placeholder={
+                activeSupplyType === SupplyType.UNLIMITED
+                  ? "Unlimited"
+                  : placeholder
+              }
             />
           </NumberInput>
         )}
