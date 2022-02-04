@@ -16,6 +16,7 @@ interface Props {
 export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
   const { image, title, endDate, state = MarketState.Uninitialized } = artwork;
   const type = artwork.type;
+  const isExhaustedMints = artwork.prints?.supply === artwork.prints?.maxSupply;
 
   return (
     <HStack bg="gray.800" spacing={4} p={4} borderRadius="xl" mb={4}>
@@ -34,7 +35,12 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
 
         <ArtworkListItemStatus state={state} />
       </HStack>
-      <ArtworkListItemActions id={artwork.id} state={state} endDate={endDate} />
+      <ArtworkListItemActions
+        id={artwork.id}
+        state={state}
+        endDate={endDate}
+        isExhaustedMints={isExhaustedMints}
+      />
     </HStack>
   );
 };

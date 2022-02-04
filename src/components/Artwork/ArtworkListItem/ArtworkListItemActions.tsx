@@ -8,18 +8,21 @@ interface Props {
   id: string;
   state: MarketState;
   endDate?: dayjs.Dayjs;
+  isExhaustedMints?: boolean;
 }
 
 export const ArtworkListItemActions: React.FC<Props> = ({
   id,
   state,
   endDate,
+  isExhaustedMints,
 }) => {
   const endSale = (): void => {
     //
   };
 
-  const shouldRenderSell = [MarketState.Uninitialized].includes(state);
+  const shouldRenderSell =
+    [MarketState.Uninitialized].includes(state) && !isExhaustedMints;
 
   const shouldRenderEndSale =
     !endDate && [MarketState.Active, MarketState.Created].includes(state);
