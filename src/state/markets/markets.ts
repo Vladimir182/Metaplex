@@ -1,4 +1,4 @@
-import { MarketAccountDataArgs } from "@metaplex-foundation/mpl-membership-token";
+import { MarketAccountDataArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { attach, createStore, forward, StoreValue } from "effector";
 import { $connection } from "state/connection";
 import { loadMarkets } from "../../sdk/loadMarkets";

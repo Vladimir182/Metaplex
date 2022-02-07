@@ -1,6 +1,6 @@
 import { Keypair, PublicKey, TransactionInstruction } from "@solana/web3.js";
 import { bignum, COption } from "@metaplex-foundation/beet";
-import { createInitSellingResourceInstruction } from "@metaplex-foundation/mpl-membership-token";
+import { createInitSellingResourceInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Wallet } from "@metaplex/js";
 
 export interface CreateInitSellingResourceTransactionProps {
@@ -14,6 +14,7 @@ export interface CreateInitSellingResourceTransactionProps {
   masterEditionBump: number;
   vaultOwnerBump: number;
   maxSupply: COption<bignum>;
+  metadata: PublicKey;
 }
 
 export const createInitSellingResourceTransaction = ({
@@ -27,6 +28,7 @@ export const createInitSellingResourceTransaction = ({
   masterEditionBump,
   vaultOwnerBump,
   maxSupply,
+  metadata,
 }: CreateInitSellingResourceTransactionProps): {
   sellingResource: Keypair;
   instruction: TransactionInstruction;
@@ -45,6 +47,7 @@ export const createInitSellingResourceTransaction = ({
       resourceToken,
       vault: vault.publicKey,
       owner,
+      metadata,
     },
     {
       masterEditionBump,

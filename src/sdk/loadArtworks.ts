@@ -2,8 +2,8 @@ import { AnyPublicKey, TokenAccount } from "@metaplex-foundation/mpl-core";
 import {
   MarketAccountDataArgs,
   SellingResourceAccountDataArgs,
-} from "@metaplex-foundation/mpl-membership-token";
-import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
+} from "@metaplex-foundation/mpl-fixed-price-sale";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { MetadataJson } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";

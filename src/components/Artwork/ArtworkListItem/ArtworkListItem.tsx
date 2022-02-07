@@ -6,7 +6,7 @@ import { ArtworkListItemStatus } from "./ArtworkListItemStatus";
 import { ArtworkListItemActions } from "./ArtworkListItemActions";
 import { ArtworkListItemHeader } from "./ArtworkListItemHeader";
 import { ArtworkStats } from "../shared";
-import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 
 interface Props {
   artwork: IArt;

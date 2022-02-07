@@ -1,9 +1,9 @@
 import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import {
-  MembershipTokenProgram,
+  FixedPriceSaleProgram,
   SellingResourceAccountData,
   SellingResourceAccountDataArgs,
-} from "@metaplex-foundation/mpl-membership-token";
+} from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
 
 const getSellingResources = async (
@@ -13,7 +13,7 @@ const getSellingResources = async (
   // ToDo: use multiple accounts load by using selling resource accounts from markets
   // Should improve loading speed
   const sellingResourcesAccounts =
-    await MembershipTokenProgram.getProgramAccounts(connection, {
+    await FixedPriceSaleProgram.getProgramAccounts(connection, {
       filters: [
         {
           dataSize: 186,

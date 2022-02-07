@@ -1,4 +1,4 @@
-import { SellingResourceAccountDataArgs } from "@metaplex-foundation/mpl-membership-token";
+import { SellingResourceAccountDataArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { attach, createStore, forward, StoreValue } from "effector";
 import { $connection } from "state/connection";
 import { $store } from "state/store";

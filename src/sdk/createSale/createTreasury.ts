@@ -1,4 +1,4 @@
-import { findTresuryOwnerAddress } from "@metaplex-foundation/mpl-membership-token";
+import { findTresuryOwnerAddress } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Wallet } from "@metaplex/js";
 import { NATIVE_MINT } from "@solana/spl-token";
 import {

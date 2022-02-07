@@ -1,9 +1,9 @@
 import {
   MarketAccountData,
   MarketAccountDataArgs,
-  MembershipTokenProgram,
+  FixedPriceSaleProgram,
   SellingResourceAccountDataArgs,
-} from "@metaplex-foundation/mpl-membership-token";
+} from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
 
 const getMarkets = async (
@@ -13,7 +13,7 @@ const getMarkets = async (
   // ToDo: Load markets by store
   const marketAccounts = await Promise.all(
     Array.from(sellingResources).map(([sellingResource]) =>
-      MembershipTokenProgram.getProgramAccounts(connection, {
+      FixedPriceSaleProgram.getProgramAccounts(connection, {
         filters: [
           {
             memcmp: {

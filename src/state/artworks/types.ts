@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 import {
   MetaDataJsonCategory,
   MetadataJsonCreator,

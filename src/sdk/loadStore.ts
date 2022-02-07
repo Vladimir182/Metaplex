@@ -1,8 +1,8 @@
 import {
-  MembershipTokenProgram,
+  FixedPriceSaleProgram,
   StoreAccountData,
   StoreAccountDataArgs,
-} from "@metaplex-foundation/mpl-membership-token";
+} from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { IStore } from "state/store";
 
@@ -10,7 +10,7 @@ const getStores = async (
   owner: PublicKey,
   connection: Connection
 ): Promise<StoreAccountDataArgs & { storeId: string }> => {
-  const storeAccounts = await MembershipTokenProgram.getProgramAccounts(
+  const storeAccounts = await FixedPriceSaleProgram.getProgramAccounts(
     connection,
     {
       filters: [

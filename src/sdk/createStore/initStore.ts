@@ -1,4 +1,4 @@
-import { createCreateStoreInstruction } from "@metaplex-foundation/mpl-membership-token";
+import { createCreateStoreInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Wallet } from "@metaplex/js";
 import { Connection, Keypair, Transaction } from "@solana/web3.js";
 import { IStore } from "state/store";

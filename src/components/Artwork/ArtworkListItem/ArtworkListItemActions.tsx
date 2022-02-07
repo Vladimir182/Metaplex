@@ -1,5 +1,5 @@
 import { Button, HStack } from "@chakra-ui/react";
-import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { ROUTES } from "routes";

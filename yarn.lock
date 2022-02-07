@@ -2472,10 +2472,10 @@
     "@solana/web3.js" "^1.31.0"
     bs58 "^4.0.1"
 
-"@metaplex-foundation/mpl-membership-token@^0.3.0":
+"@metaplex-foundation/mpl-fixed-price-sale@^0.3.0":
   version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@metaplex-foundation/mpl-membership-token/-/mpl-membership-token-0.3.0.tgz#7e851a69d33e95a872eebecc4f84624a01a2aaef"
-  integrity sha512-vayNS7bamVqxGiWHhklGDsI+nfCRdliSkD3z4uWYlUHbDssPdSlANjse9i1U+9g5jMrMpnrAbJidmfRZ2ROF7g==
+  resolved "https://registry.yarnpkg.com/@metaplex-foundation/mpl-fixed-price-sale/-/mpl-fixed-price-sale-0.3.0.tgz#1c7ba71fb124d96ad7f8747cc3b29d957adad98a"
+  integrity sha512-CeqR68ewIRxLsZ+Q9RvaRMp2BTNmtL65Ij7JEJlIqhQF/BISFqNRBqBxLvto0Zdf77x5Yezt3a3URabErfMmXA==
   dependencies:
     "@metaplex-foundation/beet" "^0.0.7"
     "@metaplex-foundation/beet-solana" "^0.0.6"

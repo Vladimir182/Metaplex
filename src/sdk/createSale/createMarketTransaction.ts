@@ -1,4 +1,4 @@
-import { createCreateMarketInstruction } from "@metaplex-foundation/mpl-membership-token";
+import { createCreateMarketInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Wallet } from "@metaplex/js";
 import { bignum, COption } from "@metaplex-foundation/beet";
 import { Keypair, PublicKey, TransactionInstruction } from "@solana/web3.js";

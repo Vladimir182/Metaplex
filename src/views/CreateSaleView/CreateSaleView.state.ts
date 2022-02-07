@@ -23,7 +23,7 @@ import { $store } from "state/store";
 import {
   DESCRIPTION_MAX_LEN,
   NAME_MAX_LEN,
-} from "@metaplex-foundation/mpl-membership-token";
+} from "@metaplex-foundation/mpl-fixed-price-sale";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 

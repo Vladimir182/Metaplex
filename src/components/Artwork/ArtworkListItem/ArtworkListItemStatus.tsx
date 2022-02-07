@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { MarketState } from "@metaplex-foundation/mpl-membership-token/dist/src/types";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 
 interface Props {
   state?: MarketState;

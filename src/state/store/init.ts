@@ -1,4 +1,4 @@
-import { NAME_MAX_LEN } from "@metaplex-foundation/mpl-membership-token";
+import { NAME_MAX_LEN } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { attach, createEffect, StoreValue } from "effector";
 import { initStore } from "sdk/createStore/initStore";
 import { $connection } from "state/connection";
