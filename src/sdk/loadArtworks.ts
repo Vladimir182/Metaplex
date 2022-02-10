@@ -1,4 +1,5 @@
 import { AnyPublicKey, TokenAccount } from "@metaplex-foundation/mpl-core";
+import BN from "bn.js";
 import {
   MarketAccountDataArgs,
   SellingResourceAccountDataArgs,
@@ -14,6 +15,7 @@ import { excludesFalsy } from "utils/excludeFalsy";
 import { loadArtworkEdition } from "./loadArtworkEdition";
 import { loadExtraContent } from "./loadExtraContent";
 import { loadSellingResourcesTokenAccounts } from "./loadSellingResources";
+import { lamportsToSol } from "utils/lamportsToSol";
 
 export const loadArtworksBySellingResource = async ({
   connection,
@@ -32,12 +34,12 @@ export const loadArtworksBySellingResource = async ({
   const artworks = await loadArtworksByAccounts({ connection, accounts });
 
   const storeArtworksWithState = artworks.map((artwork) => {
-    const [sellingResource] =
+    const [sellingResource, sellingResourceData] =
       Array.from(sellingResources).find(
         ([, data]) => data.vault.toBase58() === artwork.token
       ) || [];
 
-    if (!sellingResource) return artwork;
+    if (!sellingResourceData) return artwork;
 
     const [, market] =
       Array.from(markets).find(
@@ -47,8 +49,16 @@ export const loadArtworksBySellingResource = async ({
     if (!market) return artwork;
     const state = Number(MarketState[market.state]);
     const endDate = market.endDate && dayjs.unix(Number(market.endDate));
+    const price = lamportsToSol(new BN(market.price).toNumber());
+    const supply = new BN(sellingResourceData.supply).toNumber();
+    const primarySaleAmount = price * supply;
 
-    return { ...artwork, state, ...(endDate && { endDate }) };
+    return {
+      ...artwork,
+      state,
+      ...(endDate && { endDate }),
+      primarySaleAmount,
+    };
   });
 
   return storeArtworksWithState;

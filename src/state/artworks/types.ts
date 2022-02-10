@@ -24,6 +24,7 @@ export interface IArt {
   type: ArtType;
   prints?: IPrintNumbers;
   price?: number; // TODO: remove price from artwork
+  primarySaleAmount?: number;
   mint?: string;
   token?: string;
   state?: MarketState;
