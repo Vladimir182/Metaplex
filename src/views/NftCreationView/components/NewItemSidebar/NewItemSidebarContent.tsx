@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 export interface NewItemSidebarContentProps {
   continueToMint?: (isActive: boolean) => Promise<void>;
   viewList(): void;
-  listForSale(): void;
+  listForSale?: () => void;
   state: NewItemSidebarEnum;
   price: number;
   isFormReady: boolean;

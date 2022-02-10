@@ -81,7 +81,6 @@ export const NftCreationView: FC = () => {
             return continueToMint();
           }}
           viewList={() => navigate(ROUTES.home())}
-          listForSale={() => {}}
           isFormReady={isFormValid}
         />
       }
