@@ -91,7 +91,7 @@ const createMarketFx = attach({
         store: new PublicKey(store.storeId),
         resourceMint: new PublicKey(artwork.mint),
         resourceToken: new PublicKey(artwork.token),
-        startDate: dayjs.utc(startDate).unix() + 10,
+        startDate: dayjs.utc(startDate).unix() + 90,
         endDate: null,
         name: " ".repeat(NAME_MAX_LEN),
         description: " ".repeat(DESCRIPTION_MAX_LEN),
