@@ -57,7 +57,7 @@ WithSidebar.args = {
 
 const sidebarState = {
   viewList: () => {},
-  listForSale: () => {},
+
   state: NewItemSidebarEnum.MEDIA_TYPE,
   price: 1,
   isFormReady: true,
