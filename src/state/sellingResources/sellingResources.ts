@@ -1,7 +1,9 @@
 import { SellingResourceAccountDataArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { attach, createStore, forward, StoreValue } from "effector";
+
 import { $connection } from "state/connection";
-import { $store } from "state/store";
+import { $markets } from "state/markets";
+
 import { loadSellingResources } from "../../sdk/loadSellingResources";
 
 export const $sellingResources = createStore<
@@ -11,26 +13,19 @@ export const $sellingResources = createStore<
 export const fetchSellingResourcesFx = attach({
   effect: async ({
     connection,
-    store,
+    markets,
   }: {
     connection: StoreValue<typeof $connection>;
-    store: StoreValue<typeof $store>;
-  }) => {
-    if (!store) {
-      return new Map();
-    }
-
-    return loadSellingResources({
-      store: store.storeId,
+    markets: StoreValue<typeof $markets>;
+  }) =>
+    loadSellingResources({
+      markets,
       connection,
-    });
-  },
+    }),
   source: {
     connection: $connection,
-    store: $store,
+    markets: $markets,
   },
 });
 forward({ from: fetchSellingResourcesFx.doneData, to: $sellingResources });
-forward({ from: [$connection, $store], to: fetchSellingResourcesFx });
-
-export const $pendingSellingResources = fetchSellingResourcesFx.pending;
+forward({ from: [$connection, $markets], to: fetchSellingResourcesFx });

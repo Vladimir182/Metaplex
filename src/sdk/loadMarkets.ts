@@ -2,28 +2,31 @@ import {
   MarketAccountData,
   MarketAccountDataArgs,
   FixedPriceSaleProgram,
-  SellingResourceAccountDataArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
 
+const MARKET_DATA_SIZE = 344;
+
 const getMarkets = async (
-  sellingResources: Map<string, SellingResourceAccountDataArgs>,
+  store: string,
   connection: Connection
 ): Promise<Map<string, MarketAccountDataArgs>> => {
-  // ToDo: Load markets by store
-  const marketAccounts = await Promise.all(
-    Array.from(sellingResources).map(([sellingResource]) =>
-      FixedPriceSaleProgram.getProgramAccounts(connection, {
-        filters: [
-          {
-            memcmp: {
-              offset: 40,
-              bytes: sellingResource,
-            },
+  const marketAccounts = await FixedPriceSaleProgram.getProgramAccounts(
+    connection,
+    {
+      filters: [
+        {
+          dataSize: MARKET_DATA_SIZE,
+        },
+        // Filter for assigned to this store
+        {
+          memcmp: {
+            offset: 8,
+            bytes: store,
           },
-        ],
-      })
-    )
+        },
+      ],
+    }
   );
 
   return marketAccounts
@@ -38,14 +41,14 @@ const getMarkets = async (
 };
 
 export const loadMarkets = async ({
-  sellingResources,
+  store,
   connection,
 }: {
-  sellingResources: Map<string, SellingResourceAccountDataArgs>;
+  store: string;
   connection: Connection;
 }): Promise<Map<string, MarketAccountDataArgs>> => {
   try {
-    return getMarkets(sellingResources, connection);
+    return getMarkets(store, connection);
   } catch {
     return new Map();
   }

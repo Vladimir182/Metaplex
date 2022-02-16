@@ -1,13 +1,13 @@
 import { HStack, StackDivider } from "@chakra-ui/react";
 import React from "react";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 
 import { ArtworkCardVariant, IArt } from "state/artworks";
-import { ArtworkListItemStatus } from "./ArtworkListItemStatus";
-import { ArtworkListItemActions } from "./ArtworkListItemActions";
-import { ArtworkListItemHeader } from "./ArtworkListItemHeader";
-import { ArtworkListItemSaleAmount } from "./ArtworkListItemSaleAmount";
-import { ArtworkStats } from "../shared";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
+import { ArtworkListItemStatus } from "./components/ArtworkListItemStatus";
+import { ArtworkListItemActions } from "./components/ArtworkListItemActions";
+import { ArtworkListItemHeader } from "./components/ArtworkListItemHeader";
+import { ArtworkStats } from "components/Artwork/shared";
+import { ArtworkListItemSaleAmount } from "./components/ArtworkListItemSaleAmount";
 
 interface Props {
   artwork: IArt;
@@ -46,7 +46,7 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
         <ArtworkListItemStatus state={state} />
       </HStack>
       <ArtworkListItemActions
-        id={artwork.id}
+        artwork={artwork}
         state={state}
         endDate={endDate}
         isExhaustedMints={isExhaustedMints}

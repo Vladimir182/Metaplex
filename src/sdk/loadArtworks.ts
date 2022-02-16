@@ -6,7 +6,7 @@ import {
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
-import { MetadataJson } from "@metaplex/js";
+import { MetadataJson, Wallet } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";
 import dayjs from "dayjs";
 
@@ -15,17 +15,20 @@ import { excludesFalsy } from "utils/excludeFalsy";
 import { loadArtworkEdition } from "./loadArtworkEdition";
 import { loadExtraContent } from "./loadExtraContent";
 import { loadSellingResourcesTokenAccounts } from "./loadSellingResources";
+import { isSaleWithdrawn } from "./sale/isSaleWithdrawn";
 import { lamportsToSol } from "utils/lamportsToSol";
 
 export const loadArtworksBySellingResource = async ({
   connection,
   sellingResources,
   markets,
+  wallet,
 }: {
   connection: Connection;
   sellingResources: Map<string, SellingResourceAccountDataArgs>;
   markets: Map<string, MarketAccountDataArgs>;
-}) => {
+  wallet: Wallet;
+}): Promise<IArt[]> => {
   const accounts = await loadSellingResourcesTokenAccounts({
     connection,
     sellingResources,
@@ -33,33 +36,48 @@ export const loadArtworksBySellingResource = async ({
 
   const artworks = await loadArtworksByAccounts({ connection, accounts });
 
-  const storeArtworksWithState = artworks.map((artwork) => {
-    const [sellingResource, sellingResourceData] =
-      Array.from(sellingResources).find(
-        ([, data]) => data.vault.toBase58() === artwork.token
-      ) || [];
+  const storeArtworksWithState = await Promise.all(
+    artworks.map(async (artwork) => {
+      const [sellingResource, sellingResourceData] =
+        Array.from(sellingResources).find(
+          ([, data]) => data.vault.toBase58() === artwork.token
+        ) || [];
 
-    if (!sellingResourceData) return artwork;
+      if (!sellingResourceData) return artwork;
 
-    const [, market] =
-      Array.from(markets).find(
+      const market = Array.from(markets).find(
         ([, data]) => data.sellingResource.toBase58() === sellingResource
-      ) || [];
+      );
 
-    if (!market) return artwork;
-    const state = Number(MarketState[market.state]);
-    const endDate = market.endDate && dayjs.unix(Number(market.endDate));
-    const price = lamportsToSol(new BN(market.price).toNumber());
-    const supply = new BN(sellingResourceData.supply).toNumber();
-    const primarySaleAmount = price * supply;
+      if (!market) return artwork;
 
-    return {
-      ...artwork,
-      state,
-      ...(endDate && { endDate }),
-      primarySaleAmount,
-    };
-  });
+      const [marketKey, { price, state, endDate }] = market;
+
+      const saleState = Number(MarketState[state]);
+      const saleEndDate = endDate && dayjs.unix(Number(endDate));
+      const salePrice = lamportsToSol(new BN(price).toNumber());
+      const supply = new BN(sellingResourceData.supply).toNumber();
+      const primarySaleAmount = salePrice * supply;
+
+      // Check if item was claimed already
+      const isWithdrawn =
+        saleState === MarketState.Ended &&
+        (await isSaleWithdrawn({
+          connection,
+          wallet,
+          marketKey,
+        }));
+
+      return {
+        ...artwork,
+        ...(saleEndDate && { endDate: saleEndDate }),
+        market: marketKey,
+        state: saleState,
+        isWithdrawn,
+        primarySaleAmount,
+      };
+    })
+  );
 
   return storeArtworksWithState;
 };
@@ -86,9 +104,9 @@ export const loadArtworksByAccounts = async ({
   connection: Connection;
   accounts: TokenAccount[];
 }) => {
-  const accountsWithAmount = accounts
-    .map(({ data }) => data)
-    .filter(({ amount }) => amount?.toNumber() > 0);
+  const accountsWithAmount = accounts.filter(
+    ({ data: { amount } }) => amount?.toNumber() > 0
+  );
 
   const accountByMint = accounts.reduce<Map<string, TokenAccount>>(
     (prev: Map<string, TokenAccount>, acc: TokenAccount) => {
@@ -99,7 +117,7 @@ export const loadArtworksByAccounts = async ({
   );
 
   const PDAs = await Promise.all(
-    accountsWithAmount.map(({ mint }) => Metadata.getPDA(mint))
+    accountsWithAmount.map(({ data: { mint } }) => Metadata.getPDA(mint))
   );
 
   const metadataAccounts = await Metadata.getInfos(connection, PDAs);

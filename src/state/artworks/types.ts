@@ -29,6 +29,8 @@ export interface IArt {
   token?: string;
   state?: MarketState;
   endDate?: dayjs.Dayjs;
+  market?: string;
+  isWithdrawn?: boolean;
 }
 
 export interface IPrintNumbers {
@@ -39,27 +41,5 @@ export interface IPrintNumbers {
   // maximum amount of prints (0 = unlimited)
   maxSupply?: number;
 }
-
-export const artHelpers = {
-  getEditions(_: IArt) {
-    return "-";
-  },
-  getPrice({ price }: IArt) {
-    // TODO: implement
-    return price || 0;
-  },
-  getAuthorName({ creators }: IArt) {
-    // TODO: implement
-    return creators.length ? creators[0].address : "";
-  },
-  getAuthorImg(_: IArt) {
-    // TODO: ???
-    return "";
-  },
-  getDate(_: IArt) {
-    // TODO: ???
-    return "";
-  },
-};
 
 export type ArtworkCardVariant = "sell" | "buy" | "onSale" | "select";

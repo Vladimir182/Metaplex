@@ -18,7 +18,9 @@ export async function createAndSignTransaction(
   });
   tx.recentBlockhash = (await connection.getRecentBlockhash()).blockhash;
   tx.feePayer = payer.publicKey;
-  tx.partialSign(...signers);
+  if (signers.length > 0) {
+    tx.partialSign(...signers);
+  }
 
   return tx;
 }

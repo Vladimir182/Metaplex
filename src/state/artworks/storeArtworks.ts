@@ -6,6 +6,8 @@ import {
 import { IArt } from "state/artworks/types";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
+import { $wallet } from "state/wallet";
+
 import { $markets } from "../markets";
 import { $sellingResources } from "../sellingResources";
 import { logAsyncExecTime } from "../../utils/logAsyncExecTime";
@@ -18,11 +20,13 @@ export const fetchStoreArtworksFx = attach({
     store,
     sellingResources,
     markets,
+    wallet,
   }: {
     connection: StoreValue<typeof $connection>;
     store: StoreValue<typeof $store>;
     sellingResources: StoreValue<typeof $sellingResources>;
     markets: StoreValue<typeof $markets>;
+    wallet: StoreValue<typeof $wallet>;
   }) => {
     if (!store) {
       return [];
@@ -37,11 +41,14 @@ export const fetchStoreArtworksFx = attach({
         owner: store.admin,
       });
 
+      if (!wallet) return;
+
       // artworks that are on sale
       storeArtworks = await loadArtworksBySellingResource({
         connection,
         sellingResources,
         markets,
+        wallet,
       });
     });
 
@@ -52,11 +59,12 @@ export const fetchStoreArtworksFx = attach({
     store: $store,
     sellingResources: $sellingResources,
     markets: $markets,
+    wallet: $wallet,
   },
 });
 forward({ from: fetchStoreArtworksFx.doneData, to: $storeArtworks });
 forward({
-  from: [$connection, $store, $sellingResources, $markets],
+  from: [$connection, $sellingResources],
   to: fetchStoreArtworksFx,
 });
 

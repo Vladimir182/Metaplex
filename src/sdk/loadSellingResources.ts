@@ -1,52 +1,47 @@
 import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import {
-  FixedPriceSaleProgram,
+  MarketAccountDataArgs,
   SellingResourceAccountData,
   SellingResourceAccountDataArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
-
-const getSellingResources = async (
-  store: string,
-  connection: Connection
-): Promise<Map<string, SellingResourceAccountDataArgs>> => {
-  // ToDo: use multiple accounts load by using selling resource accounts from markets
-  // Should improve loading speed
-  const sellingResourcesAccounts =
-    await FixedPriceSaleProgram.getProgramAccounts(connection, {
-      filters: [
-        {
-          dataSize: 186,
-        },
-        // Filter for assigned to this store
-        {
-          memcmp: {
-            offset: 8,
-            bytes: store,
-          },
-        },
-      ],
-    });
-
-  return sellingResourcesAccounts.reduce<
-    Map<string, SellingResourceAccountDataArgs>
-  >((prev, acc) => {
-    prev.set(
-      acc.pubkey.toBase58(),
-      SellingResourceAccountData.deserialize(acc.info.data)[0]
-    );
-    return prev;
-  }, new Map<string, SellingResourceAccountDataArgs>());
-};
+import { getMultipleAccounts } from "./getMultipleAccounts";
 
 export const loadSellingResources = async ({
-  store,
+  markets,
   connection,
 }: {
-  store: string;
+  markets: Map<string, MarketAccountDataArgs>;
   connection: Connection;
 }): Promise<Map<string, SellingResourceAccountDataArgs>> => {
-  return getSellingResources(store, connection);
+  const { keys, accounts } = await getSellingResourcesFromMarkets(
+    markets,
+    connection
+  );
+
+  return accounts.reduce<Map<string, SellingResourceAccountDataArgs>>(
+    (map, acc, index) => {
+      map.set(
+        keys[index].toBase58(),
+        SellingResourceAccountData.deserialize(acc.data)[0]
+      );
+      return map;
+    },
+    new Map<string, SellingResourceAccountDataArgs>()
+  );
+};
+
+const getSellingResourcesFromMarkets = async (
+  markets: Map<string, MarketAccountDataArgs>,
+  connection: Connection
+) => {
+  // get needed selling resources keys from markets
+  const keys = Array.from(markets).map(([, market]) => market.sellingResource);
+
+  // use multiple accounts load to optimize loading
+  const accounts = await getMultipleAccounts(connection, keys, "finalized");
+
+  return { keys, accounts };
 };
 
 export const loadSellingResourcesTokenAccounts = async ({

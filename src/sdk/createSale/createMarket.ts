@@ -9,6 +9,7 @@ import { initSellingResource } from "./initSellingResource";
 import { createMarketTransaction } from "./createMarketTransaction";
 import { createAndSignTransaction } from "../createAndSignTransaction";
 import { getErrorForTransaction } from "../getErrorForTransaction";
+import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale";
 
 export interface CreateMarketTransactionProps {
   wallet: Wallet;
@@ -46,13 +47,13 @@ export const createMarket = async (
   updateProgress(ETransactionProgress.waiting_for_final_confirmation);
 
   await connection.confirmTransaction(txId, "max");
-
-  const errors = await getErrorForTransaction(connection, txId);
-
   updateProgress(null);
 
-  if (errors?.length) {
-    throw new Error(`Raw transaction ${txId} failed`);
+  const [error] = await getErrorForTransaction(connection, txId);
+
+  if (error) {
+    const codeError = errorFromCode(parseInt(error, 16));
+    throw new Error(codeError?.message || `Raw transaction ${txId} failed`);
   }
 
   return { market: market.publicKey.toBase58() };

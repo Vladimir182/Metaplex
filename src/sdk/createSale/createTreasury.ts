@@ -1,4 +1,4 @@
-import { findTresuryOwnerAddress } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { findTreasuryOwnerAddress } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Wallet } from "@metaplex/js";
 import { NATIVE_MINT } from "@solana/spl-token";
 import {
@@ -29,7 +29,7 @@ export const createTreasury = async ({
   createTreasurySigners: Keypair[];
 }> => {
   const treasuryMint = new PublicKey(NATIVE_MINT);
-  const [treasuryOwner, treasuryOwnerBump] = await findTresuryOwnerAddress(
+  const [treasuryOwner, treasuryOwnerBump] = await findTreasuryOwnerAddress(
     treasuryMint,
     sellingResource
   );

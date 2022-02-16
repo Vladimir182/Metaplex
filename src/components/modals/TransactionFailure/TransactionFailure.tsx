@@ -33,6 +33,7 @@ export const TransactionFailure: React.FC<ListingSuccessProps> = ({
         color="whiteAlpha.700"
         textAlign="center"
         fontSize={16}
+        wordBreak="break-all"
       >
         {bodyText}
       </Text>

@@ -60,7 +60,7 @@ export const initStore = async ({
   updateProgress(ETransactionProgress.sending_transaction_to_solana);
 
   // Force wait for max confirmations
-  await connection.confirmTransaction(txId, "recent");
+  await connection.confirmTransaction(txId, "max");
   updateProgress(ETransactionProgress.waiting_for_final_confirmation);
 
   return { storeId: store.publicKey.toString() };

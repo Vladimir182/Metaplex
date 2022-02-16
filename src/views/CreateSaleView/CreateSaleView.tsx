@@ -93,7 +93,10 @@ export const CreateSaleView: FC = () => {
       />
       <ModalTemplate isOpen={open} onClose={handleClose} bodyProps={{ p: 0 }}>
         {formError ? (
-          <TransactionFailure onDismiss={handleClose} />
+          <TransactionFailure
+            bodyText={formError.error.message}
+            onDismiss={handleClose}
+          />
         ) : (
           <ListingSuccess img={artworkSummary?.img} my={16} />
         )}
