@@ -1,6 +1,6 @@
 import { BoxProps, Heading, Spacer } from "@chakra-ui/react";
 import { FC, useCallback } from "react";
-
+import { useToast } from "../../../../components/modals/Toast";
 import { Commission } from "components/Commission/Commission";
 import { ContinueToMint } from "./components/ContinueToMint";
 import { ListForSale } from "./components/ListForSale";
@@ -33,13 +33,21 @@ export const NewItemSidebarContent: FC<
   ...boxProps
 }) => {
   const navigate = useNavigate();
-
+  const toast = useToast();
   const onContinueMinting = useCallback(
     async (isActive: boolean) => {
       if (continueToMint) {
-        await continueToMint(isActive);
+        try {
+          await continueToMint(isActive);
+          setState(NewItemSidebarEnum.PREVIEW);
+        } catch (e) {
+          toast({
+            title: "Transaction Failed",
+            text: "Your transaction rejected.",
+            duration: 9000,
+          });
+        }
       }
-      setState(NewItemSidebarEnum.PREVIEW);
     },
     [continueToMint]
   );

@@ -21,7 +21,8 @@ import {
   UpdateMetadata,
   CreateMasterEdition,
 } from "@metaplex-foundation/mpl-token-metadata";
-const { sendTransaction, prepareTokenAccountAndMintTxs } = actions;
+import { wrappedSendTransaction } from "utils/wrappedSendTransaction";
+const { prepareTokenAccountAndMintTxs } = actions;
 
 const EMPTY_URI = " ".repeat(64);
 
@@ -134,7 +135,7 @@ export async function mintArweaveNFT(
 
     const txid = await pipe.exec(
       () =>
-        sendTransaction({
+        wrappedSendTransaction({
           connection,
           wallet,
           signers: [mint],
@@ -148,6 +149,11 @@ export async function mintArweaveNFT(
         }),
       ENftProgress.signing_metadata_transaction
     );
+
+    if (!txid) {
+      pipe.setStep(null);
+      return Promise.reject();
+    }
 
     await pipe.exec(
       () => connection.confirmTransaction(txid, "max"),
@@ -218,9 +224,9 @@ export async function mintArweaveNFT(
         );
       }, ENftProgress.signing_token_transaction);
 
-      await pipe.exec(
+      const transactionResult = await pipe.exec(
         () =>
-          sendTransaction({
+          wrappedSendTransaction({
             connection,
             signers: [],
             txs: [updateTx, createMetadataTx],
@@ -228,6 +234,11 @@ export async function mintArweaveNFT(
           }),
         ENftProgress.signing_token_transaction
       );
+
+      if (!transactionResult) {
+        pipe.setStep(null);
+        return Promise.reject();
+      }
     }
     return {
       arweaveResult,
