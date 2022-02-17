@@ -16,10 +16,10 @@ import {
   Metadata,
   MasterEdition,
   Creator,
-  MetadataDataData,
-  CreateMetadata,
-  UpdateMetadata,
-  CreateMasterEdition,
+  CreateMasterEditionV3,
+  CreateMetadataV2,
+  DataV2,
+  UpdateMetadataV2,
 } from "@metaplex-foundation/mpl-token-metadata";
 import { wrappedSendTransaction } from "utils/wrappedSendTransaction";
 const { prepareTokenAccountAndMintTxs } = actions;
@@ -111,14 +111,16 @@ export async function mintArweaveNFT(
 
     const createMetadataTx = pipe.exec(() => {
       const creators = metadata.properties.creators.map((c) => new Creator(c));
-      const metadataData = new MetadataDataData({
+      const metadataData = new DataV2({
         name: metadata.name,
         symbol: metadata.symbol,
         uri: EMPTY_URI,
         sellerFeeBasisPoints: metadata.seller_fee_basis_points,
         creators,
+        collection: null,
+        uses: null,
       });
-      const createMetadataTx = new CreateMetadata(
+      const createMetadataTx = new CreateMetadataV2(
         {
           feePayer: wallet.publicKey,
         },
@@ -184,19 +186,21 @@ export async function mintArweaveNFT(
     if (transactionId) {
       const metadataData = pipe.exec(
         () =>
-          new MetadataDataData({
+          new DataV2({
             name: metadata.name,
             symbol: metadata.symbol,
             uri: `https://arweave.net/${transactionId}`,
             creators: metadata.properties.creators.map((c) => new Creator(c)),
             sellerFeeBasisPoints: metadata.seller_fee_basis_points,
+            collection: null,
+            uses: null,
           }),
         ENftProgress.uploading_to_arweave
       );
 
       const updateTx = pipe.exec(
         () =>
-          new UpdateMetadata(
+          new UpdateMetadataV2(
             { feePayer: wallet.publicKey },
             {
               metadata: metadataPDA,
@@ -211,7 +215,7 @@ export async function mintArweaveNFT(
 
       const createMetadataTx = await pipe.exec(async () => {
         const editionPda = await MasterEdition.getPDA(mint.publicKey);
-        return new CreateMasterEdition(
+        return new CreateMasterEditionV3(
           { feePayer: wallet.publicKey },
           {
             edition: editionPda,
