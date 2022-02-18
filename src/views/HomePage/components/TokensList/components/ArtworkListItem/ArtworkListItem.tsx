@@ -18,8 +18,9 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
   const {
     image,
     title,
-    market,
+    startDate,
     endDate,
+    market,
     state = MarketState.Uninitialized,
   } = artwork;
 
@@ -49,7 +50,7 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
             />
           )}
 
-          <ArtworkListItemStatus state={state} />
+          <ArtworkListItemStatus state={state} startDate={startDate} />
         </HStack>
         <Text fontSize={14}>{market}</Text>
       </Flex>

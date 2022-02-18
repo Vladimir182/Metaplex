@@ -51,9 +51,10 @@ export const loadArtworksBySellingResource = async ({
 
       if (!market) return artwork;
 
-      const [marketKey, { price, state, endDate }] = market;
+      const [marketKey, { price, state, startDate, endDate }] = market;
 
       const saleState = Number(MarketState[state]);
+      const saleStartDate = startDate && dayjs.unix(Number(startDate));
       const saleEndDate = endDate && dayjs.unix(Number(endDate));
       const salePrice = lamportsToSol(new BN(price).toNumber());
       const supply = new BN(sellingResourceData.supply).toNumber();
@@ -70,6 +71,7 @@ export const loadArtworksBySellingResource = async ({
 
       return {
         ...artwork,
+        ...(saleStartDate && { startDate: saleStartDate }),
         ...(saleEndDate && { endDate: saleEndDate }),
         market: marketKey,
         state: saleState,

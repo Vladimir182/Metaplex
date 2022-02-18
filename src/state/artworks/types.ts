@@ -28,6 +28,7 @@ export interface IArt {
   mint?: string;
   token?: string;
   state?: MarketState;
+  startDate?: dayjs.Dayjs;
   endDate?: dayjs.Dayjs;
   market?: string;
   isWithdrawn?: boolean;
