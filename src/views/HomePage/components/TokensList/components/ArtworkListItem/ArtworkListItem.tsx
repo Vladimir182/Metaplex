@@ -30,36 +30,39 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
 
   return (
     <HStack bg="gray.800" spacing={4} p={4} borderRadius="xl" mb={4}>
-      <Flex direction="column" w="calc(100% - 140px)">
-        <HStack
-          spacing={4}
-          align="middle"
-          divider={<StackDivider borderColor="whiteAlpha.100" />}
-        >
-          <ArtworkListItemHeader imgUrl={image} name={title} type={type} />
-          <ArtworkStats
-            supply={artwork.prints?.supply}
-            maxSupply={artwork.prints?.maxSupply}
-            variant={variant}
-          />
-
-          {hasAmount && (
-            <ArtworkListItemSaleAmount
-              title="Primary Sale"
-              saleAmount={artwork.primarySaleAmount}
+      <Flex direction="column" w="100%">
+        <Flex align="center">
+          <HStack
+            spacing={4}
+            w="calc(100% - 140px)"
+            align="middle"
+            divider={<StackDivider borderColor="whiteAlpha.100" />}
+          >
+            <ArtworkListItemHeader imgUrl={image} name={title} type={type} />
+            <ArtworkStats
+              supply={artwork.prints?.supply}
+              maxSupply={artwork.prints?.maxSupply}
+              variant={variant}
             />
-          )}
 
-          <ArtworkListItemStatus state={state} startDate={startDate} />
-        </HStack>
+            {hasAmount && (
+              <ArtworkListItemSaleAmount
+                title="Primary Sale"
+                saleAmount={artwork.primarySaleAmount}
+              />
+            )}
+
+            <ArtworkListItemStatus state={state} startDate={startDate} />
+          </HStack>
+          <ArtworkListItemActions
+            artwork={artwork}
+            state={state}
+            endDate={endDate}
+            isExhaustedMints={isExhaustedMints}
+          />
+        </Flex>
         <Text fontSize={14}>{market}</Text>
       </Flex>
-      <ArtworkListItemActions
-        artwork={artwork}
-        state={state}
-        endDate={endDate}
-        isExhaustedMints={isExhaustedMints}
-      />
     </HStack>
   );
 };
