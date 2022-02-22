@@ -1,3 +1,4 @@
+import { Account } from "@metaplex-foundation/mpl-core";
 import {
   FixedPriceSaleProgram,
   StoreAccountData,
@@ -25,7 +26,7 @@ const getStores = async (
     }
   );
 
-  const stores = storeAccounts.map((account) => ({
+  const stores = storeAccounts.map((account: Account<unknown>) => ({
     ...StoreAccountData.fromAccountInfo(account.info)[0],
     storeId: account.pubkey.toString(),
   }));

@@ -28,6 +28,7 @@ export function render(
   const p = path === "*" ? "*" : root ? path?.path : path?.routeName;
   const View =
     hasAccess === false ? guardView : hasAccess === null ? guardLoading : view;
+
   return (
     <Route
       key={key}

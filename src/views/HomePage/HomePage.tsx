@@ -35,11 +35,13 @@ export const HomePage: FC = () => {
 
   if (!storeId) {
     return (
-      <CreateMessage>
-        <Button flexGrow={1} size="lg" as={Link} to={ROUTES.createStore()}>
-          Create Store
-        </Button>
-      </CreateMessage>
+      <Layout narrow>
+        <CreateMessage>
+          <Button flexGrow={1} size="lg" as={Link} to={ROUTES.createStore()}>
+            Create Store
+          </Button>
+        </CreateMessage>
+      </Layout>
     );
   }
 

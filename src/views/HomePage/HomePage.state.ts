@@ -1,14 +1,12 @@
 import { useStore } from "effector-react";
+import { $storeResponse } from "state/store";
 import { stopStoreFetch } from "state/markets";
 import { clearInitialSellingRes } from "state/sellingResources";
-import { $pendingStore, $store } from "state/store";
 
 export type ViewMode = "list" | "grid";
 
 export function useLocalState() {
-  const pendingStore = useStore($pendingStore);
-  const form = useStore($store);
-  const storeId = form?.storeId;
+  const { pendingStore, storeData } = useStore($storeResponse);
   const onPageUnload = () => {
     stopStoreFetch();
     clearInitialSellingRes();
@@ -16,7 +14,7 @@ export function useLocalState() {
 
   return {
     pendingStore,
-    storeId,
+    storeId: storeData?.storeId,
     onPageUnload,
   };
 }

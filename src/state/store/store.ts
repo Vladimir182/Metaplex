@@ -1,5 +1,5 @@
 import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
-import { attach, createEffect, StoreValue, restore } from "effector";
+import { attach, createEffect, StoreValue, restore, combine } from "effector";
 import { loadStore } from "sdk/loadStore";
 import { $connection } from "state/connection";
 import { $wallet } from "state/wallet";
@@ -28,8 +28,12 @@ export const loadStoreFx = attach({
 });
 
 export const $store = restore(loadStoreFx.doneData, null);
-
 export const $pendingStore = loadStoreFx.pending;
+
+export const $storeResponse = combine({
+  pendingStore: loadStoreFx.pending,
+  storeData: $store,
+});
 
 export const $hasStore = restore(
   loadStoreFx.finally.map((state) => (!state ? null : state.status === "done")),
