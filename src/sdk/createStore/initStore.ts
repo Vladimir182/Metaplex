@@ -3,6 +3,7 @@ import { Wallet } from "@metaplex/js";
 import { Connection, Keypair, Transaction } from "@solana/web3.js";
 import { IStore } from "state/store";
 import { ETransactionProgress } from "enums/transactionProgress";
+import { fetchConfirmation } from "sdk/utils/fetchConfirmation";
 
 export interface InitStoreProps {
   name: string;
@@ -45,12 +46,14 @@ export const initStore = async ({
   updateProgress,
 }: InitStoreProps): Promise<Pick<IStore, "storeId">> => {
   updateProgress(ETransactionProgress.creating_transaction);
+
   const { store, storeTx } = await createTransaction({
     name,
     connection,
     wallet,
     updateProgress,
   });
+
   updateProgress(ETransactionProgress.signing_transaction);
   const signedTx = await wallet.signTransaction(storeTx);
 
@@ -60,8 +63,8 @@ export const initStore = async ({
   updateProgress(ETransactionProgress.sending_transaction_to_solana);
 
   // Force wait for max confirmations
-  await connection.confirmTransaction(txId, "max");
   updateProgress(ETransactionProgress.waiting_for_final_confirmation);
 
+  await fetchConfirmation(connection, txId);
   return { storeId: store.publicKey.toString() };
 };
