@@ -1,12 +1,28 @@
 import { MarketAccountDataArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { attach, createStore, forward, StoreValue } from "effector";
+import {
+  attach,
+  createEvent,
+  createStore,
+  forward,
+  StoreValue,
+} from "effector";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { loadMarkets } from "../../sdk/loadMarkets";
+import { interval } from "patronum";
 
 export const $markets = createStore<Map<string, MarketAccountDataArgs>>(
   new Map()
 );
+
+export const startStoreFetch = createEvent();
+export const stopStoreFetch = createEvent();
+
+const { tick } = interval({
+  timeout: 5000,
+  start: startStoreFetch,
+  stop: stopStoreFetch,
+});
 
 export const fetchMarketsFx = attach({
   effect: async ({
@@ -31,3 +47,7 @@ export const fetchMarketsFx = attach({
 });
 forward({ from: fetchMarketsFx.doneData, to: $markets });
 forward({ from: [$connection, $store], to: fetchMarketsFx });
+forward({
+  from: [tick],
+  to: fetchMarketsFx,
+});

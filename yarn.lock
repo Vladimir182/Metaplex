@@ -12801,10 +12801,10 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-patronum@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/patronum/-/patronum-1.1.0.tgz#6c56f334bfff46042a597cf68deb1540e8134949"
-  integrity sha512-YSbGQUbLxTO8m4FeXEwg/Xq0h3ka9S3+WvTANHGlNqo+2gPpglex32xh2dzC7ZP0likG/gHQNEOZokNV1nS7HA==
+patronum@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/patronum/-/patronum-1.8.1.tgz#20c4d1c347142dd634429e939284dd0386541ca1"
+  integrity sha512-vcZpyeG23zccJYOQ3Vu0vnX+rFkZRGckytcj7I5mw4zOrPe6X1dFG8DbDZ7fyzr15xQmlMXS2FDVSG3++qTX5w==
 
 pbkdf2@^3.0.17, pbkdf2@^3.0.3:
   version "3.1.2"

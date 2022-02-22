@@ -12,12 +12,17 @@ import { useLocalState } from "./HomePage.state";
 
 import { TokensList } from "./components/TokensList";
 import { CongratulationsModal } from "./components/CongratulationsModal/CongratulationsModal";
+import { startStoreFetch } from "state/markets";
 
 export const HomePage: FC = () => {
-  const { storeId, pendingStore } = useLocalState();
+  const { storeId, pendingStore, onPageUnload } = useLocalState();
 
   useEffect(() => {
     loadStoreFx();
+    startStoreFetch();
+    return () => {
+      onPageUnload();
+    };
   }, []);
 
   if (pendingStore) {
