@@ -25,7 +25,6 @@ import {
   METADATA_FILE_NAME,
 } from "utils/arweave-cost";
 import { toNumber } from "utils/base";
-import { FormSubmitting } from "utils/FormSubmitting";
 import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
 import { createProgressTools } from "utils/createProgressTools";
 import { throttle } from "utils/throttle";
@@ -315,7 +314,12 @@ export function createLocalState(WebFile = File) {
     target: updateMetadata,
   });
 
+  const { $node: $formData, set: setFormData } =
+    createEntry<Partial<IFormData> | null>(null);
+
   return {
+    $formData,
+    setFormData,
     updateCostFx,
     metadataCategory,
     fileObject: $fileObject,
@@ -341,49 +345,41 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
     $progressMeta,
     $state,
     $price,
-    formSubmitting,
     error,
     updateCost,
+    $formData,
+    setFormData,
   } = useMemo(() => {
     const ret = createLocalState();
-    const formSubmitting = new FormSubmitting(ret.metadataObject.submit);
 
     return {
       ...ret,
-      formSubmitting,
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       updateCost: throttle<void>(() => ret.updateCostFx(), 3000),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const formData = useStore($formData);
   const supply = useStore(maxSupply);
   const user = useStore($user);
   const continueToMint = useCallback(async () => {
-    if (!refForm.current) {
-      throw new Error("Uninitialized form");
+    if (!formData) {
+      throw new Error("Missing form data.");
     }
-    await formSubmitting.manualSubmit(refForm.current);
-  }, [refForm]);
-  const toast = useToast();
-
-  const onSubmitForm = useCallback(
-    (data: IFormData) => {
-      if (!user) {
-        toast({
-          title: "Transaction Failed",
-          text: "Your transaction failed because your wallet is not connected.",
-          duration: 9000,
-        });
-        return;
-      }
-      formSubmitting.submit({
-        data,
-        maxSupply: toNumber(data.supply ?? "0"),
+    if (!user) {
+      toast({
+        title: "Transaction Failed",
+        text: "Your transaction failed because your wallet is not connected.",
+        duration: 9000,
       });
-    },
-    [user]
-  );
+      return;
+    }
+    await metadataObject.submit({
+      data: formData as IFormData,
+      maxSupply: formData.supply ? parseInt(formData.supply) : 0,
+    });
+  }, [refForm, formData, user]);
+  const toast = useToast();
 
   const embed = useCallback(() => {}, []);
 
@@ -400,9 +396,10 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
     metadata,
     progressMeta,
     continueToMint,
-    onSubmitForm,
+    formData,
     onUpdateForm(payload: Partial<IFormData>) {
       metadataObject.update(payload);
+      setFormData(payload);
       updateCost();
     },
     onCategorySelect: metadataCategory.set,

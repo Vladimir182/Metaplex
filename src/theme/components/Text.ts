@@ -10,7 +10,6 @@ export const Text = {
     body: {
       fontSize: "md",
     },
-
     "body-bold": {
       fontSize: "md",
       fontWeight: "bold",
@@ -28,7 +27,6 @@ export const Text = {
       fontSize: "sm",
       lineHeight: "normal",
     },
-
     "body-short": {
       fontSize: "md",
       lineHeight: "short",
@@ -61,6 +59,13 @@ export const Text = {
       lineHeight: "tiny",
       letterSpacing: "wide",
       color: "whiteAlpha.500",
+    },
+    "small-transparent": {
+      fontSize: "xs",
+      fontWeight: "normal",
+      lineHeight: "tiny",
+      letterSpacing: "wide",
+      color: "whiteAlpha.200",
     },
   },
 };

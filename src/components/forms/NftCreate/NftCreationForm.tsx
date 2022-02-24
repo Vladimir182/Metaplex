@@ -1,5 +1,5 @@
 import { useMemo, FC, RefObject, useEffect, MutableRefObject } from "react";
-import { Box, Heading, Link, Text, Textarea, VStack } from "@chakra-ui/react";
+import { Box, Textarea, VStack } from "@chakra-ui/react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 
 import { FileUpload } from "components/FileUpload";
@@ -25,6 +25,7 @@ export interface NftCreationFormProps {
   onUpdate?(form: Partial<IFormData>, isValid: boolean): void;
   refForm?: RefObject<HTMLFormElement>;
   refTriggerValidationFn: MutableRefObject<(() => void) | null>;
+  formData?: Partial<IFormData> | null;
 }
 
 export const NftCreationForm: FC<NftCreationFormProps> = ({
@@ -33,6 +34,7 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
   metadataCategory,
   refForm,
   refTriggerValidationFn,
+  formData = null,
 }) => {
   const PAGE_TEXT = {
     [FileType.IMAGE]: {
@@ -57,7 +59,10 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
       : FileType.IMAGE
   ];
 
-  const methods = useForm<IFormData>({ mode: "onChange" });
+  const methods = useForm<IFormData>({
+    mode: "onChange",
+    defaultValues: formData ? formData : {},
+  });
   const { handleSubmit, formState, watch } = methods;
 
   refTriggerValidationFn.current = () =>
@@ -86,13 +91,6 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
 
   return (
     <Box>
-      <Box mb={10}>
-        <Heading variant="h2">{PAGE_TEXT.title}</Heading>
-        <Text mt={4} color="whiteAlpha.500" fontSize="lg" lineHeight="base">
-          Need help? <Link href="#">Read our creators guide.</Link>
-        </Text>
-      </Box>
-
       <FormProvider {...methods}>
         <VStack
           as="form"
@@ -113,6 +111,9 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
               rules={{ required: true }}
               render={({ field, fieldState }) => (
                 <FileUpload
+                  value={
+                    formData?.file instanceof File ? formData.file : undefined
+                  }
                   isInvalid={fieldState.invalid}
                   onFileChange={field.onChange}
                   type={metadataCategory}

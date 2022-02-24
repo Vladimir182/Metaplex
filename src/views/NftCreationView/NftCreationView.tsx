@@ -1,18 +1,16 @@
-import { useNavigate } from "react-router-dom";
 import { NftCreationForm } from "components/forms/NftCreate";
 import { Layout } from "components/Layout";
 import { MediaTypeSelector } from "components/MediaTypeSelector";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { useToast } from "components/modals/Toast";
-import {
-  NewItemSidebarContent,
-  NewItemSidebarEnum,
-} from "views/NftCreationView/components/NewItemSidebar";
+import { NewItemSidebarEnum } from "views/NftCreationView/components/NewItemSidebar";
 import { useStore } from "effector-react";
 import { FC, useEffect, useRef, useState } from "react";
-import { ROUTES } from "routes";
-import { MintedStep } from "./components/MintedStep";
 import { useLocalState } from "./NftCreationView.state";
+import { PreviewStep } from "./components/PreviewStep";
+import { NftCreationHeader } from "./components/NftCreationHeader";
+import { NftCreationFooter } from "./components/NftCreationFooter";
+import { MintedStep } from "./components/MintedStep";
 
 export const NftCreationView: FC = () => {
   const refForm = useRef<HTMLFormElement | null>(null);
@@ -24,14 +22,13 @@ export const NftCreationView: FC = () => {
     setStep,
     progressMeta,
     onCategorySelect,
-    onSubmitForm,
     onUpdateForm,
     continueToMint,
+    formData,
     error,
   } = useLocalState(refForm);
   const refTriggerValidationFn = useRef<null | (() => void)>(null);
   const [isFormValid, setIsFormValid] = useState(false);
-  const navigate = useNavigate();
 
   const formError = useStore(error);
   const toast = useToast();
@@ -53,7 +50,6 @@ export const NftCreationView: FC = () => {
       />
     ) : step === NewItemSidebarEnum.CREATE ? (
       <NftCreationForm
-        onSubmit={onSubmitForm}
         onUpdate={(form, isValid) => {
           onUpdateForm(form);
           setIsFormValid(isValid);
@@ -61,36 +57,37 @@ export const NftCreationView: FC = () => {
         refForm={refForm}
         refTriggerValidationFn={refTriggerValidationFn}
         metadataCategory={category}
+        formData={formData}
       />
     ) : step === NewItemSidebarEnum.PREVIEW ? (
+      <PreviewStep formData={formData} file={file} type={category} />
+    ) : step === NewItemSidebarEnum.CONGRATULATION ? (
       <MintedStep file={file} type={category} />
     ) : null;
 
   return (
-    <Layout
-      narrow
-      focused
-      sidebarContent={
-        <NewItemSidebarContent
-          price={price}
-          dollarPrice={dollarPrice}
-          state={step}
-          setState={setStep}
-          continueToMint={(isActive) => {
-            isActive && refTriggerValidationFn.current?.();
-            return continueToMint();
-          }}
-          viewList={() => navigate(ROUTES.home())}
-          isFormReady={isFormValid}
+    <>
+      <Layout narrow focused>
+        <NftCreationHeader metadataCategory={category} step={step} />
+        {content}
+        <InfiniteProgress
+          isOpen={progressMeta.isOpen}
+          title={progressMeta.title}
+          subtitle={progressMeta.subtitle}
         />
-      }
-    >
-      {content}
-      <InfiniteProgress
-        isOpen={progressMeta.isOpen}
-        title={progressMeta.title}
-        subtitle={progressMeta.subtitle}
+      </Layout>
+      <NftCreationFooter
+        price={price}
+        dollarPrice={dollarPrice}
+        step={step}
+        setStep={setStep}
+        refTriggerValidationFn={refTriggerValidationFn}
+        continueToMint={(isActive) => {
+          isActive && refTriggerValidationFn.current?.();
+          return continueToMint();
+        }}
+        isFormValid={isFormValid}
       />
-    </Layout>
+    </>
   );
 };
