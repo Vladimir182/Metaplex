@@ -144,6 +144,11 @@ export function getContent(state: ENftProgress | null) {
         title: "Signing Token Transaction",
         subtitle: "Approve the final transaction from your wallet",
       };
+    case ENftProgress.is_nft_created:
+      return {
+        title: "Loading NFT you've just created",
+        subtitle: "",
+      };
     default:
       return {
         title: "",

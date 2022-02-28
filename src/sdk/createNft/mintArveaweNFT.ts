@@ -22,6 +22,7 @@ import {
   UpdateMetadataV2,
 } from "@metaplex-foundation/mpl-token-metadata";
 import { wrappedSendTransaction } from "utils/wrappedSendTransaction";
+import { tokenVerification } from "./utils";
 const { prepareTokenAccountAndMintTxs } = actions;
 
 const EMPTY_URI = " ".repeat(64);
@@ -36,6 +37,7 @@ export enum ENftProgress {
   uploading_to_arweave,
   updating_metadata,
   signing_token_transaction,
+  is_nft_created,
 }
 
 export interface MintArveaweNFTResponse {
@@ -236,14 +238,20 @@ export async function mintArweaveNFT(
             txs: [updateTx, createMetadataTx],
             wallet,
           }),
-        ENftProgress.signing_token_transaction
+        ENftProgress.is_nft_created
       );
 
       if (!transactionResult) {
         pipe.setStep(null);
         return Promise.reject();
       }
+
+      await pipe.exec(
+        async () => await tokenVerification(connection, mint.publicKey),
+        ENftProgress.is_nft_created
+      );
     }
+
     return {
       arweaveResult,
       txId: txid,
