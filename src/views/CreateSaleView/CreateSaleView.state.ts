@@ -95,7 +95,6 @@ const createMarketFx = attach({
         endDate: null,
         name: " ".repeat(NAME_MAX_LEN),
         description: " ".repeat(DESCRIPTION_MAX_LEN),
-        piecesInOneWallet: 1,
         mutable: true,
         maxSupply,
         price: new BN(Number(price) * LAMPORTS_PER_SOL),

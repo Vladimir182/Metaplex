@@ -34,6 +34,7 @@ interface FormFieldProps {
   options?: RegisterOptions;
   defaultValue?: string;
   min?: number;
+  max?: number;
   customInputFactory?: (
     register: ReturnType<UseFormRegister<FieldValues>> & { placeholder: string }
   ) => React.ReactChild;
@@ -44,6 +45,7 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
   id,
   defaultValue = MAXIMUM_SUPPLY_DEFAULT,
   min = 1,
+  max,
   title,
   placeholder = MAXIMUM_SUPPLY_DEFAULT,
   description,
@@ -69,7 +71,7 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
       setValue(id, "");
     }
     if (activeSupplyType === SupplyType.LIMITED) {
-      setValue(id, MAXIMUM_SUPPLY_DEFAULT);
+      setValue(id, defaultValue);
     }
   }, [activeSupplyType]);
 
@@ -119,6 +121,7 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
           <NumberInput
             {...restField}
             min={min}
+            max={max}
             onChange={(value) => onChange(value || `${min}`)}
             isInvalid={isInvalid}
           >
