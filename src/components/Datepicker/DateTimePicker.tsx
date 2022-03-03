@@ -1,7 +1,7 @@
 import "./DateTimePicker.css";
 
 import { Box, Stack, StyleProps } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { DatePickerCustom } from "./DatePickerCustom";
 import { DateTimeCustom } from "./DateTimeCustom";
@@ -19,15 +19,24 @@ export const DateTimePicker: React.FC<Props> = ({
 }) => {
   const { mdUp } = useCustomBreakpoints();
   const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
 
-  const dateChangeHandler = (
-    date: Date | [Date | null, Date | null] | null
-  ) => {
-    onChange(date as Date);
-    setDate(date as Date);
+  const dateChangeHandler = (date: Date) => {
+    const hour = time.getHours();
+    const minute = time.getMinutes();
+    const newDate = date.setHours(hour, minute);
+    onChange(new Date(newDate));
+    setDate(new Date(newDate));
   };
 
-  useEffect(() => dateChangeHandler(date), []);
+  const timeChangeHandler = useCallback(
+    (time: Date) => {
+      setTime(!time ? new Date() : time);
+    },
+    [time]
+  );
+
+  useEffect(() => dateChangeHandler(date), [time]);
 
   return (
     <Stack
@@ -44,8 +53,8 @@ export const DateTimePicker: React.FC<Props> = ({
       <Box>
         <DateTimeCustom
           minDate={minDate}
-          date={date}
-          dateChange={dateChangeHandler}
+          date={time}
+          dateChange={timeChangeHandler}
         />
       </Box>
     </Stack>
