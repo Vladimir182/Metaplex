@@ -13,6 +13,8 @@ export interface LayoutProps {
   focused?: boolean;
   sidebarContent?: ReactNode;
   transparentNavbar?: boolean;
+  fullHeight?: boolean;
+  noPadding?: boolean;
 }
 
 export const Layout: FC<LayoutProps> = ({
@@ -21,6 +23,8 @@ export const Layout: FC<LayoutProps> = ({
   children,
   sidebarContent,
   transparentNavbar,
+  fullHeight,
+  noPadding,
 }) => {
   const user = useStore($user);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -66,6 +70,8 @@ export const Layout: FC<LayoutProps> = ({
       </Sidebar>
 
       <LayoutContent
+        fullHeight={fullHeight}
+        noPadding={noPadding}
         narrow={narrow}
         focused={focused}
         onScrollTrigger={handleScrollTrigger}

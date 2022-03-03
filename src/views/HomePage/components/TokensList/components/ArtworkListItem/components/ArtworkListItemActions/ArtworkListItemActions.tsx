@@ -2,7 +2,7 @@ import { Button, HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 import { ROUTES } from "routes";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import dayjs from "dayjs";
 
 import { IArt } from "state/artworks";
@@ -32,27 +32,39 @@ export const ArtworkListItemActions: React.FC<Props> = ({
     state === MarketState.Ended && !artwork.isWithdrawn;
   const shouldRenderClaim = state === MarketState.Ended && artwork.isWithdrawn;
 
-  const handleCloseMarket = useCallback(() => {
-    if (!artwork?.market) return;
+  const handleCloseMarket = useCallback(
+    (e: React.SyntheticEvent) => {
+      e.stopPropagation();
+      if (!artwork?.market) return;
 
-    onCloseMarket(artwork.market);
-  }, [artwork, onCloseMarket]);
+      onCloseMarket(artwork.market);
+    },
+    [artwork, onCloseMarket]
+  );
 
-  const handleWithdraw = useCallback(() => {
-    if (!artwork?.market) return;
+  const handleWithdraw = useCallback(
+    (e: React.SyntheticEvent) => {
+      e.stopPropagation();
+      if (!artwork?.market) return;
 
-    onWithdraw({ market: artwork.market, metadata: artwork.id });
-  }, [artwork, onWithdraw]);
+      onWithdraw({ market: artwork.market, metadata: artwork.id });
+    },
+    [artwork, onWithdraw]
+  );
 
-  const handleClaim = useCallback(() => {
-    if (!artwork?.market) return;
+  const handleClaim = useCallback(
+    (e: React.SyntheticEvent) => {
+      e.stopPropagation();
+      if (!artwork?.market) return;
 
-    onClaim({
-      market: artwork.market,
-      metadata: artwork.id,
-      claimedImg: artwork.image,
-    });
-  }, [artwork, onClaim]);
+      onClaim({
+        market: artwork.market,
+        metadata: artwork.id,
+        claimedImg: artwork.image,
+      });
+    },
+    [artwork, onClaim]
+  );
 
   return (
     <HStack
@@ -67,6 +79,7 @@ export const ArtworkListItemActions: React.FC<Props> = ({
           variant="tertiary"
           as={Link}
           to={ROUTES.createSale({ ":itemId": artwork.id })}
+          onClick={(e) => e.stopPropagation()}
         >
           Sell Tokens
         </Button>

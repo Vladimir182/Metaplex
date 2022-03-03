@@ -7,4 +7,5 @@ export const ROUTES = {
   createStore: route("store", "create"),
   createNft: route("nft", "create"),
   createSale: route("sale", "create", itemID),
+  tokenDetails: route("details", itemID),
 } as const;

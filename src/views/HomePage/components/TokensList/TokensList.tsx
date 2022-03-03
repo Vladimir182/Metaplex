@@ -44,7 +44,14 @@ export const TokensList: React.FC = () => {
         </Center>
       ) : (
         artworks.map((artwork) => (
-          <ArtworkListItem variant="sell" key={artwork.id} artwork={artwork} />
+          <ArtworkListItem
+            onClick={(id: string) =>
+              navigate(ROUTES.tokenDetails({ ":itemId": id }))
+            }
+            variant="sell"
+            key={artwork.id}
+            artwork={artwork}
+          />
         ))
       )}
 

@@ -5,6 +5,7 @@ import {
   MetadataJsonCreator,
   MetadataJsonFile,
 } from "@metaplex/js";
+import { PublicKey } from "@solana/web3.js";
 import dayjs from "dayjs";
 
 export enum ArtType {
@@ -32,6 +33,7 @@ export interface IArt {
   endDate?: dayjs.Dayjs;
   market?: string;
   isWithdrawn?: boolean;
+  owner?: string;
 }
 
 export interface IPrintNumbers {

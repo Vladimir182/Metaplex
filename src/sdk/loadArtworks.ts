@@ -178,6 +178,7 @@ export const loadArtworkData = async ({
     creators: artworkContent.properties.creators,
     format: artworkContent.properties.category,
     assets: artworkContent.properties.files,
+    owner: account?.data.owner.toBase58(),
     ...editionProps,
   };
 };

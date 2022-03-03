@@ -12,10 +12,16 @@ import { ArtworkListItemSaleAmount } from "./components/ArtworkListItemSaleAmoun
 interface Props {
   artwork: IArt;
   variant?: ArtworkCardVariant;
+  onClick?: (id: string) => void;
 }
 
-export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
+export const ArtworkListItem: React.FC<Props> = ({
+  artwork,
+  variant,
+  onClick,
+}) => {
   const {
+    id,
     image,
     title,
     startDate,
@@ -29,7 +35,15 @@ export const ArtworkListItem: React.FC<Props> = ({ artwork, variant }) => {
   const hasAmount = typeof artwork.primarySaleAmount !== "undefined";
 
   return (
-    <HStack bg="gray.800" spacing={4} p={4} borderRadius="xl" mb={4}>
+    <HStack
+      bg="gray.800"
+      spacing={4}
+      p={4}
+      borderRadius="xl"
+      mb={4}
+      onClick={() => onClick && onClick(id)}
+      cursor="pointer"
+    >
       <Flex direction="column" w="100%">
         <Flex align="center">
           <HStack
