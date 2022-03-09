@@ -25,6 +25,7 @@ import {
 import { SolanaIcon } from "components/Icons";
 import { DateTimePicker } from "components/Datepicker/DateTimePicker";
 import { MaximumSupply } from "../NftCreate/MaximumSupply";
+import { SupplyType } from "../NftCreate/SupplyType";
 
 export interface IForm {
   price: string;
@@ -124,6 +125,7 @@ export const SaleCreationForm: FC<SaleCreationFormProps> = ({
             defaultValue="1"
             min={1}
             max={maxMintsPerWallet}
+            defaultActiveType={SupplyType.UNLIMITED}
           />
 
           <Heading textTransform="uppercase" fontSize="sm" variant="h5" mt={10}>

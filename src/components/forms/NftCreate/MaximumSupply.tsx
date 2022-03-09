@@ -35,6 +35,7 @@ interface FormFieldProps {
   defaultValue?: string;
   min?: number;
   max?: number;
+  defaultActiveType?: SupplyType;
   customInputFactory?: (
     register: ReturnType<UseFormRegister<FieldValues>> & { placeholder: string }
   ) => React.ReactChild;
@@ -50,15 +51,14 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
   placeholder = MAXIMUM_SUPPLY_DEFAULT,
   description,
   options,
+  defaultActiveType = SupplyType.LIMITED,
 }) => {
   const {
     control,
     formState: { errors },
     setValue,
   } = useFormContext();
-  const [activeSupplyType, setActiveSupplyOption] = useState(
-    SupplyType.LIMITED
-  );
+  const [activeSupplyType, setActiveSupplyOption] = useState(defaultActiveType);
 
   const isInvalid = errors[id] != null;
 
