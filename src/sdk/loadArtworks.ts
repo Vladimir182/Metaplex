@@ -140,7 +140,9 @@ export const loadArtworksByAccounts = async ({
     )
   );
 
-  return results.filter(excludesFalsy);
+  return results
+    .filter(excludesFalsy)
+    .filter((item) => item.prints?.maxSupply !== 1);
 };
 
 export const loadArtworkData = async ({
