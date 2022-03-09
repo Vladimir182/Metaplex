@@ -4,6 +4,7 @@ import {
   errorFromCode,
   MarketAccountDataArgs,
   findTreasuryOwnerAddress,
+  findPrimaryMetadataCreatorsAddress,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Wallet } from "@metaplex/js";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
@@ -31,6 +32,10 @@ const createTransaction = async ({
   market,
   marketData,
 }: WithdrawProps): Promise<Transaction> => {
+  const [primaryMetadataCreators] = await findPrimaryMetadataCreatorsAddress(
+    metadata
+  );
+
   const [payoutTicket, payoutTicketBump] = await findPayoutTicketAddress(
     market,
     wallet.publicKey
@@ -62,6 +67,7 @@ const createTransaction = async ({
       payer: wallet.publicKey,
       payoutTicket,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      primaryMetadataCreators,
     },
     {
       treasuryOwnerBump,

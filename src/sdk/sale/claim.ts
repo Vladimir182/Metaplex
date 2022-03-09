@@ -2,7 +2,6 @@ import {
   errorFromCode,
   MarketAccountDataArgs,
   createClaimResourceInstruction,
-  findSecondaryMetadataCreatorsAddress,
   SellingResourceAccountDataArgs,
   findVaultOwnerAddress,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
@@ -37,9 +36,6 @@ const createTransaction = async ({
   marketData,
   sellingResourceData,
 }: ClaimProps): Promise<Transaction> => {
-  const [secondaryMetadataCreators] =
-    await findSecondaryMetadataCreatorsAddress(metadata);
-
   const { treasuryHolder, sellingResource } = marketData;
   const { vault, resource } = sellingResourceData;
 
@@ -64,7 +60,6 @@ const createTransaction = async ({
       vault,
       metadata,
       owner: vaultOwner,
-      secondaryMetadataCreators,
       destination: claimToken,
       tokenMetadataProgram: MetadataProgram.PUBKEY,
     },

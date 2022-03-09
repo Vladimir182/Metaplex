@@ -53,7 +53,6 @@ export const loadArtworksBySellingResource = async ({
 
       const [marketKey, { price, state, startDate, endDate }] = market;
 
-      const saleState = Number(MarketState[state]);
       const saleStartDate = startDate && dayjs.unix(Number(startDate));
       const saleEndDate = endDate && dayjs.unix(Number(endDate));
       const salePrice = lamportsToSol(new BN(price).toNumber());
@@ -62,7 +61,7 @@ export const loadArtworksBySellingResource = async ({
 
       // Check if item was claimed already
       const isWithdrawn =
-        saleState === MarketState.Ended &&
+        state === MarketState.Ended &&
         (await isSaleWithdrawn({
           connection,
           wallet,
@@ -74,7 +73,7 @@ export const loadArtworksBySellingResource = async ({
         ...(saleStartDate && { startDate: saleStartDate }),
         ...(saleEndDate && { endDate: saleEndDate }),
         market: marketKey,
-        state: saleState,
+        state,
         isWithdrawn,
         primarySaleAmount,
       };

@@ -5,7 +5,7 @@ import {
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
 
-const MARKET_DATA_SIZE = 344;
+const MARKET_DATA_SIZE = 352;
 
 const getMarkets = async (
   store: string,
