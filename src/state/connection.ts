@@ -1,7 +1,20 @@
 import { Cluster, clusterApiUrl } from "@solana/web3.js";
 import { Connection } from "@metaplex/js";
 import { getStorage } from "utils/storage";
-import { combine, createEffect, createEvent, restore, sample } from "effector";
+import {
+  combine,
+  createEffect,
+  createEvent,
+  createStore,
+  forward,
+  restore,
+  sample,
+} from "effector";
+import {
+  getNetworksStatus,
+  NetworksStatus,
+} from "components/modals/UserProfile/NetworkSelector/utils/getNetworksStatus";
+import { interval } from "patronum";
 
 export const NETWORK_KEY = "networkkey";
 export const NETWORK_LIST: Cluster[] = ["devnet", "testnet", "mainnet-beta"];
@@ -22,7 +35,7 @@ export function getSavedNetwork(
 
 export const networkChange = createEvent<Cluster>();
 export const $network = restore(networkChange, getSavedNetwork());
-
+export const $networkStatus = createStore<null | NetworksStatus>(null);
 export const setNetworkToStorageFx = createEffect(
   ({
     storage = getStorage(),
@@ -34,6 +47,19 @@ export const setNetworkToStorageFx = createEffect(
     storage?.setItem(NETWORK_KEY, network);
   }
 );
+
+export const startStatusCheck = createEvent();
+export const stopStatusCheck = createEvent();
+
+const { tick } = interval({
+  timeout: 100000,
+  start: startStatusCheck,
+  stop: stopStatusCheck,
+});
+
+export const calcNetworkStatusFx = createEffect(async () => {
+  return await getNetworksStatus(NETWORK_LIST);
+});
 
 sample({
   clock: $network,
@@ -51,3 +77,6 @@ export const $connection = combine($network, (network) => {
 
   return new Connection(endpoint);
 });
+
+forward({ from: [tick, startStatusCheck], to: calcNetworkStatusFx });
+forward({ from: calcNetworkStatusFx.doneData, to: $networkStatus });
