@@ -83,13 +83,13 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
         };
       case NewItemSidebarEnum.CREATE: {
         return {
-          children: "Cancel",
+          children: "Back",
           onClick: () => setStep(NewItemSidebarEnum.MEDIA_TYPE),
         };
       }
       case NewItemSidebarEnum.PREVIEW:
         return {
-          children: "Cancel",
+          children: "Back",
           onClick: () => setStep(NewItemSidebarEnum.CREATE),
         };
       default:
