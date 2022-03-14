@@ -1,4 +1,4 @@
-import { Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
+import { Flex, Heading, Image, Text } from "@chakra-ui/react";
 
 import { FC } from "react";
 import backgroundImage from "./wallet-not-connected-background.png";
@@ -13,7 +13,7 @@ export const CreateMessage: FC = ({ children }) => {
       <Text mb={10} maxW="xl" align="center" color="whiteAlpha.500">
         No technical setup or coding required and takes less than 5 minutes. A
         wallet can only have one management console at the moment. Connect your
-        wallet to get started. <Link href="#">Learn more</Link>
+        wallet to get started
       </Text>
       {children}
     </Flex>

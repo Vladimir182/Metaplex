@@ -1,4 +1,4 @@
-import { Center, Link } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import { StoreCreateForm } from "components/forms/StoreCreateForm";
 import { Layout } from "components/Layout";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
@@ -47,10 +47,7 @@ export const StoreCreate: React.FC = () => {
         title="Create your store"
         actionButtonName="Create Store"
       >
-        <>
-          No technical setup or coding required. Takes less than 5 minutes.
-          <Link href="#"> Learn more</Link>
-        </>
+        <>No technical setup or coding required. Takes less than 5 minutes.</>
       </StoreCreateForm>
 
       <InfiniteProgress
