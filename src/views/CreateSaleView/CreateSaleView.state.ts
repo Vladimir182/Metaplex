@@ -85,6 +85,10 @@ const createMarketFx = attach({
 
       dayjs.extend(utc);
 
+      const piecesInOneWallet = !params?.piecesInOneWallet
+        ? null
+        : params.piecesInOneWallet;
+
       return await createMarket({
         connection,
         wallet,
@@ -98,7 +102,7 @@ const createMarketFx = attach({
         mutable: true,
         maxSupply,
         price: new BN(Number(price) * LAMPORTS_PER_SOL),
-        ...params,
+        piecesInOneWallet,
         updateProgress,
       });
     }
