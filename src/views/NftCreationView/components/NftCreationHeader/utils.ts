@@ -17,7 +17,7 @@ export const getTextSelector = (
       return metadataCategory === FileType.VIDEO
         ? {
             label: "VIDEO",
-            title: "Create new video Membership token",
+            title: "Create new Membership token",
             subtitle: [
               "We recommend an video of at least under 10 MB.",
               "You can upload a MP4.",
@@ -25,7 +25,7 @@ export const getTextSelector = (
           }
         : {
             label: "VIDEO",
-            title: "Create new video Membership token",
+            title: "Create new Membership token",
             subtitle: [
               "We recommend an video of at least under 10 MB.",
               "You can upload a MP4.",
