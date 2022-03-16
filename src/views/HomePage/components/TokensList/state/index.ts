@@ -8,6 +8,7 @@ import {
   fetchStoreArtworksFx,
 } from "state/artworks";
 import { $store } from "state/store";
+import { IArt } from "state/artworks/types";
 
 import { closeMarketFx } from "./effects/closeMarketFx";
 import { $error } from "./store/error";
@@ -42,7 +43,7 @@ export function useLocalState() {
   );
 
   const onWithdraw = useCallback(
-    async (params: { market: string; metadata: string }) => {
+    async (params: { market: string; metadata: string; artwork: IArt }) => {
       try {
         $progress.set({ type: ActionType.Withdraw, isVisible: true });
 

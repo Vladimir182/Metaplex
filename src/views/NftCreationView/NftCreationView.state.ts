@@ -1,5 +1,5 @@
 import { Currency, MetadataJson, MetadataJsonCreator } from "@metaplex/js";
-import type { IFormData } from "components/forms/NftCreate/NftCreationForm";
+import type { FormData } from "components/forms/NftCreate/NftCreationForm";
 import { FileType } from "components/MediaTypeSelector";
 import { useToast } from "components/modals/Toast";
 import { NewItemSidebarEnum } from "views/NftCreationView/components/NewItemSidebar";
@@ -31,12 +31,13 @@ import { throttle } from "utils/throttle";
 import debug from "debug";
 import { $solToUsdRate } from "state/solToUsd";
 import { convertCurrency } from "utils/convertCurrency";
+import { AddressRow, getCreators } from "components/forms/NftCreate/helper";
 
 const LOGErr = debug("error:NftCreationView.state");
 
 export function createMetadataTools(WebFile = File) {
   const $metadataObject = createStore<MetadataJson | null>(null);
-  const { set: updateMetadata, $node } = createEntry<Partial<IFormData>>({});
+  const { set: updateMetadata, $node } = createEntry<Partial<FormData>>({});
 
   const { $maxSupply, $fileObject } = reshape({
     source: $node,
@@ -54,15 +55,11 @@ export function createMetadataTools(WebFile = File) {
       address: $walletAddress,
     },
     fn({ address }, data) {
-      const creators: MetadataJsonCreator[] = !address
-        ? []
-        : [
-            {
-              address,
-              verified: true,
-              share: 100,
-            },
-          ];
+      const creators: MetadataJsonCreator[] = getCreators(
+        address,
+        data.secondaryRoyalties
+      );
+
       const metadata: MetadataJson = {
         name: data.title ?? "",
         symbol: "", // ???
@@ -264,10 +261,12 @@ export function createLocalState(WebFile = File) {
       file,
       metadata,
       maxSupply,
+      primaryRoyalties,
     }: {
       file: File | null;
       metadata: MetadataJson | null;
       maxSupply: number;
+      primaryRoyalties: AddressRow[];
     }) => {
       if (!file) {
         throw new Error("Invalid file");
@@ -280,6 +279,7 @@ export function createLocalState(WebFile = File) {
         file,
         metadata,
         maxSupply,
+        primaryRoyalties,
         updateProgress: (state) => $progress.set(state),
       });
       $progress.set(null);
@@ -293,13 +293,14 @@ export function createLocalState(WebFile = File) {
       metadata: $metadataObject,
     },
     mapParams(
-      { data, maxSupply }: { data: IFormData; maxSupply: number },
+      { data, maxSupply }: { data: FormData; maxSupply: number },
       { metadata }
     ) {
       return {
         file: data.file instanceof File ? data.file : null,
         metadata,
         maxSupply,
+        primaryRoyalties: data.primaryRoyalties,
       };
     },
   });
@@ -320,7 +321,7 @@ export function createLocalState(WebFile = File) {
   });
 
   const { $node: $formData, set: setFormData } =
-    createEntry<Partial<IFormData> | null>(null);
+    createEntry<Partial<FormData> | null>(null);
 
   return {
     $formData,
@@ -380,7 +381,7 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
       return;
     }
     await metadataObject.submit({
-      data: formData as IFormData,
+      data: formData as FormData,
       maxSupply: formData.supply ? parseInt(formData.supply) : 0,
     });
   }, [refForm, formData, user]);
@@ -402,7 +403,7 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
     progressMeta,
     continueToMint,
     formData,
-    onUpdateForm(payload: Partial<IFormData>) {
+    onUpdateForm(payload: Partial<FormData>) {
       metadataObject.update(payload);
       setFormData(payload);
       updateCost();

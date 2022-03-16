@@ -54,6 +54,7 @@ export const FileUploadWithPreview: React.FC<FileUploadProps> = ({
         p={mdUp ? 8 : 4}
         borderRadius="2xl"
         pos="relative"
+        border={`${isInvalid ? "2px solid #D83AEB" : "none"}`}
       >
         <DragAndDrop onFileUpload={dropHandler}>
           <Flex

@@ -1,7 +1,7 @@
 import { ConversionRatePair, Currency } from "@metaplex/js";
 import type { WalletContextState } from "@solana/wallet-adapter-react";
 import { File } from "@web-std/file";
-import { IFormData } from "components/forms/NftCreate";
+import { FormData } from "components/forms/NftCreate";
 import { allSettled, fork } from "effector";
 import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
 import { fetchRateSolToUsdFx } from "state/solToUsd";
@@ -32,7 +32,7 @@ describe("NftCreationView.state", () => {
 
   const SUPPLY = 6;
 
-  const FORM_DATA: Partial<IFormData> = {
+  const FORM_DATA: Partial<FormData> = {
     preview: new File(["preview"], "preview.json"),
     file: new File(["test"], "test.json"),
     title: "test",

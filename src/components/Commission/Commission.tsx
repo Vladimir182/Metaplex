@@ -3,6 +3,8 @@ import { Box, Button, Flex } from "@chakra-ui/react";
 import React from "react";
 import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
+import { $errorsStore } from "components/forms/NftCreate/helper";
+import { useStore } from "effector-react";
 
 interface Props {
   price?: number;
@@ -21,6 +23,10 @@ export const Commission: React.FC<Props> = ({
   onClick,
   onCancel,
 }) => {
+  const data = useStore($errorsStore);
+  const errorMessage = data?.errorMessage;
+  const shoulEnableConfirmAndCreateButton = !!errorMessage;
+
   return (
     <Flex flexDirection="column">
       <Box bg="whiteAlpha.50" p={4} borderRadius="xl">
@@ -35,6 +41,7 @@ export const Commission: React.FC<Props> = ({
           width={"full"}
           h={"56px"}
           variant={isActive ? "primary" : "tertiary"}
+          isDisabled={shoulEnableConfirmAndCreateButton}
         >
           {submitText}
         </Button>

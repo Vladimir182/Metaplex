@@ -3,12 +3,19 @@ import { FC } from "react";
 import { PreviewStepAddress } from "./PreviewStepAddress";
 import { PreviewStepField } from "./PreviewStepField";
 import { getSaleText } from "./utils";
+import { AddressRow } from "components/forms/NftCreate/helper";
 
 interface IPreviewSaleProps {
   type: "primary" | "secondary";
+  royalties?: AddressRow[];
+  royalty?: string;
 }
 
-export const PreviewSale: FC<IPreviewSaleProps> = ({ type }) => {
+export const PreviewSale: FC<IPreviewSaleProps> = ({
+  type,
+  royalties,
+  royalty,
+}) => {
   const text = getSaleText(type);
 
   return (
@@ -22,7 +29,7 @@ export const PreviewSale: FC<IPreviewSaleProps> = ({ type }) => {
           <VStack w="100%" alignItems="flex-start" spacing={12}>
             <PreviewStepField
               title="% of Royalty of the total volume"
-              value="10%"
+              value={`${royalty || 0}%`}
             />
             <Text variant="small">
               Define who will get % of the secondary sale of tokens
@@ -30,8 +37,12 @@ export const PreviewSale: FC<IPreviewSaleProps> = ({ type }) => {
           </VStack>
         )}
         <VStack w="100%" spacing={4} mt="1">
-          <PreviewStepAddress second={type === "secondary"} />
-          <PreviewStepAddress second={type === "secondary"} />
+          {royalties && (
+            <PreviewStepAddress
+              royalties={royalties}
+              second={type === "secondary"}
+            />
+          )}
         </VStack>
       </VStack>
     </>

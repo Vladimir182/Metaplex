@@ -65,7 +65,7 @@ function getDefaults(props: Record<string, string>): Record<string, string> {
   const { focusBorderColor: fc, errorBorderColor: ec } = props;
   return {
     focusBorderColor: fc || "green.500",
-    errorBorderColor: ec || "pink.500",
+    errorBorderColor: ec || "pink.600",
   };
 }
 
@@ -94,6 +94,7 @@ const variantOutline: PartsStyleFunction<typeof parts> = (props) => {
         cursor: "not-allowed",
       },
       _invalid: {
+        border: "2px solid #D83AEB",
         borderColor: getColor(theme, ec),
         boxShadow: `inset 0 0 0 1px ${getColor(theme, ec)}`,
       },

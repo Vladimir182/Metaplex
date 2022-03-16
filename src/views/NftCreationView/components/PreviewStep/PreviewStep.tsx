@@ -2,13 +2,13 @@ import { FC, useEffect } from "react";
 import { ArtImage } from "components/ArtPreview";
 import { useFileReader } from "hooks/useFileReader";
 import { PreviewStepField } from "./components/PreviewStepField";
-import { IFormData } from "components/forms/NftCreate";
+import { FormData } from "components/forms/NftCreate";
 import { FileType } from "components/MediaTypeSelector";
 import { VStack } from "@chakra-ui/react";
 import { PreviewSale } from "./components/PreviewSale";
 
 interface IPrevieewBodyProps {
-  formData: Partial<IFormData> | null;
+  formData: Partial<FormData> | null;
   file: File | null;
   type: FileType;
 }
@@ -18,7 +18,8 @@ export const PreviewStep: FC<IPrevieewBodyProps> = ({
   file,
   type,
 }) => {
-  const { title, desc, supply } = formData || {};
+  const { title, desc, supply, secondaryRoyalties, primaryRoyalties, royalty } =
+    formData || {};
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sourceUrl, _, read] = useFileReader();
   const supplyType = supply && parseInt(supply) > 0 ? "Limited" : "Unlimited";
@@ -59,8 +60,12 @@ export const PreviewStep: FC<IPrevieewBodyProps> = ({
           />
         </VStack>
         <VStack w="100%" spacing={12}>
-          <PreviewSale type="primary" />
-          <PreviewSale type="secondary" />
+          <PreviewSale type="primary" royalties={primaryRoyalties} />
+          <PreviewSale
+            type="secondary"
+            royalty={royalty}
+            royalties={secondaryRoyalties}
+          />
         </VStack>
       </VStack>
     </>

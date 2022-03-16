@@ -21,6 +21,7 @@ export interface IArt {
   description?: string;
   creators: MetadataJsonCreator[];
   format: MetaDataJsonCategory;
+  primarySaleHappened: boolean;
   assets?: MetadataJsonFile[];
   type: ArtType;
   prints?: IPrintNumbers;

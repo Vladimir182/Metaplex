@@ -6,6 +6,8 @@ import { NewItemSidebarEnum } from "../NewItemSidebar";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "routes";
 import { useToast } from "../../../../components/modals/Toast";
+import { useStore } from "effector-react";
+import { $errorsStore } from "../../../../components/forms/NftCreate/helper";
 
 interface INftCreationFooterProps {
   price?: number;
@@ -28,6 +30,8 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
 }) => {
   const navigate = useNavigate();
   const toast = useToast();
+  const data = useStore($errorsStore);
+  const shouldEnableConfirmAndCreateButton = !!data?.errorMessage;
 
   const onContinueMinting = useCallback(
     async (isActive: boolean) => {
@@ -134,6 +138,7 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
         )}
         {step !== NewItemSidebarEnum.CONGRATULATION && (
           <Button
+            isDisabled={shouldEnableConfirmAndCreateButton}
             {...getRButtonProps()}
             padding="16px 24px"
             alignSelf="flex-end"

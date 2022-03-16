@@ -1,6 +1,17 @@
-import { useMemo, FC, RefObject, useEffect, MutableRefObject } from "react";
+import React, {
+  useMemo,
+  FC,
+  RefObject,
+  MutableRefObject,
+  useLayoutEffect,
+} from "react";
 import { Box, Textarea, VStack } from "@chakra-ui/react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import {
+  Controller,
+  FormProvider,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 
 import { FileUpload } from "components/FileUpload";
 import { FormField } from "components/FormField";
@@ -8,24 +19,31 @@ import { FileType } from "components/MediaTypeSelector";
 import { TitledBlock } from "components/TitledBlock";
 
 import { MaximumSupply } from "./MaximumSupply";
+import { PrimarySale } from "./PrimarySale";
+import { SecondarySale } from "./SecondarySale";
+import { AddressRow, calcAllErrors } from "./helper";
+import { useStore } from "effector-react";
+import { $user } from "state/wallet";
 
-export interface IFormData {
+export interface FormData {
   preview: File | Record<string, never>;
   file: File | Record<string, never>;
   title: string;
   desc: string;
   supply: string;
   royalty: string;
+  primaryRoyalties: Array<AddressRow>;
+  secondaryRoyalties: Array<AddressRow>;
   attributes: Array<{ key: string; value: string }>;
 }
 
 export interface NftCreationFormProps {
   metadataCategory: FileType;
-  onSubmit?(form: IFormData): void;
-  onUpdate?(form: Partial<IFormData>, isValid: boolean): void;
+  onSubmit?(form: FormData): void;
+  onUpdate?(form: Partial<FormData>, isValid: boolean): void;
   refForm?: RefObject<HTMLFormElement>;
   refTriggerValidationFn: MutableRefObject<(() => void) | null>;
-  formData?: Partial<IFormData> | null;
+  formData?: Partial<FormData> | null;
 }
 
 export const NftCreationForm: FC<NftCreationFormProps> = ({
@@ -59,23 +77,56 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
       : FileType.IMAGE
   ];
 
-  const methods = useForm<IFormData>({
+  const user = useStore($user);
+
+  const methods = useForm<FormData>({
     mode: "onChange",
-    defaultValues: formData ? formData : {},
+    defaultValues: {
+      ...(formData || {}),
+      primaryRoyalties: [
+        { address: user?.address, verified: false, share: "100" },
+      ],
+      secondaryRoyalties: [
+        { address: "", verified: false, share: "0", total: "" },
+      ],
+    },
   });
-  const { handleSubmit, formState, watch } = methods;
+
+  const { handleSubmit, formState, watch, control } = methods;
+
+  const primaryRoyalties = useFieldArray({
+    control,
+    name: "primaryRoyalties",
+  });
+
+  const secondaryRoyalties = useFieldArray({
+    control,
+    name: "secondaryRoyalties",
+  });
 
   refTriggerValidationFn.current = () =>
-    methods.trigger(["title", "file"], {
-      shouldFocus: true,
-    });
+    methods.trigger(
+      ["title", "file", "primaryRoyalties", "royalty", "secondaryRoyalties"],
+      {
+        shouldFocus: true,
+      }
+    );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const cancel = onUpdate
       ? watch((data) => {
-          const isValid = !!data.title && !!data.file;
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-          onUpdate(data as any, isValid);
+          const isPrimaryProportionError = calcAllErrors(data.primaryRoyalties);
+          const isSecondaryProportionError = calcAllErrors(
+            data.secondaryRoyalties
+          );
+          const isValid =
+            !!data.title &&
+            !!data.royalty &&
+            !!data.file &&
+            !isPrimaryProportionError?.errorMessage &&
+            !isSecondaryProportionError?.errorMessage;
+          //todo: need add type for data or guard
+          onUpdate(data as FormData, isValid);
         })
       : undefined;
     return () => cancel?.unsubscribe();
@@ -143,13 +194,16 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
             description="Maximum amount of tokens could be distributed"
           />
 
-          {/* <FormField
-            id="royalty"
-            type="number"
-            title="Royalty percentage"
-            placeholder="0%"
-            description="Suggested: 0%, 5%, 10%, 20%. Maximum is 50%."
-          /> */}
+          <PrimarySale
+            onRemove={primaryRoyalties.remove}
+            onAddField={primaryRoyalties.append}
+          />
+
+          <SecondarySale
+            onUpdate={secondaryRoyalties.update}
+            onRemove={secondaryRoyalties.remove}
+            onAddField={secondaryRoyalties.append}
+          />
         </VStack>
       </FormProvider>
     </Box>

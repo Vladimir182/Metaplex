@@ -21,9 +21,13 @@ import {
   DataV2,
   UpdateMetadataV2,
 } from "@metaplex-foundation/mpl-token-metadata";
+
 import { wrappedSendTransaction } from "utils/wrappedSendTransaction";
 import { tokenVerification } from "./utils";
 const { prepareTokenAccountAndMintTxs } = actions;
+
+import { createPrimaryMetadataCreatorsTransaction } from "../createPrimaryMetadataCreatorsTransaction";
+import { AddressRow } from "../../components/forms/NftCreate/helper";
 
 const EMPTY_URI = " ".repeat(64);
 
@@ -54,6 +58,7 @@ export interface IMintArweaveParams {
   file: File;
   metadata: MetadataJson;
   maxSupply: number;
+  primaryRoyalties: AddressRow[];
   updateProgress?: (status: ENftProgress | null) => void;
 }
 
@@ -63,6 +68,7 @@ export async function mintArweaveNFT(
     wallet,
     file,
     metadata,
+    primaryRoyalties,
     maxSupply,
     storage,
     updateProgress = () => {},
@@ -230,12 +236,30 @@ export async function mintArweaveNFT(
         );
       }, ENftProgress.signing_token_transaction);
 
+      const createPrimaryCreators = await pipe.exec(async () => {
+        const creators = primaryRoyalties.map((item) => ({
+          address: new PublicKey(item.address),
+          share: Number(item.share),
+          verified: item.verified,
+        }));
+
+        const { createPrimaryMetadataCreatorsTx } =
+          await createPrimaryMetadataCreatorsTransaction({
+            wallet,
+            connection,
+            metadata: metadataPDA,
+            creators,
+          });
+
+        return createPrimaryMetadataCreatorsTx;
+      }, ENftProgress.signing_token_transaction);
+
       const transactionResult = await pipe.exec(
         () =>
           wrappedSendTransaction({
             connection,
             signers: [],
-            txs: [updateTx, createMetadataTx],
+            txs: [updateTx, createMetadataTx, createPrimaryCreators],
             wallet,
           }),
         ENftProgress.is_nft_created

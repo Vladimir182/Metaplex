@@ -25,6 +25,10 @@ interface FormFieldProps {
   options?: RegisterOptions;
   type?: string;
   defaultValue?: string;
+  max?: number;
+  min?: number;
+  isError?: boolean;
+  showRequiredIndicator?: boolean;
   customInputFactory?: (
     register: ReturnType<UseFormRegister<FieldValues>> & { placeholder: string }
   ) => React.ReactChild;
@@ -41,6 +45,9 @@ export const FormField: React.FC<FormFieldProps> = ({
   options,
   customInputFactory,
   controlledInputFactory,
+  isError,
+  showRequiredIndicator = true,
+  ...props
 }) => {
   const {
     register,
@@ -48,7 +55,7 @@ export const FormField: React.FC<FormFieldProps> = ({
     formState: { errors },
   } = useFormContext();
 
-  const isInvalid = errors[id] != null;
+  const isInvalid = errors[id] != null || isError;
 
   const inputRegister = {
     ...register(id, options),
@@ -69,7 +76,11 @@ export const FormField: React.FC<FormFieldProps> = ({
       isInvalid={isInvalid}
     >
       <FormLabel
-        requiredIndicator={<RequiredIndicator>(required)</RequiredIndicator>}
+        requiredIndicator={
+          <RequiredIndicator>
+            {showRequiredIndicator ? "(required)" : " "}
+          </RequiredIndicator>
+        }
         color="white"
       >
         {title}
@@ -96,11 +107,12 @@ export const FormField: React.FC<FormFieldProps> = ({
           defaultValue={defaultValue}
           rules={options}
           render={({ field: { ref, ...restField } }) => (
-            <NumberInput {...restField} isInvalid={isInvalid}>
+            <NumberInput {...restField} {...props} isInvalid={isInvalid}>
               <NumberInputField
                 ref={ref}
                 name={restField.name}
                 placeholder={placeholder}
+                border={isInvalid ? "2px solid" : "none"}
               />
             </NumberInput>
           )}
@@ -109,7 +121,11 @@ export const FormField: React.FC<FormFieldProps> = ({
         <Input {...inputRegister} />
       )}
       {/* eslint-disable @typescript-eslint/no-unsafe-member-access */}
-      <FormErrorMessage>{errors[id]?.message}</FormErrorMessage>
+      {!!errors[id]?.message && (
+        <FormErrorMessage color="pink.600">
+          {errors[id]?.message}
+        </FormErrorMessage>
+      )}
     </FormControl>
   );
 };

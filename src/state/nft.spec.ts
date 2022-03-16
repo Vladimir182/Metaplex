@@ -37,6 +37,7 @@ describe("nft", () => {
       metadata: {} as MetadataJson,
       maxSupply: 5,
       WebFile: File,
+      primaryRoyalties: [],
     };
 
     const result = await allSettled(mintArweaveFx, { scope: scope, params });

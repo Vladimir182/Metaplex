@@ -4,6 +4,7 @@ import { ArweaveStorage, MetadataJson } from "@metaplex/js";
 import { ENftProgress, mintArweaveNFT } from "sdk/createNft/mintArveaweNFT";
 import { $network, $connection } from "./connection";
 import { $wallet } from "./wallet";
+import { AddressRow } from "../components/forms/NftCreate/helper";
 
 export const ARWEAVE_UPLOAD_ENDPOINT =
   "https://us-central1-metaplex-studios.cloudfunctions.net/uploadFile";
@@ -19,6 +20,7 @@ export const $storage = $network.map(
 export interface IMintArweaveParams {
   file: File;
   metadata: MetadataJson;
+  primaryRoyalties: AddressRow[];
   maxSupply: number;
   updateProgress?: (status: ENftProgress | null) => void;
   WebFile?: typeof File;
@@ -44,6 +46,7 @@ export const mintArweaveFx = attach({
       storage,
       wallet,
       WebFile = File,
+      primaryRoyalties,
     }: IMintArweaveParamsWithSource) => {
       if (!wallet) {
         throw new Error("Wallet not connected");
@@ -58,6 +61,7 @@ export const mintArweaveFx = attach({
           maxSupply,
           storage,
           updateProgress,
+          primaryRoyalties,
         },
         WebFile
       );

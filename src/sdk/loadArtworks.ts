@@ -150,6 +150,7 @@ export const loadArtworkData = async ({
     data: {
       mint,
       data: { uri },
+      primarySaleHappened = false,
     },
     pubkey,
   },
@@ -173,6 +174,7 @@ export const loadArtworkData = async ({
     id: pubkey.toString(),
     token,
     mint,
+    primarySaleHappened,
     image: artworkContent.image,
     title: artworkContent.name,
     description: artworkContent.description,

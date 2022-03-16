@@ -5,6 +5,7 @@ import { $connection } from "state/connection";
 import { $wallet } from "state/wallet";
 import { withdraw } from "sdk/sale/withdraw";
 import { $markets } from "state/markets";
+import { IArt } from "state/artworks";
 
 export interface ISource {
   connection: StoreValue<typeof $connection>;
@@ -14,6 +15,7 @@ export interface ISource {
 export interface IParams {
   metadata: string;
   market: string;
+  artwork: IArt;
 }
 
 export const withdrawFx = attach({
@@ -21,6 +23,7 @@ export const withdrawFx = attach({
     async ({
       metadata,
       market,
+      artwork,
       markets,
       wallet,
       connection,
@@ -41,6 +44,7 @@ export const withdrawFx = attach({
         marketData,
         market: new PublicKey(market),
         metadata: new PublicKey(metadata),
+        artwork,
       });
     }
   ),
@@ -49,9 +53,10 @@ export const withdrawFx = attach({
     wallet: $wallet,
     markets: $markets,
   },
-  mapParams: ({ metadata, market }: IParams, sources) => ({
+  mapParams: ({ metadata, market, artwork }: IParams, sources) => ({
     ...sources,
     metadata,
     market,
+    artwork,
   }),
 });

@@ -47,7 +47,7 @@ export const ArtworkListItemActions: React.FC<Props> = ({
       e.stopPropagation();
       if (!artwork?.market) return;
 
-      onWithdraw({ market: artwork.market, metadata: artwork.id });
+      onWithdraw({ market: artwork.market, metadata: artwork.id, artwork });
     },
     [artwork, onWithdraw]
   );
