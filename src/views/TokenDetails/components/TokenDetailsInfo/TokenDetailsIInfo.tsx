@@ -7,6 +7,8 @@ import { ArtworkListItemActions } from "views/HomePage/components/TokensList/com
 import { IArtworkSummary } from "views/TokenDetails/TokenDetails.state";
 import { TitledField } from "./components/TitledField";
 import { getShortAddress } from "./utils";
+import { useSolToUsd } from "state/react/useCurrency";
+import { truncateDecimals } from "utils/truncateDecimals";
 
 interface ITokenDetailsInfoProps {
   artwork?: IArt;
@@ -30,9 +32,9 @@ export const TokenDetailsInfo: FC<ITokenDetailsInfoProps> = ({
     total,
     owner,
     edition = 0,
-    price,
     primarySaleAmount,
   } = artworkSummary || {};
+  const { convert } = useSolToUsd();
   const isExhaustedMints =
     artwork && artwork.prints?.supply === artwork.prints?.maxSupply;
 
@@ -57,12 +59,16 @@ export const TokenDetailsInfo: FC<ITokenDetailsInfoProps> = ({
           <TitledField childProps={fieldProps} title="Minted" noDivider>
             {`${edition}/${total || "Unlimited"}`}
           </TitledField>
-          <TitledField childProps={fieldProps} title="Primary Sale">
-            <chakra.span>{primarySaleAmount} SOL / </chakra.span>
-            <chakra.span fontWeight="400" color="whiteAlpha.500">
-              {price}$
-            </chakra.span>
-          </TitledField>
+          {!!primarySaleAmount && (
+            <TitledField childProps={fieldProps} title="Primary Sale">
+              <chakra.span>
+                {`${truncateDecimals(primarySaleAmount, 5)} SOL `}
+              </chakra.span>
+              <chakra.span fontWeight="400" color="whiteAlpha.500">
+                / {truncateDecimals(convert(primarySaleAmount), 2)}$
+              </chakra.span>
+            </TitledField>
+          )}
         </Flex>
         <VStack maxW="100%" paddingX={6} alignItems="flex-start">
           <Text variant="label">Description</Text>
