@@ -1,4 +1,12 @@
-import { Box, VStack, Heading, Flex, Text, chakra } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  Heading,
+  Flex,
+  Text,
+  chakra,
+  useClipboard,
+} from "@chakra-ui/react";
 import { CSSObject } from "@emotion/react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 import { FC } from "react";
@@ -9,6 +17,7 @@ import { TitledField } from "./components/TitledField";
 import { getShortAddress } from "./utils";
 import { useSolToUsd } from "state/react/useCurrency";
 import { truncateDecimals } from "utils/truncateDecimals";
+import { CopyButton } from "./components/CopyButton";
 
 interface ITokenDetailsInfoProps {
   artwork?: IArt;
@@ -38,6 +47,9 @@ export const TokenDetailsInfo: FC<ITokenDetailsInfoProps> = ({
   const isExhaustedMints =
     artwork && artwork.prints?.supply === artwork.prints?.maxSupply;
 
+  const copyArtist = useClipboard(artist ?? "");
+  const copyOwner = useClipboard(owner ?? "");
+
   return (
     <Flex flex="1 0 49%" flexDir="column">
       <VStack
@@ -52,9 +64,11 @@ export const TokenDetailsInfo: FC<ITokenDetailsInfoProps> = ({
         <Flex flexWrap="wrap" w="100%" alignItems="flex-start" paddingTop={12}>
           <TitledField childProps={fieldProps} title="Creator">
             {artist && getShortAddress(artist)}
+            <CopyButton clipboard={copyArtist} />
           </TitledField>
           <TitledField childProps={fieldProps} title="Owner">
             {owner && getShortAddress(owner)}
+            <CopyButton clipboard={copyOwner} />
           </TitledField>
           <TitledField childProps={fieldProps} title="Minted" noDivider>
             {`${edition}/${total || "Unlimited"}`}
