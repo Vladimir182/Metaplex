@@ -8,6 +8,7 @@ import { ROUTES } from "routes";
 import { useToast } from "../../../../components/modals/Toast";
 import { useStore } from "effector-react";
 import { $errorsStore } from "../../../../components/forms/NftCreate/helper";
+import { useCustomBreakpoints } from "../../../../hooks/useCustomBreakpoints";
 
 interface INftCreationFooterProps {
   price?: number;
@@ -32,6 +33,7 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
   const toast = useToast();
   const data = useStore($errorsStore);
   const shouldEnableConfirmAndCreateButton = !!data?.errorMessage;
+  const { xxlUp } = useCustomBreakpoints();
 
   const onContinueMinting = useCallback(
     async (isActive: boolean) => {
@@ -106,10 +108,11 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
 
   return (
     <HStack
-      mt="auto"
+      m="auto auto 0"
       sx={{
         boxSizing: "border-box",
-        maxWidth: "100vw",
+        maxWidth: xxlUp ? "950px" : "100vw",
+        width: "100%",
         justifyContent: "space-between",
         padding: 4,
       }}
