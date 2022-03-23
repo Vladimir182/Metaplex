@@ -6,6 +6,7 @@ import {
   Text,
   chakra,
   useClipboard,
+  Link,
 } from "@chakra-ui/react";
 import { CSSObject } from "@emotion/react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
@@ -14,10 +15,10 @@ import { IArt } from "state/artworks";
 import { ArtworkListItemActions } from "views/HomePage/components/TokensList/components/ArtworkListItem/components/ArtworkListItemActions";
 import { IArtworkSummary } from "views/TokenDetails/TokenDetails.state";
 import { TitledField } from "./components/TitledField";
-import { getShortAddress } from "./utils";
 import { useSolToUsd } from "state/react/useCurrency";
 import { truncateDecimals } from "utils/truncateDecimals";
 import { CopyButton } from "./components/CopyButton";
+import { getShortAddress, getSolExplorerLink } from "./utils";
 
 interface ITokenDetailsInfoProps {
   artwork?: IArt;
@@ -63,12 +64,32 @@ export const TokenDetailsInfo: FC<ITokenDetailsInfoProps> = ({
         </Heading>
         <Flex flexWrap="wrap" w="100%" alignItems="flex-start" paddingTop={12}>
           <TitledField childProps={fieldProps} title="Creator">
-            {artist && getShortAddress(artist)}
-            <CopyButton clipboard={copyArtist} />
+            {artist && (
+              <>
+                <Link
+                  textDecor="none"
+                  color="whiteAlpha.900"
+                  href={getSolExplorerLink(artist)}
+                >
+                  {getShortAddress(artist)}
+                </Link>
+                <CopyButton clipboard={copyArtist} />
+              </>
+            )}
           </TitledField>
           <TitledField childProps={fieldProps} title="Owner">
-            {owner && getShortAddress(owner)}
-            <CopyButton clipboard={copyOwner} />
+            {owner && (
+              <>
+                <Link
+                  textDecor="none"
+                  color="whiteAlpha.900"
+                  href={getSolExplorerLink(owner)}
+                >
+                  {getShortAddress(owner)}
+                </Link>
+                <CopyButton clipboard={copyOwner} />
+              </>
+            )}
           </TitledField>
           <TitledField childProps={fieldProps} title="Minted" noDivider>
             {`${edition}/${total || "Unlimited"}`}
