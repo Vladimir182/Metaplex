@@ -1,4 +1,4 @@
-import { Flex, FlexProps, HStack, Heading, Spacer } from "@chakra-ui/react";
+import { Flex, FlexProps, HStack, Spacer } from "@chakra-ui/react";
 
 import { Link } from "react-router-dom";
 import { MetaplexIcon } from "components/Icons";
@@ -32,10 +32,7 @@ export const Navbar: React.FC<Props> = ({
       {...props}
     >
       <HStack as={Link} to="/">
-        <MetaplexIcon w={9} h={9} />
-        <Heading as="h1" size="xs">
-          METAPLEX
-        </Heading>
+        <MetaplexIcon w="auto" h={16} />
       </HStack>
       <Spacer />
       {children}
