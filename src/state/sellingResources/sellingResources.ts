@@ -1,4 +1,4 @@
-import { SellingResourceAccountDataArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { SellingResourceArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
 import {
   attach,
   createEvent,
@@ -22,9 +22,9 @@ export const $initialStoreProgress = createStore<Status>(Status.Pending)
   .on(initialSellingRes, () => Status.Fetched)
   .on(clearInitialSellingRes, () => Status.Pending);
 
-export const $sellingResources = createStore<
-  Map<string, SellingResourceAccountDataArgs>
->(new Map());
+export const $sellingResources = createStore<Map<string, SellingResourceArgs>>(
+  new Map()
+);
 
 export const fetchSellingResourcesFx = attach({
   effect: async ({

@@ -1,16 +1,16 @@
 import {
-  MarketAccountData,
-  MarketAccountDataArgs,
+  Market,
+  MarketArgs,
   FixedPriceSaleProgram,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
 
-const MARKET_DATA_SIZE = 352;
+const MARKET_DATA_SIZE = 395;
 
 const getMarkets = async (
   store: string,
   connection: Connection
-): Promise<Map<string, MarketAccountDataArgs>> => {
+): Promise<Map<string, MarketArgs>> => {
   const marketAccounts = await FixedPriceSaleProgram.getProgramAccounts(
     connection,
     {
@@ -29,15 +29,12 @@ const getMarkets = async (
     }
   );
 
-  return marketAccounts
-    .flat()
-    .reduce<Map<string, MarketAccountDataArgs>>((prev, acc) => {
-      prev.set(
-        acc.pubkey.toBase58(),
-        MarketAccountData.deserialize(acc.info.data)[0]
-      );
-      return prev;
-    }, new Map<string, MarketAccountDataArgs>());
+  return marketAccounts.flat().reduce<Map<string, MarketArgs>>((prev, acc) => {
+    if (acc?.info?.data) {
+      prev.set(acc.pubkey.toBase58(), Market.deserialize(acc.info.data)[0]);
+    }
+    return prev;
+  }, new Map<string, MarketArgs>());
 };
 
 export const loadMarkets = async ({
@@ -46,7 +43,7 @@ export const loadMarkets = async ({
 }: {
   store: string;
   connection: Connection;
-}): Promise<Map<string, MarketAccountDataArgs>> => {
+}): Promise<Map<string, MarketArgs>> => {
   try {
     return getMarkets(store, connection);
   } catch {

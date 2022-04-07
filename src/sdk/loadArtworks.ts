@@ -1,10 +1,10 @@
 import { AnyPublicKey, TokenAccount } from "@metaplex-foundation/mpl-core";
 import BN from "bn.js";
 import {
-  MarketAccountDataArgs,
-  SellingResourceAccountDataArgs,
+  MarketState,
+  MarketArgs,
+  SellingResourceArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { MetadataJson, Wallet } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";
@@ -25,8 +25,8 @@ export const loadArtworksBySellingResource = async ({
   wallet,
 }: {
   connection: Connection;
-  sellingResources: Map<string, SellingResourceAccountDataArgs>;
-  markets: Map<string, MarketAccountDataArgs>;
+  sellingResources: Map<string, SellingResourceArgs>;
+  markets: Map<string, MarketArgs>;
   wallet: Wallet;
 }): Promise<IArt[]> => {
   const accounts = await loadSellingResourcesTokenAccounts({

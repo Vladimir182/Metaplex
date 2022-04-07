@@ -1,4 +1,4 @@
-import { MarketAccountDataArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { MarketArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
 import {
   attach,
   createEvent,
@@ -11,9 +11,7 @@ import { $store } from "state/store";
 import { loadMarkets } from "../../sdk/loadMarkets";
 import { interval } from "patronum";
 
-export const $markets = createStore<Map<string, MarketAccountDataArgs>>(
-  new Map()
-);
+export const $markets = createStore<Map<string, MarketArgs>>(new Map());
 
 export const startStoreFetch = createEvent();
 export const stopStoreFetch = createEvent();

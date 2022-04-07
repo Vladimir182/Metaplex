@@ -61,6 +61,7 @@ export const createMarketTransaction = ({
       piecesInOneWallet,
       startDate,
       endDate,
+      gatingConfig: null,
     }
   );
 

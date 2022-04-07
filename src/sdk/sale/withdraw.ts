@@ -1,25 +1,26 @@
 import {
   findPayoutTicketAddress,
   createWithdrawInstruction,
-  errorFromCode,
-  MarketAccountDataArgs,
+  Creator,
+  MarketArgs,
   findTreasuryOwnerAddress,
   findPrimaryMetadataCreatorsAddress,
-  PrimaryMetadataCreatorsAccountData,
+  PrimaryMetadataCreators,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/generated/errors";
 import { Wallet } from "@metaplex/js";
 import {
   Connection,
   PublicKey,
   Transaction,
   TransactionInstruction,
+  SYSVAR_CLOCK_PUBKEY,
 } from "@solana/web3.js";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   Token,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import { Creator } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 
 import { getErrorForTransaction } from "../getErrorForTransaction";
 import { createAndSignTransaction } from "sdk/createAndSignTransaction";
@@ -31,7 +32,7 @@ export interface WithdrawProps {
   wallet: Wallet;
   metadata: PublicKey;
   market: PublicKey;
-  marketData: MarketAccountDataArgs;
+  marketData: MarketArgs;
   artwork: IArt;
 }
 
@@ -101,6 +102,7 @@ const createTransaction = async ({
           payoutTicket,
           associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
           primaryMetadataCreators,
+          clock: SYSVAR_CLOCK_PUBKEY,
         },
         {
           treasuryOwnerBump,
@@ -150,7 +152,7 @@ const getCreators = async (
   );
 
   if (primaryCreatorsAccountInfo) {
-    const [{ creators }] = PrimaryMetadataCreatorsAccountData.fromAccountInfo(
+    const [{ creators }] = PrimaryMetadataCreators.fromAccountInfo(
       primaryCreatorsAccountInfo
     );
 

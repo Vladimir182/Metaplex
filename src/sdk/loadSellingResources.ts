@@ -1,8 +1,8 @@
 import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import {
-  MarketAccountDataArgs,
-  SellingResourceAccountData,
-  SellingResourceAccountDataArgs,
+  MarketArgs,
+  SellingResource,
+  SellingResourceArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
 import { getMultipleAccounts } from "./getMultipleAccounts";
@@ -11,28 +11,25 @@ export const loadSellingResources = async ({
   markets,
   connection,
 }: {
-  markets: Map<string, MarketAccountDataArgs>;
+  markets: Map<string, MarketArgs>;
   connection: Connection;
-}): Promise<Map<string, SellingResourceAccountDataArgs>> => {
+}): Promise<Map<string, SellingResourceArgs>> => {
   const { keys, accounts } = await getSellingResourcesFromMarkets(
     markets,
     connection
   );
 
-  return accounts.reduce<Map<string, SellingResourceAccountDataArgs>>(
+  return accounts.reduce<Map<string, SellingResourceArgs>>(
     (map, acc, index) => {
-      map.set(
-        keys[index].toBase58(),
-        SellingResourceAccountData.deserialize(acc.data)[0]
-      );
+      map.set(keys[index].toBase58(), SellingResource.deserialize(acc.data)[0]);
       return map;
     },
-    new Map<string, SellingResourceAccountDataArgs>()
+    new Map<string, SellingResourceArgs>()
   );
 };
 
 const getSellingResourcesFromMarkets = async (
-  markets: Map<string, MarketAccountDataArgs>,
+  markets: Map<string, MarketArgs>,
   connection: Connection
 ) => {
   // get needed selling resources keys from markets
@@ -49,7 +46,7 @@ export const loadSellingResourcesTokenAccounts = async ({
   sellingResources,
 }: {
   connection: Connection;
-  sellingResources: Map<string, SellingResourceAccountDataArgs>;
+  sellingResources: Map<string, SellingResourceArgs>;
 }): Promise<TokenAccount[]> => {
   try {
     return await Promise.all(

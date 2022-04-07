@@ -1,10 +1,10 @@
 import {
   findPrimaryMetadataCreatorsAddress,
   createSavePrimaryMetadataCreatorsInstruction,
+  Creator,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection, PublicKey, Transaction } from "@solana/web3.js";
 import { Wallet } from "@metaplex/js";
-import { Creator } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
 
 export interface InitStoreProps {
   wallet: Wallet;

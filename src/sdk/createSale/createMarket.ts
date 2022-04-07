@@ -9,7 +9,7 @@ import { initSellingResource } from "./initSellingResource";
 import { createMarketTransaction } from "./createMarketTransaction";
 import { createAndSignTransaction } from "../createAndSignTransaction";
 import { getErrorForTransaction } from "../getErrorForTransaction";
-import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/generated/errors";
 
 export interface CreateMarketTransactionProps {
   wallet: Wallet;

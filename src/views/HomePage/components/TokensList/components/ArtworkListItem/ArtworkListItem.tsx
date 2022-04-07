@@ -1,6 +1,6 @@
 import { HStack, StackDivider, Text, Flex } from "@chakra-ui/react";
 import React from "react";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 
 import { ArtworkCardVariant, IArt } from "state/artworks";
 import { ArtworkListItemStatus } from "./components/ArtworkListItemStatus";

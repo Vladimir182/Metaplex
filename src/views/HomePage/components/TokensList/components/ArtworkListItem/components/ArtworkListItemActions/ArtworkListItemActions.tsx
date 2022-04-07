@@ -1,6 +1,6 @@
 import { Button, HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { ROUTES } from "routes";
 import React, { useCallback } from "react";
 import dayjs from "dayjs";

@@ -1,12 +1,17 @@
 import {
-  errorFromCode,
-  MarketAccountDataArgs,
+  MarketArgs,
   createClaimResourceInstruction,
-  SellingResourceAccountDataArgs,
+  SellingResourceArgs,
   findVaultOwnerAddress,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/generated/errors";
 import { Wallet } from "@metaplex/js";
-import { Connection, PublicKey, Transaction } from "@solana/web3.js";
+import {
+  Connection,
+  PublicKey,
+  Transaction,
+  SYSVAR_CLOCK_PUBKEY,
+} from "@solana/web3.js";
 import { MetadataProgram } from "@metaplex-foundation/mpl-token-metadata";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -23,8 +28,8 @@ export interface ClaimProps {
   metadata: PublicKey;
   store: PublicKey;
   market: PublicKey;
-  marketData: MarketAccountDataArgs;
-  sellingResourceData: SellingResourceAccountDataArgs;
+  marketData: MarketArgs;
+  sellingResourceData: SellingResourceArgs;
 }
 
 const createTransaction = async ({
@@ -62,6 +67,7 @@ const createTransaction = async ({
       owner: vaultOwner,
       destination: claimToken,
       tokenMetadataProgram: MetadataProgram.PUBKEY,
+      clock: SYSVAR_CLOCK_PUBKEY,
     },
     {
       vaultOwnerBump,

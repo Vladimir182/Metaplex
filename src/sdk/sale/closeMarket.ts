@@ -1,9 +1,12 @@
-import {
-  createCloseMarketInstruction,
-  errorFromCode,
-} from "@metaplex-foundation/mpl-fixed-price-sale";
+import { createCloseMarketInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/generated/errors";
 import { Wallet } from "@metaplex/js";
-import { Connection, PublicKey, Transaction } from "@solana/web3.js";
+import {
+  Connection,
+  PublicKey,
+  Transaction,
+  SYSVAR_CLOCK_PUBKEY,
+} from "@solana/web3.js";
 import { createAndSignTransaction } from "sdk/createAndSignTransaction";
 import { getErrorForTransaction } from "../getErrorForTransaction";
 
@@ -21,6 +24,7 @@ const createTransaction = async ({
   const instruction = createCloseMarketInstruction({
     market,
     owner: wallet.publicKey,
+    clock: SYSVAR_CLOCK_PUBKEY,
   });
 
   return createAndSignTransaction([instruction], connection, wallet, []);

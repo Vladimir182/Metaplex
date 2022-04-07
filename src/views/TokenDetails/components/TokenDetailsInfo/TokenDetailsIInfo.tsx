@@ -9,7 +9,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { CSSObject } from "@emotion/react";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { FC } from "react";
 import { IArt } from "state/artworks";
 import { ArtworkListItemActions } from "views/HomePage/components/TokensList/components/ArtworkListItem/components/ArtworkListItemActions";

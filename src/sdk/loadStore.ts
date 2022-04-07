@@ -1,8 +1,8 @@
 import { Account } from "@metaplex-foundation/mpl-core";
 import {
   FixedPriceSaleProgram,
-  StoreAccountData,
-  StoreAccountDataArgs,
+  Store,
+  StoreArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { IStore } from "state/store";
@@ -10,8 +10,8 @@ import { IStore } from "state/store";
 const getStores = async (
   owner: PublicKey,
   connection: Connection
-): Promise<StoreAccountDataArgs & { storeId: string }> => {
-  const storeAccounts = await FixedPriceSaleProgram.getProgramAccounts(
+): Promise<StoreArgs & { storeId: string }> => {
+  const storeAccounts = (await FixedPriceSaleProgram.getProgramAccounts(
     connection,
     {
       filters: [
@@ -24,10 +24,10 @@ const getStores = async (
         },
       ],
     }
-  );
+  )) as Account<Store>[];
 
-  const stores = storeAccounts.map((account: Account<unknown>) => ({
-    ...StoreAccountData.fromAccountInfo(account.info)[0],
+  const stores = storeAccounts.map((account) => ({
+    ...Store.fromAccountInfo(account.info)[0],
     storeId: account.pubkey.toString(),
   }));
 
