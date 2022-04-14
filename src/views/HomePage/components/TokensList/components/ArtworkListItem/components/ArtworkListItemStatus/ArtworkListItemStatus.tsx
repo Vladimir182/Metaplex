@@ -59,10 +59,12 @@ export const ArtworkListItemStatus: React.FC<Props> = ({
       px={4}
       height="100%"
       margin="auto 0"
+      padding="2px 8px"
+      display="inline-flex"
     >
       <Text
         fontWeight="bold"
-        fontSize={14}
+        fontSize={12}
         color={StatusTheme.color[updatedState]}
       >
         {StatusTheme.text[updatedState]}

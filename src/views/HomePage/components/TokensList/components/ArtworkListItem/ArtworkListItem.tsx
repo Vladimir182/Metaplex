@@ -3,7 +3,6 @@ import React from "react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 
 import { ArtworkCardVariant, IArt } from "state/artworks";
-import { ArtworkListItemStatus } from "./components/ArtworkListItemStatus";
 import { ArtworkListItemActions } from "./components/ArtworkListItemActions";
 import { ArtworkListItemHeader } from "./components/ArtworkListItemHeader";
 import { ArtworkStats } from "components/Artwork/shared";
@@ -52,7 +51,13 @@ export const ArtworkListItem: React.FC<Props> = ({
             align="middle"
             divider={<StackDivider borderColor="whiteAlpha.100" />}
           >
-            <ArtworkListItemHeader imgUrl={image} name={title} type={type} />
+            <ArtworkListItemHeader
+              imgUrl={image}
+              name={title}
+              type={type}
+              startDate={startDate}
+              state={state}
+            />
             <ArtworkStats
               supply={artwork.prints?.supply}
               maxSupply={artwork.prints?.maxSupply}
@@ -65,8 +70,6 @@ export const ArtworkListItem: React.FC<Props> = ({
                 saleAmount={artwork.primarySaleAmount}
               />
             )}
-
-            <ArtworkListItemStatus state={state} startDate={startDate} />
           </HStack>
           <ArtworkListItemActions
             artwork={artwork}
@@ -75,7 +78,15 @@ export const ArtworkListItem: React.FC<Props> = ({
             isExhaustedMints={isExhaustedMints}
           />
         </Flex>
-        <Text fontSize={14}>{market}</Text>
+        <Text
+          fontSize={14}
+          textOverflow="ellipsis"
+          maxW="64px"
+          overflow="hidden"
+          whiteSpace="nowrap"
+        >
+          {market}
+        </Text>
       </Flex>
     </HStack>
   );
