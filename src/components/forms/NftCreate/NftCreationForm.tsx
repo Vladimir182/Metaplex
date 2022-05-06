@@ -87,7 +87,7 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
         { address: user?.address, verified: false, share: "100" },
       ],
       secondaryRoyalties: [
-        { address: "", verified: false, share: "0", total: "" },
+        { address: user?.address, verified: false, share: "100", total: "" },
       ],
     },
   });
