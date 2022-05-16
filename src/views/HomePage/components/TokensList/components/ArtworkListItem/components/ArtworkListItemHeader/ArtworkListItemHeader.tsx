@@ -1,6 +1,7 @@
 import { Box, HStack, Image, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/types";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
+
 import { ArtworkListItemStatus } from "../ArtworkListItemStatus";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 

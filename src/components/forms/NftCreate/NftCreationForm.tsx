@@ -24,6 +24,7 @@ import { SecondarySale } from "./SecondarySale";
 import { AddressRow, calcAllErrors } from "./helper";
 import { useStore } from "effector-react";
 import { $user } from "state/wallet";
+import { MAXIMUM_SUPPLY_DEFAULT } from "./SupplyType";
 
 export interface FormData {
   preview: File | Record<string, never>;
@@ -35,6 +36,7 @@ export interface FormData {
   primaryRoyalties: Array<AddressRow>;
   secondaryRoyalties: Array<AddressRow>;
   attributes: Array<{ key: string; value: string }>;
+  piecesInOneWallet: number;
 }
 
 export interface NftCreationFormProps {
@@ -89,6 +91,7 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
       secondaryRoyalties: [
         { address: user?.address, verified: false, share: "100", total: "" },
       ],
+      supply: formData?.supply ?? MAXIMUM_SUPPLY_DEFAULT,
     },
   });
 
@@ -192,6 +195,7 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
             id="supply"
             title="maximum supply"
             description="Maximum amount of tokens could be distributed"
+            defaultValue={formData?.supply}
           />
 
           <PrimarySale

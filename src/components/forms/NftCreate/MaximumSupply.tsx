@@ -25,9 +25,10 @@ import {
   SupplyTypesMap,
   MAXIMUM_SUPPLY_DEFAULT,
 } from "./SupplyType";
+import { FormData } from "./NftCreationForm";
 
 interface FormFieldProps {
-  id: string;
+  id: keyof FormData;
   title: string;
   placeholder?: string;
   description?: string | string[];
@@ -51,16 +52,23 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
   placeholder = MAXIMUM_SUPPLY_DEFAULT,
   description,
   options,
-  defaultActiveType = SupplyType.LIMITED,
 }) => {
   const {
     control,
     formState: { errors },
     setValue,
-  } = useFormContext();
-  const [activeSupplyType, setActiveSupplyOption] = useState(defaultActiveType);
+    getValues,
+  } = useFormContext<FormData>();
+  const supply: string = getValues("supply") ?? "";
+  const defaultVal = !Boolean(defaultValue)
+    ? MAXIMUM_SUPPLY_DEFAULT
+    : defaultValue;
 
-  const isInvalid = errors[id] != null;
+  const [activeSupplyType, setActiveSupplyOption] = useState(
+    supply === "" ? SupplyType.UNLIMITED : SupplyType.LIMITED
+  );
+
+  const isInvalid = errors[id as "supply"] != null;
 
   const descriptionString = Array.isArray(description)
     ? description.join("\n")
@@ -71,7 +79,7 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
       setValue(id, "");
     }
     if (activeSupplyType === SupplyType.LIMITED) {
-      setValue(id, defaultValue);
+      setValue(id, defaultVal);
     }
   }, [activeSupplyType]);
 
@@ -115,14 +123,21 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
       <Controller
         control={control}
         name={id}
-        defaultValue={defaultValue}
+        defaultValue={defaultVal}
         rules={options}
         render={({ field: { ref, onChange, ...restField } }) => (
           <NumberInput
             {...restField}
+            value={
+              activeSupplyType === SupplyType.UNLIMITED
+                ? ""
+                : restField.value !== ""
+                ? parseInt(restField.value as string)
+                : defaultVal
+            }
             min={min}
             max={max}
-            onChange={(value) => onChange(value || `${min}`)}
+            onChange={(value: string) => onChange(value || `${defaultVal}`)}
             isInvalid={isInvalid}
           >
             <NumberInputField
@@ -139,7 +154,7 @@ export const MaximumSupply: React.FC<FormFieldProps> = ({
         )}
       />
       {/* eslint-disable @typescript-eslint/no-unsafe-member-access */}
-      <FormErrorMessage>{errors[id]?.message}</FormErrorMessage>
+      <FormErrorMessage>{errors[id as "supply"]?.message}</FormErrorMessage>
     </FormControl>
   );
 };
