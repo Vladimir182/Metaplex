@@ -34,7 +34,10 @@ export const loadArtworksBySellingResource = async ({
     sellingResources,
   });
 
-  const artworks = await loadArtworksByAccounts({ connection, accounts });
+  const artworks = await loadArtworksByAccounts({
+    connection,
+    accounts: accounts.filter((acc) => acc.data.amount.toNumber() !== 0),
+  });
 
   const storeArtworksWithState = await Promise.all(
     artworks.map(async (artwork) => {
