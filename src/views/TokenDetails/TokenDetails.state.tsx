@@ -1,6 +1,6 @@
 import { useStore } from "effector-react";
 import { useEffect, useMemo } from "react";
-import { $pendingStoreArtworks, $storeArtworks } from "state/artworks";
+import { $isInitalLoadHappened, $storeArtworks } from "state/artworks";
 import { loadStoreFx } from "state/store";
 import { $wallet } from "state/wallet";
 import { $progress } from "views/HomePage/components/TokensList/state/store/progress";
@@ -18,7 +18,7 @@ export interface IArtworkSummary {
 }
 export function useLocalState(itemId?: string) {
   const artworks = useStore($storeArtworks);
-  const pending = useStore($pendingStoreArtworks);
+  const isInitalLoadHappened = useStore($isInitalLoadHappened);
   const wallet = useStore($wallet);
   const progress = useStore($progress.$node);
 
@@ -51,7 +51,7 @@ export function useLocalState(itemId?: string) {
 
   return {
     artworkSummary,
-    pending,
+    isInitalLoadHappened,
     wallet,
     artwork,
     progress,

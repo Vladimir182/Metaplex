@@ -4,6 +4,7 @@ import {
   createEvent,
   createStore,
   forward,
+  sample,
   StoreValue,
 } from "effector";
 import { $connection } from "state/connection";
@@ -45,7 +46,4 @@ export const fetchMarketsFx = attach({
 });
 forward({ from: fetchMarketsFx.doneData, to: $markets });
 forward({ from: [$connection, $store], to: fetchMarketsFx });
-forward({
-  from: [tick],
-  to: fetchMarketsFx,
-});
+sample({ clock: tick, target: fetchMarketsFx });

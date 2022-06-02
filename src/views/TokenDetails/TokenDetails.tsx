@@ -14,13 +14,14 @@ import { fontSizes } from "theme/typography";
 
 export const TokenDetails: FC = () => {
   const { itemId } = useParams();
-  const { artworkSummary, pending, artwork, progress } = useLocalState(itemId);
+  const { artworkSummary, isInitalLoadHappened, artwork, progress } =
+    useLocalState(itemId);
   const { img } = artworkSummary || {};
 
   const { title, subtitle } =
     MODAL_COPY[progress.type || ActionType.CloseMarket];
 
-  if (pending) {
+  if (!isInitalLoadHappened) {
     return (
       <Center width="full">
         <LoaderComponent title="loading item" darkBg />

@@ -3,7 +3,7 @@ import { useStore } from "effector-react";
 import { useCallback } from "react";
 
 import {
-  $pendingStoreArtworks,
+  $isInitalLoadHappened,
   $storeArtworks,
   fetchStoreArtworksFx,
 } from "state/artworks";
@@ -17,7 +17,7 @@ import { withdrawFx } from "./effects/withdrawFx";
 import { claimFx } from "./effects/claimFx";
 
 export function useLocalState() {
-  const pending = useStore($pendingStoreArtworks);
+  const isInitalLoadHappened = useStore($isInitalLoadHappened);
   const artworks = useStore($storeArtworks);
   const form = useStore($store);
   const storeId = useStore($store.map((store) => store?.storeId));
@@ -81,7 +81,7 @@ export function useLocalState() {
     form,
     storeId,
     artworks,
-    pending,
+    isInitalLoadHappened,
     progress,
     onCloseMarket,
     onWithdraw,

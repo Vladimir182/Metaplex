@@ -18,7 +18,7 @@ import { useLocalState } from "./state";
 
 export const TokensList: React.FC = () => {
   const navigate = useNavigate();
-  const { artworks, pending, storeId, progress } = useLocalState();
+  const { artworks, isInitalLoadHappened, storeId, progress } = useLocalState();
 
   const { title, subtitle } =
     MODAL_COPY[progress.type || ActionType.CloseMarket];
@@ -38,7 +38,7 @@ export const TokensList: React.FC = () => {
           </Button>
         </Flex>
       </VStack>
-      {pending ? (
+      {!isInitalLoadHappened ? (
         <Center width="full">
           <LoaderComponent title="loading items" darkBg />
         </Center>
