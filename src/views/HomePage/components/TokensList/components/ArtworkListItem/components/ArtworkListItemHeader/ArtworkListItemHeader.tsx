@@ -1,5 +1,4 @@
 import { Box, HStack, Image, Text } from "@chakra-ui/react";
-import dayjs from "dayjs";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 
 import { ArtworkListItemStatus } from "../ArtworkListItemStatus";
@@ -9,14 +8,12 @@ interface Props {
   imgUrl: string;
   name: string;
   type?: string;
-  startDate?: dayjs.Dayjs;
   state?: MarketState;
 }
 
 export const ArtworkListItemHeader: React.FC<Props> = ({
   imgUrl,
   name,
-  startDate,
   state = MarketState.Uninitialized,
 }) => {
   const { smDown } = useCustomBreakpoints();
@@ -43,7 +40,7 @@ export const ArtworkListItemHeader: React.FC<Props> = ({
         >
           {type}
         </Text> */}
-        <ArtworkListItemStatus state={state} startDate={startDate} />
+        <ArtworkListItemStatus state={state} />
       </Box>
     </HStack>
   );

@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import dayjs from "dayjs";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
 interface Props {
   state?: MarketState;
@@ -37,24 +36,14 @@ const StatusTheme: StatusThemeType = {
   },
 };
 
-dayjs.extend(isSameOrBefore);
-
 export const ArtworkListItemStatus: React.FC<Props> = ({
   state = MarketState.Uninitialized,
-  startDate,
 }) => {
-  const shouldChangeStateToActive =
-    !!startDate &&
-    dayjs(startDate).isSameOrBefore(dayjs()) &&
-    [MarketState.Active, MarketState.Created].includes(state);
-
-  const updatedState = shouldChangeStateToActive ? MarketState.Active : state;
-
   return (
     <Box
       borderRadius={8}
       border="1px"
-      borderColor={StatusTheme.border[updatedState]}
+      borderColor={StatusTheme.border[state]}
       py={1}
       px={4}
       height="100%"
@@ -62,12 +51,8 @@ export const ArtworkListItemStatus: React.FC<Props> = ({
       padding="2px 8px"
       display="inline-flex"
     >
-      <Text
-        fontWeight="bold"
-        fontSize={12}
-        color={StatusTheme.color[updatedState]}
-      >
-        {StatusTheme.text[updatedState]}
+      <Text fontWeight="bold" fontSize={12} color={StatusTheme.color[state]}>
+        {StatusTheme.text[state]}
       </Text>
     </Box>
   );

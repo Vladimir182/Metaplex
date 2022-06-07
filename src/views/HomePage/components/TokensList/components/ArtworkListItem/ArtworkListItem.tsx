@@ -23,7 +23,6 @@ export const ArtworkListItem: React.FC<Props> = ({
     id,
     image,
     title,
-    startDate,
     endDate,
     market,
     state = MarketState.Uninitialized,
@@ -55,7 +54,6 @@ export const ArtworkListItem: React.FC<Props> = ({
               imgUrl={image}
               name={title}
               type={type}
-              startDate={startDate}
               state={state}
             />
             <ArtworkStats

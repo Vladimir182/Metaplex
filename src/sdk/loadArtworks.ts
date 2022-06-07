@@ -17,6 +17,9 @@ import { loadExtraContent } from "./loadExtraContent";
 import { loadSellingResourcesTokenAccounts } from "./loadSellingResources";
 import { isSaleWithdrawn } from "./sale/isSaleWithdrawn";
 import { lamportsToSol } from "utils/lamportsToSol";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+
+dayjs.extend(isSameOrBefore);
 
 export const loadArtworksBySellingResource = async ({
   connection,
@@ -62,6 +65,13 @@ export const loadArtworksBySellingResource = async ({
       const supply = new BN(sellingResourceData.supply).toNumber();
       const primarySaleAmount = salePrice * supply;
 
+      const isMarketStarted =
+        !!saleStartDate &&
+        dayjs(saleStartDate).isSameOrBefore(dayjs()) &&
+        [MarketState.Active, MarketState.Created].includes(state);
+
+      const updatedState = isMarketStarted ? MarketState.Active : state;
+
       // Check if item was claimed already
       const isWithdrawn =
         state === MarketState.Ended &&
@@ -76,7 +86,7 @@ export const loadArtworksBySellingResource = async ({
         ...(saleStartDate && { startDate: saleStartDate }),
         ...(saleEndDate && { endDate: saleEndDate }),
         market: marketKey,
-        state,
+        state: updatedState,
         isWithdrawn,
         primarySaleAmount,
       };

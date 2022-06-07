@@ -26,8 +26,7 @@ export const ArtworkListItemActions: React.FC<Props> = ({
 
   const shouldRenderSell =
     state === MarketState.Uninitialized && !isExhaustedMints;
-  const shouldRenderEndSale =
-    !endDate && [MarketState.Active, MarketState.Created].includes(state);
+  const shouldRenderEndSale = !endDate && [MarketState.Active].includes(state);
   const shouldRenderWithdraw =
     state === MarketState.Ended && !artwork.isWithdrawn;
   const shouldRenderClaim = state === MarketState.Ended && artwork.isWithdrawn;
