@@ -8,7 +8,7 @@ import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
 
-import { $markets } from "../markets";
+import { $markets, fetchMarketsFx } from "../markets";
 import { $sellingResources } from "../sellingResources";
 import { logAsyncExecTime } from "../../utils/logAsyncExecTime";
 
@@ -76,7 +76,8 @@ sample({
 });
 
 forward({ from: fetchStoreArtworksFx.doneData, to: $storeArtworks });
-forward({
-  from: [$connection, $store, $sellingResources, $markets],
-  to: fetchStoreArtworksFx,
+sample({
+  clock: fetchMarketsFx.done,
+  source: [$connection, $store, $sellingResources, $markets],
+  target: fetchStoreArtworksFx,
 });
