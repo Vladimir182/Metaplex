@@ -1,6 +1,5 @@
 import { NftCreationForm } from "components/forms/NftCreate";
 import { Layout } from "components/Layout";
-import { MediaTypeSelector } from "components/MediaTypeSelector";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { useToast } from "components/modals/Toast";
 import { NewItemSidebarEnum } from "views/NftCreationView/components/NewItemSidebar";
@@ -21,7 +20,6 @@ export const NftCreationView: FC = () => {
     category,
     setStep,
     progressMeta,
-    onCategorySelect,
     onUpdateForm,
     continueToMint,
     formData,
@@ -43,12 +41,7 @@ export const NftCreationView: FC = () => {
   }, [formError]);
 
   const content =
-    step === NewItemSidebarEnum.MEDIA_TYPE ? (
-      <MediaTypeSelector
-        onCategorySelect={onCategorySelect}
-        category={category}
-      />
-    ) : step === NewItemSidebarEnum.CREATE ? (
+    step === NewItemSidebarEnum.CREATE ? (
       <NftCreationForm
         onUpdate={(form, isValid) => {
           onUpdateForm(form);

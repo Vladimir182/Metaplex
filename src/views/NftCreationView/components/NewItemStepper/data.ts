@@ -1,1 +1,1 @@
-export const creationSteps: string[] = ["Media Type", "Create", "Preview"];
+export const creationSteps: string[] = ["Create", "Preview"];

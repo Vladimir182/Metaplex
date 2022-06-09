@@ -55,11 +55,6 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
 
   const getRButtonProps = () => {
     switch (step) {
-      case NewItemSidebarEnum.MEDIA_TYPE:
-        return {
-          onClick: () => setStep(NewItemSidebarEnum.CREATE),
-          children: "Select",
-        };
       case NewItemSidebarEnum.CREATE:
         return {
           onClick: () =>
@@ -82,15 +77,10 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
 
   const getLButtonProps = () => {
     switch (step) {
-      case NewItemSidebarEnum.MEDIA_TYPE:
-        return {
-          children: "Cancel",
-          onClick: () => navigate(-1),
-        };
       case NewItemSidebarEnum.CREATE: {
         return {
           children: "Back",
-          onClick: () => setStep(NewItemSidebarEnum.MEDIA_TYPE),
+          onClick: () => navigate(-1),
         };
       }
       case NewItemSidebarEnum.PREVIEW:

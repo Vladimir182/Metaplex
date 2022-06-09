@@ -254,7 +254,7 @@ export function createLocalState(WebFile = File) {
 
   const metadataCategory = createEntry<FileType>(FileType.IMAGE);
 
-  const $state = createEntry<NewItemSidebarEnum>(NewItemSidebarEnum.MEDIA_TYPE);
+  const $state = createEntry<NewItemSidebarEnum>(NewItemSidebarEnum.CREATE);
 
   const submitMetadataSourceFx = createEffect(
     async ({

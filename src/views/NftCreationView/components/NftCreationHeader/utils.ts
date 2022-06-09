@@ -11,8 +11,6 @@ export const getTextSelector = (
   metadataCategory: FileType
 ): INftCreationHeaderText => {
   switch (step) {
-    case NewItemSidebarEnum.MEDIA_TYPE:
-      return {};
     case NewItemSidebarEnum.CREATE:
       return metadataCategory === FileType.VIDEO
         ? {
