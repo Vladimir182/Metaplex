@@ -18,6 +18,7 @@ import { interval } from "patronum";
 
 export const NETWORK_KEY = "networkkey";
 export const NETWORK_LIST: Cluster[] = ["devnet", "testnet", "mainnet-beta"];
+export const DEFAULT_TIMEOUT = 180_000; // 3 minutes
 
 export function getSavedNetwork(
   defaultValue?: Cluster,

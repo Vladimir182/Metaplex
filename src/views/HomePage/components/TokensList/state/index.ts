@@ -1,4 +1,4 @@
-import { forward } from "effector";
+import { createEvent, forward } from "effector";
 import { useStore } from "effector-react";
 import { useCallback } from "react";
 
@@ -10,11 +10,10 @@ import {
 import { $store } from "state/store";
 import { IArt } from "state/artworks/types";
 
-import { closeMarketFx } from "./effects/closeMarketFx";
 import { $error } from "./store/error";
 import { $progress, ActionType } from "./store/progress";
-import { withdrawFx } from "./effects/withdrawFx";
-import { claimFx } from "./effects/claimFx";
+import { closeMarketAndWithdrawFx } from "./effects/closeMarketAndWithdrawFx";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 
 export function useLocalState() {
   const isInitalLoadHappened = useStore($isInitalLoadHappened);
@@ -24,67 +23,41 @@ export function useLocalState() {
   const progress = useStore($progress.$node);
   const error = useStore($error.map((error) => error?.error));
 
-  forward({ from: closeMarketFx.fail, to: $error });
-  forward({ from: withdrawFx.fail, to: $error });
-  forward({ from: claimFx.fail, to: $error });
-
-  const onCloseMarket = useCallback(
-    async (market: string) => {
-      try {
-        $progress.set({ type: ActionType.CloseMarket, isVisible: true });
-
-        await closeMarketFx({ market });
-      } finally {
-        await fetchStoreArtworksFx();
-        $progress.set({ isVisible: false });
-      }
-    },
-    [$progress, closeMarketFx, fetchStoreArtworksFx]
-  );
+  forward({ from: closeMarketAndWithdrawFx.fail, to: $error });
 
   const onWithdraw = useCallback(
-    async (params: { market: string; metadata: string; artwork: IArt }) => {
-      try {
-        $progress.set({ type: ActionType.Withdraw, isVisible: true });
-
-        await withdrawFx(params);
-      } finally {
-        await fetchStoreArtworksFx();
-        $progress.set({ isVisible: false });
-      }
-    },
-    [$progress, withdrawFx, fetchStoreArtworksFx]
-  );
-
-  const onClaim = useCallback(
     async (params: {
       market: string;
       metadata: string;
+      artwork: IArt;
       claimedImg: string;
+      state: MarketState;
     }) => {
       try {
-        $progress.set({ type: ActionType.Claim, isVisible: true });
+        $progress.set({ type: ActionType.Withdraw, isVisible: true });
 
-        await claimFx(params);
-        $progress.set({ isVisible: false, claimedImg: params.claimedImg });
-      } catch {
+        await closeMarketAndWithdrawFx(params);
+      } catch (e) {
         $progress.set({ isVisible: false });
       } finally {
         await fetchStoreArtworksFx();
+        $progress.set({ isVisible: false });
       }
     },
-    [$progress, claimFx, fetchStoreArtworksFx]
+    [$progress, closeMarketAndWithdrawFx, fetchStoreArtworksFx]
   );
+
+  const resetError = createEvent();
+  $error.reset(resetError);
 
   return {
     error,
+    resetError,
     form,
     storeId,
     artworks,
     isInitalLoadHappened,
     progress,
-    onCloseMarket,
     onWithdraw,
-    onClaim,
   };
 }

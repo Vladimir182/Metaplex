@@ -22,47 +22,28 @@ export const ArtworkListItemActions: React.FC<Props> = ({
   endDate,
   isExhaustedMints,
 }) => {
-  const { onCloseMarket, onWithdraw, onClaim } = useLocalState();
+  const { onWithdraw } = useLocalState();
 
   const shouldRenderSell =
     state === MarketState.Uninitialized && !isExhaustedMints;
   const shouldRenderEndSale = !endDate && [MarketState.Active].includes(state);
   const shouldRenderWithdraw =
     state === MarketState.Ended && !artwork.isWithdrawn;
-  const shouldRenderClaim = state === MarketState.Ended && artwork.isWithdrawn;
-
-  const handleCloseMarket = useCallback(
-    (e: React.SyntheticEvent) => {
-      e.stopPropagation();
-      if (!artwork?.market) return;
-
-      onCloseMarket(artwork.market);
-    },
-    [artwork, onCloseMarket]
-  );
 
   const handleWithdraw = useCallback(
     (e: React.SyntheticEvent) => {
       e.stopPropagation();
       if (!artwork?.market) return;
 
-      onWithdraw({ market: artwork.market, metadata: artwork.id, artwork });
-    },
-    [artwork, onWithdraw]
-  );
-
-  const handleClaim = useCallback(
-    (e: React.SyntheticEvent) => {
-      e.stopPropagation();
-      if (!artwork?.market) return;
-
-      onClaim({
+      onWithdraw({
         market: artwork.market,
         metadata: artwork.id,
+        artwork,
         claimedImg: artwork.image,
+        state,
       });
     },
-    [artwork, onClaim]
+    [artwork, onWithdraw]
   );
 
   return (
@@ -85,7 +66,7 @@ export const ArtworkListItemActions: React.FC<Props> = ({
       )}
 
       {shouldRenderEndSale && (
-        <Button variant="tertiary" onClick={handleCloseMarket}>
+        <Button variant="tertiary" onClick={handleWithdraw}>
           End Sale
         </Button>
       )}
@@ -93,12 +74,6 @@ export const ArtworkListItemActions: React.FC<Props> = ({
       {shouldRenderWithdraw && (
         <Button variant="primary" onClick={handleWithdraw}>
           Withdraw
-        </Button>
-      )}
-
-      {shouldRenderClaim && (
-        <Button variant="solid" onClick={handleClaim}>
-          Claim Token
         </Button>
       )}
     </HStack>

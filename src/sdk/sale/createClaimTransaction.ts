@@ -1,28 +1,25 @@
 import {
-  MarketArgs,
-  createClaimResourceInstruction,
-  SellingResourceArgs,
-  findVaultOwnerAddress,
-} from "@metaplex-foundation/mpl-fixed-price-sale";
-import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/generated/errors";
-import { Wallet } from "@metaplex/js";
-import {
   Connection,
   PublicKey,
-  Transaction,
   SYSVAR_CLOCK_PUBKEY,
+  Transaction,
 } from "@solana/web3.js";
-import { MetadataProgram } from "@metaplex-foundation/mpl-token-metadata";
+import { Wallet } from "@metaplex/js";
+import {
+  createClaimResourceInstruction,
+  findVaultOwnerAddress,
+  MarketArgs,
+  SellingResourceArgs,
+} from "@metaplex-foundation/mpl-fixed-price-sale";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   Token,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+import { MetadataProgram } from "@metaplex-foundation/mpl-token-metadata";
+import { createAndSignTransaction } from "../createAndSignTransaction";
 
-import { createAndSignTransaction } from "sdk/createAndSignTransaction";
-import { getErrorForTransaction } from "../getErrorForTransaction";
-
-export interface ClaimProps {
+interface ClaimProps {
   connection: Connection;
   wallet: Wallet;
   metadata: PublicKey;
@@ -32,7 +29,7 @@ export interface ClaimProps {
   sellingResourceData: SellingResourceArgs;
 }
 
-const createTransaction = async ({
+export const createClaimTransaction = async ({
   connection,
   wallet,
   metadata,
@@ -75,31 +72,4 @@ const createTransaction = async ({
   );
 
   return createAndSignTransaction([instruction], connection, wallet, []);
-};
-
-export const claim = async ({
-  connection,
-  wallet,
-  ...rest
-}: ClaimProps): Promise<void> => {
-  const claimTx = await createTransaction({
-    connection,
-    wallet,
-    ...rest,
-  });
-  const signedTx = await wallet.signTransaction(claimTx);
-
-  const txId = await connection.sendRawTransaction(signedTx.serialize(), {
-    skipPreflight: true,
-  });
-
-  // Force wait for max confirmations
-  await connection.confirmTransaction(txId, "max");
-
-  const [error] = await getErrorForTransaction(connection, txId);
-
-  if (error) {
-    const codeError = errorFromCode(parseInt(error, 16));
-    throw new Error(codeError?.message || `Raw transaction ${txId} failed`);
-  }
 };

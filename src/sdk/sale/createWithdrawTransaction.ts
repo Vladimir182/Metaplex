@@ -1,33 +1,30 @@
 import {
-  findPayoutTicketAddress,
-  createWithdrawInstruction,
-  Creator,
-  MarketArgs,
-  findTreasuryOwnerAddress,
-  findPrimaryMetadataCreatorsAddress,
-  PrimaryMetadataCreators,
-} from "@metaplex-foundation/mpl-fixed-price-sale";
-import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/generated/errors";
-import { Wallet } from "@metaplex/js";
-import {
   Connection,
   PublicKey,
+  SYSVAR_CLOCK_PUBKEY,
   Transaction,
   TransactionInstruction,
-  SYSVAR_CLOCK_PUBKEY,
 } from "@solana/web3.js";
+import { Wallet } from "@metaplex/js";
+import {
+  createWithdrawInstruction,
+  Creator,
+  findPayoutTicketAddress,
+  findPrimaryMetadataCreatorsAddress,
+  findTreasuryOwnerAddress,
+  MarketArgs,
+  PrimaryMetadataCreators,
+} from "@metaplex-foundation/mpl-fixed-price-sale";
+import { IArt } from "state/artworks";
+import { createPrimaryMetadataCreatorsTransaction } from "../createPrimaryMetadataCreatorsTransaction";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   Token,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+import { createAndSignTransaction } from "../createAndSignTransaction";
 
-import { getErrorForTransaction } from "../getErrorForTransaction";
-import { createAndSignTransaction } from "sdk/createAndSignTransaction";
-import { IArt } from "state/artworks";
-import { createPrimaryMetadataCreatorsTransaction } from "../createPrimaryMetadataCreatorsTransaction";
-
-export interface WithdrawProps {
+interface WithdrawProps {
   connection: Connection;
   wallet: Wallet;
   metadata: PublicKey;
@@ -35,8 +32,26 @@ export interface WithdrawProps {
   marketData: MarketArgs;
   artwork: IArt;
 }
+const getCreators = async (
+  connection: Connection,
+  primaryMetadataCreators: PublicKey
+): Promise<Creator[]> => {
+  const primaryCreatorsAccountInfo = await connection.getAccountInfo(
+    primaryMetadataCreators
+  );
 
-const createTransaction = async ({
+  if (primaryCreatorsAccountInfo) {
+    const [{ creators }] = PrimaryMetadataCreators.fromAccountInfo(
+      primaryCreatorsAccountInfo
+    );
+
+    return creators;
+  }
+
+  return [];
+};
+
+export const createWithdrawTransaction = async ({
   connection,
   wallet,
   metadata,
@@ -114,50 +129,4 @@ const createTransaction = async ({
   instructions.push(...withdrawInstructions);
 
   return createAndSignTransaction(instructions, connection, wallet, []);
-};
-
-export const withdraw = async ({
-  connection,
-  wallet,
-  ...rest
-}: WithdrawProps): Promise<void> => {
-  const withdrawTx = await createTransaction({
-    connection,
-    wallet,
-    ...rest,
-  });
-  const signedTx = await wallet.signTransaction(withdrawTx);
-
-  const txId = await connection.sendRawTransaction(signedTx.serialize(), {
-    skipPreflight: true,
-  });
-
-  // Force wait for max confirmations
-  await connection.confirmTransaction(txId, "max");
-
-  const [error] = await getErrorForTransaction(connection, txId);
-
-  if (error) {
-    const codeError = errorFromCode(parseInt(error, 16));
-    throw new Error(codeError?.message || `Raw transaction ${txId} failed`);
-  }
-};
-
-const getCreators = async (
-  connection: Connection,
-  primaryMetadataCreators: PublicKey
-): Promise<Creator[]> => {
-  const primaryCreatorsAccountInfo = await connection.getAccountInfo(
-    primaryMetadataCreators
-  );
-
-  if (primaryCreatorsAccountInfo) {
-    const [{ creators }] = PrimaryMetadataCreators.fromAccountInfo(
-      primaryCreatorsAccountInfo
-    );
-
-    return creators;
-  }
-
-  return [];
 };

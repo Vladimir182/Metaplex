@@ -8,8 +8,8 @@ import { createTreasury } from "./createTreasury";
 import { initSellingResource } from "./initSellingResource";
 import { createMarketTransaction } from "./createMarketTransaction";
 import { createAndSignTransaction } from "../createAndSignTransaction";
-import { getErrorForTransaction } from "../getErrorForTransaction";
-import { errorFromCode } from "@metaplex-foundation/mpl-fixed-price-sale/dist/src/generated/errors";
+import { waitConfirmation } from "../transactions/waitConfirmation";
+import { throwTransactionError } from "../transactions/throwTransactionError";
 
 export interface CreateMarketTransactionProps {
   wallet: Wallet;
@@ -40,21 +40,17 @@ export const createMarket = async (
   updateProgress(ETransactionProgress.signing_transaction);
 
   updateProgress(ETransactionProgress.sending_transaction_to_solana);
-  const txId = await connection.sendRawTransaction(signedTx.serialize(), {
+  const rawTx = signedTx.serialize();
+  const txId = await connection.sendRawTransaction(rawTx, {
     skipPreflight: true,
   });
 
   updateProgress(ETransactionProgress.waiting_for_final_confirmation);
 
-  await connection.confirmTransaction(txId, "max");
+  const error = await waitConfirmation(connection, rawTx, txId);
   updateProgress(null);
 
-  const [error] = await getErrorForTransaction(connection, txId);
-
-  if (error) {
-    const codeError = errorFromCode(parseInt(error, 16));
-    throw new Error(codeError?.message || `Raw transaction ${txId} failed`);
-  }
+  error && throwTransactionError(txId, error);
 
   return { market: market.publicKey.toBase58() };
 };

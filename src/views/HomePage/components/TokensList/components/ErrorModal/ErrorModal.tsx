@@ -6,11 +6,12 @@ import { TransactionFailure } from "components/modals/TransactionFailure";
 import { useLocalState } from "../../state";
 
 export const ErrorModal: React.FC = () => {
-  const { error } = useLocalState();
+  const { error, resetError } = useLocalState();
 
   const [open, setOpen] = useState(!!error);
 
   const handleClose = useCallback(() => {
+    resetError();
     setOpen(false);
   }, [setOpen]);
 
