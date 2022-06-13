@@ -3,10 +3,8 @@ import { StoreCreateForm } from "components/forms/StoreCreateForm";
 import { Layout } from "components/Layout";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
-import { useEffect } from "react";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import { ROUTES } from "routes";
-import { loadStoreFx } from "state/store";
 import { useLocalState as useLocalStateHome } from "views/HomePage/HomePage.state";
 import { useLocalState } from "./StoreCreate.state";
 
@@ -15,20 +13,16 @@ function goToSuccessPage(navigate: NavigateFunction) {
 }
 
 export const StoreCreate: React.FC = () => {
-  const { storeId, pendingStore } = useLocalStateHome();
+  const { store, pending } = useLocalStateHome();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    loadStoreFx();
-  }, []);
 
   const { onSubmit, progressMeta } = useLocalState({
     goToSuccessPage,
     navigate,
   });
 
-  if (pendingStore) {
+  if (pending) {
     return (
       <Center width="full">
         <LoaderComponent title="loading store" darkBg />
@@ -36,7 +30,7 @@ export const StoreCreate: React.FC = () => {
     );
   }
 
-  if (storeId) {
+  if (store) {
     navigate(ROUTES.home());
   }
 

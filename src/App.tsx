@@ -1,12 +1,14 @@
+import { useEffect } from "react";
 import { ChakraProvider } from "@chakra-ui/react";
+import { ErrorBoundary } from "react-error-boundary";
+import debug from "debug";
+
+import { AppRoutes } from "routes/AppRoutes";
+import { useToast } from "components/modals/Toast";
+import { startStatusCheck, stopStatusCheck } from "state/connection";
+
 import { WalletProvider } from "./contexts";
 import { theme } from "./theme";
-import { AppRoutes } from "routes/AppRoutes";
-import { ErrorBoundary } from "react-error-boundary";
-import { useToast } from "components/modals/Toast";
-import debug from "debug";
-import { useEffect } from "react";
-import { startStatusCheck, stopStatusCheck } from "state/connection";
 
 const LOGErr = debug("error:App");
 

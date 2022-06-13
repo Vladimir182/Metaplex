@@ -5,3 +5,5 @@ export * from "./storeCongratulations";
 export * from "./submit";
 export * from "./checkWalletStore";
 export * from "./isStoreAdmin";
+export * from "./cached";
+export * from "./loadStoreByOwnerFx";

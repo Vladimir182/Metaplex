@@ -33,7 +33,7 @@ export const LoaderComponent: FC<LoaderProps> = ({
         my={mdUp ? 16 : 6}
       >
         <Spinner w="64px" h="64px" darkBg={darkBg} mb={10} />
-        <Heading variant="h4" mb={3} align="center">
+        <Heading variant="h4" mb={3} css={{ align: "center" }}>
           {title}
         </Heading>
         <Text align="center">{subtitle}</Text>

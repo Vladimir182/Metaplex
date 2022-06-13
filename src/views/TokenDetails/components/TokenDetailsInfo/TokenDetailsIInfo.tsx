@@ -8,7 +8,6 @@ import {
   useClipboard,
   Link,
 } from "@chakra-ui/react";
-import { CSSObject } from "@emotion/react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { FC } from "react";
 import { IArt } from "state/artworks";
@@ -28,12 +27,10 @@ export const TokenDetailsInfo: FC<ITokenDetailsInfoProps> = ({
   artworkSummary,
   artwork,
 }) => {
-  const fieldProps: { sx: CSSObject } = {
-    sx: {
-      flex: "0 0 calc(33%)",
-      alignItems: "flex-start",
-      padding: "0 24px",
-    },
+  const fieldProps = {
+    flex: "0 0 calc(33%)",
+    alignItems: "flex-start",
+    padding: "0 24px",
   };
   const {
     title,

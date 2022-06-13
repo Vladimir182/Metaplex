@@ -35,7 +35,7 @@ export const FlowStatus: FC<FlowStatusProps> = ({
         my={mdUp ? 16 : 6}
       >
         {statusIcon}
-        <Heading variant="h4" mt={9} mb={1} align="center">
+        <Heading variant="h4" mt={9} mb={1} css={{ align: "center" }}>
           {title}
         </Heading>
 

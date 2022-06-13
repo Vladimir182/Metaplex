@@ -22,7 +22,7 @@ export const TransactionFailure: React.FC<ListingSuccessProps> = ({
       p="77px 48px 23px"
       {...props}
     >
-      <Circle bgColor="pink.500" boxSize="64px" mb={8}>
+      <Circle bgColor="pink.500" mb={8} css={{ boxSize: "64px" }}>
         <MdErrorOutline size={fontSizes["2xl"]} color="#EB3AAF" />
       </Circle>
       <Heading variant="h4" mb={3}>

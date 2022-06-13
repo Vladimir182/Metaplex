@@ -1,9 +1,19 @@
+import {
+  attach,
+  createEffect,
+  createEvent,
+  sample,
+  StoreValue,
+} from "effector";
+import { createCachedStore } from "../cache";
+
+import { readCachedStoreFx, writeCachedStoreFx } from "./cached";
+import { loadStoreByOwnerFx } from "./loadStoreByOwnerFx";
 import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
-import { attach, createEffect, StoreValue, restore, combine } from "effector";
-import { loadStore } from "sdk/loadStore";
-import { $connection } from "state/connection";
-import { $wallet } from "state/wallet";
 import { IStoreConfig } from "./types";
+import { PublicKey } from "@solana/web3.js";
+import { $connection } from "../connection";
+import { $wallet } from "../wallet";
 
 export type IStore = IStoreConfig & {
   admin: AnyPublicKey;
@@ -12,30 +22,42 @@ export type IStore = IStoreConfig & {
 };
 
 export interface ILoadStoreSource {
-  connection: StoreValue<typeof $connection>;
   wallet: StoreValue<typeof $wallet>;
 }
 
+const cachedStore = createCachedStore<IStore | null, PublicKey>({
+  defaultValue: null,
+  fetchFx: loadStoreByOwnerFx,
+  readCacheFx: readCachedStoreFx,
+  writeCacheFx: writeCachedStoreFx,
+});
+
+export const { $store, $pending } = cachedStore;
+
+export const setStore = createEvent<PublicKey>();
+export const unsetStore = createEvent();
+
+sample({
+  clock: setStore,
+  target: cachedStore.init,
+});
+$store.on(unsetStore, () => null);
+
+export const $hasStore = $store.map((store) => !!store);
+
 export const loadStoreFx = attach({
-  effect: createEffect(async ({ connection, wallet }: ILoadStoreSource) => {
+  effect: createEffect(async ({ wallet }: ILoadStoreSource) => {
     if (!wallet) return null;
-    return await loadStore({ connection, owner: wallet?.publicKey });
+    try {
+      const cached = await readCachedStoreFx(wallet?.publicKey);
+      if (cached) return cached;
+    } catch (e) {
+      //ignore
+    }
+    return await loadStoreByOwnerFx(wallet?.publicKey);
   }),
   source: {
     connection: $connection,
     wallet: $wallet,
   },
 });
-
-export const $store = restore(loadStoreFx.doneData, null);
-export const $pendingStore = loadStoreFx.pending;
-
-export const $storeResponse = combine({
-  pendingStore: loadStoreFx.pending,
-  storeData: $store,
-});
-
-export const $hasStore = restore(
-  loadStoreFx.finally.map((state) => (!state ? null : state.status === "done")),
-  null
-);

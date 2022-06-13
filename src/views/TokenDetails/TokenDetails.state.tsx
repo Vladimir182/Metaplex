@@ -1,7 +1,6 @@
 import { useStore } from "effector-react";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { $isInitalLoadHappened, $storeArtworks } from "state/artworks";
-import { loadStoreFx } from "state/store";
 import { $wallet } from "state/wallet";
 import { $progress } from "views/HomePage/components/TokensList/state/store/progress";
 
@@ -44,10 +43,6 @@ export function useLocalState(itemId?: string) {
       primarySaleAmount: artwork.primarySaleAmount || 0,
     };
   }, [artwork]);
-
-  useEffect(() => {
-    loadStoreFx();
-  }, [wallet]);
 
   return {
     artworkSummary,

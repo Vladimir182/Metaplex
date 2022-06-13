@@ -1,18 +1,25 @@
-import { useStore } from "effector-react";
-import { $storeResponse } from "state/store";
-import { stopStoreFetch } from "state/markets";
+import { startStoreFetch, stopStoreFetch } from "state/markets";
+import { useWalletStore } from "../../state/react/useWalletStore";
+import { useEffect } from "react";
 
 export type ViewMode = "list" | "grid";
 
 export function useLocalState() {
-  const { pendingStore, storeData } = useStore($storeResponse);
+  const { store, pending } = useWalletStore();
+
   const onPageUnload = () => {
     stopStoreFetch();
   };
 
+  useEffect(() => {
+    startStoreFetch();
+    return () => {
+      onPageUnload();
+    };
+  }, [store]);
+
   return {
-    pendingStore,
-    storeId: storeData?.storeId,
-    onPageUnload,
+    pending,
+    store,
   };
 }

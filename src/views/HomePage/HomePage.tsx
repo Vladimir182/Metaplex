@@ -1,9 +1,8 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import { Button, Center } from "@chakra-ui/react";
 
 import { ROUTES } from "routes";
-import { loadStoreFx } from "state/store";
 import { Layout } from "components/Layout";
 import { CreateMessage } from "components/CreateMessage";
 import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
@@ -12,20 +11,11 @@ import { useLocalState } from "./HomePage.state";
 
 import { TokensList } from "./components/TokensList";
 import { CongratulationsModal } from "./components/CongratulationsModal/CongratulationsModal";
-import { startStoreFetch } from "state/markets";
 
 export const HomePage: FC = () => {
-  const { storeId, pendingStore, onPageUnload } = useLocalState();
+  const { store, pending } = useLocalState();
 
-  useEffect(() => {
-    loadStoreFx();
-    startStoreFetch();
-    return () => {
-      onPageUnload();
-    };
-  }, []);
-
-  if (pendingStore) {
+  if (pending) {
     return (
       <Center width="full">
         <LoaderComponent title="loading store" darkBg />
@@ -33,7 +23,7 @@ export const HomePage: FC = () => {
     );
   }
 
-  if (!storeId) {
+  if (!store) {
     return (
       <Layout narrow>
         <CreateMessage>
