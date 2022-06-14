@@ -1,9 +1,11 @@
+import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
 import {
   Market,
   MarketArgs,
   FixedPriceSaleProgram,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
+import { toPubkey } from "../utils/toPubkey";
 
 const MARKET_DATA_SIZE = 395;
 
@@ -48,5 +50,18 @@ export const loadMarkets = async ({
     return getMarkets(store, connection);
   } catch {
     return new Map();
+  }
+};
+
+export const loadMarket = async ({
+  connection,
+  marketId,
+}: {
+  connection: Connection;
+  marketId: AnyPublicKey;
+}): Promise<Market | undefined> => {
+  const info = await connection.getAccountInfo(toPubkey(marketId));
+  if (info) {
+    return Market.deserialize(info.data)[0];
   }
 };

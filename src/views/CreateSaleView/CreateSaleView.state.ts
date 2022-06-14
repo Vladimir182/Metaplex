@@ -29,6 +29,8 @@ import utc from "dayjs/plugin/utc";
 
 import { createProgressTools } from "utils/createProgressTools";
 import { ETransactionProgress } from "../../enums/transactionProgress";
+import { waitForResponse } from "utils/waitForResponse";
+import { loadMarket } from "sdk/loadMarkets";
 
 export interface ISource {
   connection: StoreValue<typeof $connection>;
@@ -89,7 +91,7 @@ const createMarketFx = attach({
         ? null
         : params.piecesInOneWallet;
 
-      return await createMarket({
+      const { market } = await createMarket({
         connection,
         wallet,
         store: new PublicKey(store.storeId),
@@ -105,6 +107,9 @@ const createMarketFx = attach({
         piecesInOneWallet,
         updateProgress,
       });
+      await waitForResponse(
+        async () => await loadMarket({ connection, marketId: market })
+      );
     }
   ),
   source: {

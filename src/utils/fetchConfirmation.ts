@@ -1,5 +1,8 @@
 import { Connection } from "@solana/web3.js";
-import { REQUEST_TIMEOUT, SLEEP_TIMEOUT, sleep } from ".";
+import { sleep } from "./sleep";
+
+const SLEEP_TIMEOUT = 300;
+const REQUEST_TIMEOUT = 20000;
 
 export const fetchConfirmation = async (
   connection: Connection,
@@ -10,7 +13,7 @@ export const fetchConfirmation = async (
 
   while (!rpcResponse && +new Date() - startTime < REQUEST_TIMEOUT) {
     try {
-      rpcResponse = await connection.confirmTransaction(txId, "max");
+      rpcResponse = await connection.confirmTransaction(txId, "finalized");
     } catch {}
 
     await sleep(SLEEP_TIMEOUT);

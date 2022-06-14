@@ -6,7 +6,7 @@ import {
 import { Wallet } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { IArt } from "state/artworks";
-import { sendTransactions } from "../utils/sendTransactions";
+import { sendTransactions } from "../../utils/sendTransactions";
 import { createWithdrawTransaction } from "./createWithdrawTransaction";
 import { createClaimTransaction } from "./createClaimTransaction";
 import { createCloseMarketTransaction } from "./createCloseMarketTransaction";

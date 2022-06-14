@@ -2,9 +2,9 @@ import { Transaction } from "@metaplex-foundation/mpl-core";
 import { Connection, TransactionSignature } from "@solana/web3.js";
 import { Wallet } from "@metaplex/js";
 import { log } from "debug";
-import { prepareTransactions } from "../transactions/prepareTransactions";
-import { waitConfirmation } from "../transactions/waitConfirmation";
-import { throwTransactionError } from "../transactions/throwTransactionError";
+import { prepareTransactions } from "../sdk/transactions/prepareTransactions";
+import { waitConfirmation } from "../sdk/transactions/waitConfirmation";
+import { throwTransactionError } from "../sdk/transactions/throwTransactionError";
 export async function sendTransactions(
   connection: Connection,
   wallet: Wallet,

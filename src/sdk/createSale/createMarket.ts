@@ -48,6 +48,7 @@ export const createMarket = async (
   updateProgress(ETransactionProgress.waiting_for_final_confirmation);
 
   const error = await waitConfirmation(connection, rawTx, txId);
+
   updateProgress(null);
 
   error && throwTransactionError(txId, error);

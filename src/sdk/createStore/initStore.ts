@@ -3,7 +3,7 @@ import { Wallet } from "@metaplex/js";
 import { Connection, Keypair, Transaction } from "@solana/web3.js";
 import { IStore } from "state/store";
 import { ETransactionProgress } from "enums/transactionProgress";
-import { fetchConfirmation } from "sdk/utils/fetchConfirmation";
+import { fetchConfirmation } from "utils/fetchConfirmation";
 
 export interface InitStoreProps {
   name: string;

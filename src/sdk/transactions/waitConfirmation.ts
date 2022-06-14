@@ -1,7 +1,7 @@
 import { Commitment, Connection, TransactionSignature } from "@solana/web3.js";
 import dayjs from "dayjs";
 import { DEFAULT_TIMEOUT } from "state/connection";
-import { sleep } from "../utils";
+import { sleep } from "utils/sleep";
 
 export async function waitConfirmation(
   connection: Connection,

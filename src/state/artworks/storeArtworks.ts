@@ -8,8 +8,11 @@ import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
 
-import { $markets, fetchMarketsFx } from "../markets";
-import { $sellingResources } from "../sellingResources";
+import { $markets } from "../markets";
+import {
+  $sellingResources,
+  fetchSellingResourcesFx,
+} from "../sellingResources";
 import { logAsyncExecTime } from "../../utils/logAsyncExecTime";
 
 export const $storeArtworks = createStore<IArt[]>([]);
@@ -77,7 +80,7 @@ sample({
 
 forward({ from: fetchStoreArtworksFx.doneData, to: $storeArtworks });
 sample({
-  clock: fetchMarketsFx.done,
+  clock: fetchSellingResourcesFx.done,
   source: [$connection, $store, $sellingResources, $markets],
   target: fetchStoreArtworksFx,
 });
