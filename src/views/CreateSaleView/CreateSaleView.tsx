@@ -1,103 +1,76 @@
-import { FC, useRef, useState, useEffect } from "react";
+import { FC } from "react";
 import { useParams } from "react-router-dom";
+
 import { Layout } from "components/Layout";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { ListingSuccess } from "components/modals/ListingSuccess";
 import { TransactionFailure } from "components/modals/TransactionFailure";
 import { ModalTemplate } from "components/modals/template";
 
-import { useLocalState } from "./CreateSaleView.state";
-import { toNumber } from "utils/base";
-
-import { useStore } from "effector-react";
 import {
   CreateSaleSidebarContent,
   CreateSaleSidebarEnum,
-} from "views/CreateSaleView/components/CreateSaleSidebar";
-import { SaleCreationForm } from "components/forms/SaleCreate";
-
+} from "./components/CreateSaleSidebar";
+import { Form } from "./components/Form";
 import { PreviewStep } from "./components/PreviewStep";
 
+import { createSaleFactory } from "./state";
+import { useStore } from "effector-react";
+
 export const CreateSaleView: FC = () => {
-  const refForm = useRef<HTMLFormElement | null>(null);
   const { itemId } = useParams();
-  const {
-    step,
-    setStep,
-    artworkSummary,
-    preview,
-    onSubmitForm,
-    onSubmit,
-    onCreateSale,
-    progressMeta,
-    error,
-    resetError: resetFormError,
-    shouldSuccess,
-  } = useLocalState(refForm, itemId);
-  const refTriggerValidationFn = useRef<null | (() => void)>(null);
-  const [isFormValid, setIsFormValid] = useState(false);
-  const formError = useStore(error);
 
-  const [open, setOpen] = useState(!!formError || shouldSuccess);
-  const handleClose = () => {
-    setOpen(false);
-    resetFormError();
-  };
-
-  useEffect(() => {
-    setOpen(!!formError || shouldSuccess);
-  }, [formError, shouldSuccess]);
-
-  const content =
-    step === CreateSaleSidebarEnum.CONFIGURE && artworkSummary ? (
-      <SaleCreationForm
-        artworkSummary={artworkSummary}
-        onSubmit={onSubmitForm}
-        onUpdate={(isValid) => {
-          setIsFormValid(isValid);
-        }}
-        refForm={refForm}
-        refTriggerValidationFn={refTriggerValidationFn}
-      />
-    ) : step === CreateSaleSidebarEnum.PREVIEW && artworkSummary ? (
-      <PreviewStep
-        artworkSummary={artworkSummary}
-        price={toNumber(preview?.price ?? "0")}
-        startDate={preview?.startDate}
-      />
-    ) : null;
+  const model = createSaleFactory.createModel({
+    itemId,
+  });
 
   return (
-    <Layout
-      narrow
-      focused
-      sidebarContent={
-        <CreateSaleSidebarContent
-          submit={(isActive) => {
-            isActive && refTriggerValidationFn.current?.();
-            return onSubmit();
-          }}
-          onCreate={onCreateSale}
-          state={step}
-          setState={setStep}
-          isFormReady={isFormValid}
-        />
-      }
-    >
-      {content}
+    <createSaleFactory.Provider value={model}>
+      <ViewContent />
+    </createSaleFactory.Provider>
+  );
+};
+
+export const ViewContent: FC = () => {
+  const {
+    $step,
+    $progressMeta,
+    artworkSummary,
+    onCloseModal,
+    $error,
+    $createdSale,
+  } = createSaleFactory.useModel();
+
+  const shouldShowSuccessModal = useStore($createdSale);
+  const transactionError = useStore($error);
+  const step = useStore($step);
+  const progressMeta = useStore($progressMeta);
+
+  const shouldShowModal = Boolean(shouldShowSuccessModal || transactionError);
+
+  return (
+    <Layout narrow focused sidebarContent={<CreateSaleSidebarContent />}>
+      {step === CreateSaleSidebarEnum.CONFIGURE && <Form />}
+      {step === CreateSaleSidebarEnum.PREVIEW && <PreviewStep />}
 
       <InfiniteProgress
         isOpen={progressMeta.isOpen}
         title={progressMeta.title}
         subtitle={progressMeta.subtitle}
       />
-      <ModalTemplate isOpen={open} onClose={handleClose} bodyProps={{ p: 0 }}>
-        {formError ? (
+
+      <ModalTemplate
+        isOpen={shouldShowModal}
+        onClose={onCloseModal}
+        bodyProps={{ p: 0 }}
+      >
+        {transactionError && (
           <TransactionFailure
-            bodyText={formError.error.message}
-            onDismiss={handleClose}
+            bodyText={transactionError.message}
+            onDismiss={onCloseModal}
           />
-        ) : (
+        )}
+        {shouldShowSuccessModal && (
           <ListingSuccess img={artworkSummary?.img} my={16} />
         )}
       </ModalTemplate>

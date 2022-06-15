@@ -1,7 +1,8 @@
 import { getFileHash } from "utils/crypto";
-import { getFilesCostInfo } from "utils/arweave-cost";
 import { PublicKey } from "@solana/web3.js";
 import { programs, Wallet } from "@metaplex/js";
+import { getFilesCost } from "utils/arweave-cost";
+import { solToLamports } from "utils/solToLamports";
 const { PayForFiles } = programs;
 
 export const ARWEAVE_WALLET = new PublicKey(
@@ -15,7 +16,8 @@ export interface IPayForFilesParams {
 
 export async function payForFiles({ files, wallet: w }: IPayForFilesParams) {
   const fileHashes = await Promise.all(files.map((file) => getFileHash(file)));
-  const { lamports } = await getFilesCostInfo(files);
+  const { solana } = await getFilesCost(files);
+  const lamports = solToLamports(solana);
 
   return new PayForFiles(
     { feePayer: w.publicKey },

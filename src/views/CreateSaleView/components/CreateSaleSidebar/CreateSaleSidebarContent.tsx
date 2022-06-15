@@ -1,42 +1,32 @@
-import { BoxProps, Heading, Spacer } from "@chakra-ui/react";
 import { FC, useCallback } from "react";
+import { BoxProps, Heading, Spacer } from "@chakra-ui/react";
 import { VStack } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
+import { useStore } from "effector-react";
 
-import { CreateSaleSidebarEnum } from "./types";
 import { SidebarMenuItemWrapper } from "components/Sidebar/SidebarMenuItemWrapper";
 import { Commission } from "components/Commission/Commission";
+import { createSaleFactory } from "views/CreateSaleView/state";
 
-export interface CreateSaleSidebarContentProps {
-  state: CreateSaleSidebarEnum;
-  setState(state: CreateSaleSidebarEnum): void;
-  submit: (isActive: boolean) => Promise<void>;
-  onCreate: () => Promise<void>;
-  isFormReady: boolean;
-}
+import { CreateSaleSidebarEnum } from "./types";
 
-export const CreateSaleSidebarContent: FC<
-  CreateSaleSidebarContentProps & BoxProps
-> = ({
-  state,
-  setState,
-  submit,
-  onCreate,
-  isFormReady,
+export const CreateSaleSidebarContent: FC<BoxProps> = ({
   children,
   ...boxProps
 }) => {
+  const { $isFormValid, $step, setStep, triggerValidation, reviewSubmit } =
+    createSaleFactory.useModel();
+
+  const step = useStore($step);
+  const isFormValid = useStore($isFormValid);
   const navigate = useNavigate();
 
-  const onSubmit = useCallback(
-    async (isActive: boolean) => {
-      if (submit) {
-        await submit(isActive);
-      }
-      setState(CreateSaleSidebarEnum.PREVIEW);
-    },
-    [submit]
-  );
+  const handleSubmit = useCallback(() => {
+    if (!isFormValid) {
+      return triggerValidation();
+    }
+    setStep(CreateSaleSidebarEnum.PREVIEW);
+  }, [isFormValid]);
 
   return (
     <VStack
@@ -52,35 +42,35 @@ export const CreateSaleSidebarContent: FC<
       </Heading>
 
       <SidebarMenuItemWrapper
-        step={1}
-        isActive={state === CreateSaleSidebarEnum.CONFIGURE}
+        step={CreateSaleSidebarEnum.CONFIGURE + 1}
+        isActive={step === CreateSaleSidebarEnum.CONFIGURE}
       >
         Configure Sale
       </SidebarMenuItemWrapper>
 
       <SidebarMenuItemWrapper
-        step={2}
-        isActive={state === CreateSaleSidebarEnum.PREVIEW}
+        step={CreateSaleSidebarEnum.PREVIEW + 1}
+        isActive={step === CreateSaleSidebarEnum.PREVIEW}
       >
         Preview
       </SidebarMenuItemWrapper>
 
       <Spacer />
 
-      {state === CreateSaleSidebarEnum.CONFIGURE && (
+      {step === CreateSaleSidebarEnum.CONFIGURE && (
         <Commission
-          isActive={isFormReady}
-          onClick={onSubmit}
+          isActive={isFormValid}
+          onClick={handleSubmit}
           onCancel={() => navigate(-1)}
           submitText="Next"
         />
       )}
 
-      {state === CreateSaleSidebarEnum.PREVIEW && (
+      {step === CreateSaleSidebarEnum.PREVIEW && (
         <Commission
-          isActive={isFormReady}
-          onClick={onCreate}
-          onCancel={() => setState(CreateSaleSidebarEnum.CONFIGURE)}
+          isActive={isFormValid}
+          onClick={() => reviewSubmit()}
+          onCancel={() => setStep(CreateSaleSidebarEnum.CONFIGURE)}
           submitText="List for sale"
         />
       )}

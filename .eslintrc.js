@@ -27,6 +27,7 @@ module.exports = {
     },
   ],
   rules: {
+    "effector/no-watch": "off",
     "import/no-anonymous-default-export": "off",
     "@typescript-eslint/no-floating-promises": "off",
     "@typescript-eslint/no-empty-function": "off",

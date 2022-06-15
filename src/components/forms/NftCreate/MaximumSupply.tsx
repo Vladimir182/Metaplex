@@ -11,14 +11,6 @@ import {
   Box,
   Button,
 } from "@chakra-ui/react";
-import {
-  FieldValues,
-  useFormContext,
-  UseFormRegister,
-  Controller,
-  ControllerProps,
-} from "react-hook-form";
-import { RegisterOptions } from "react-hook-form/dist/types/validator";
 
 import {
   SupplyType,
@@ -26,6 +18,7 @@ import {
   MAXIMUM_SUPPLY_DEFAULT,
 } from "./SupplyType";
 import { FormData } from "./NftCreationForm";
+import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
 
 interface FormFieldProps {
   id: keyof FormData;
@@ -36,11 +29,6 @@ interface FormFieldProps {
   defaultValue?: string;
   min?: number;
   max?: number;
-  defaultActiveType?: SupplyType;
-  customInputFactory?: (
-    register: ReturnType<UseFormRegister<FieldValues>> & { placeholder: string }
-  ) => React.ReactChild;
-  controlledInputFactory?: ControllerProps["render"];
 }
 
 export const MaximumSupply: React.FC<FormFieldProps> = ({

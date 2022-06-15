@@ -44,43 +44,10 @@ export function createFilePack(
   return new WebFile([JSON.stringify(filedata)], filename);
 }
 
-export type InfoCalculate = ReturnType<typeof calculate> extends PromiseLike<
-  infer T
->
-  ? T
-  : never;
-
-export function getAssetCostInfo(
-  files: Map<string, Buffer>
-): Promise<InfoCalculate> {
-  const sizes = Array.from(files.values()).map((f) => f.byteLength);
-  return calculate(sizes);
-}
-
-export interface GetArweaveCostInfoResult {
-  info: InfoCalculate;
-  lamports: number;
-}
-
-export async function getFilesCostInfo(
-  aFiles: File[]
-): Promise<GetArweaveCostInfoResult> {
-  const dataList = await Promise.all(
-    aFiles.map((file) =>
-      file.arrayBuffer().then((d) => [file.name, Buffer.from(d)] as const)
-    )
-  );
-  const files = new Map<string, Buffer>(dataList);
-  const info = await getAssetCostInfo(files);
-  return { info, lamports: info.solana * LAMPORTS_PER_SOL };
-}
-
-export async function getFileAndMetadataCostInfo(
-  file: File,
-  metadata: MetadataJson,
-  fileMetadata: File = createFilePack(metadata)
-) {
-  return getFilesCostInfo([file, fileMetadata]);
+export async function getFilesCost(files: File[]) {
+  const sizes = files.map((file) => file.size);
+  const cost = await calculate(sizes);
+  return cost;
 }
 
 // code from  https://github.com/metaplex-foundation/metaplex/blob/master/js/packages/common/src/actions/metadata.ts#L23

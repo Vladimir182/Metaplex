@@ -1,11 +1,4 @@
-import {
-  FC,
-  useEffect,
-  useRef,
-  useMemo,
-  RefObject,
-  MutableRefObject,
-} from "react";
+import { useEffect, useRef, useCallback, FC } from "react";
 import {
   Flex,
   Box,
@@ -18,60 +11,57 @@ import {
 } from "@chakra-ui/react";
 import { Controller, useForm, FormProvider } from "react-hook-form";
 
-import {
-  ArtworkSummary,
-  ArtworkSummaryProps,
-} from "components/Artwork/ArtworkSummary";
+import { ArtworkSummary } from "components/Artwork/ArtworkSummary";
 import { SolanaIcon } from "components/Icons";
 import { DateTimePicker } from "components/Datepicker/DateTimePicker";
-import { MaximumSupply } from "../NftCreate/MaximumSupply";
-import { SupplyType } from "../NftCreate/SupplyType";
+import { MaximumSupply } from "components/forms/NftCreate/MaximumSupply";
 
-export interface IForm {
-  price: string;
-  startDate: Date;
-  piecesInOneWallet: number;
-}
+import { createSaleFactory } from "views/CreateSaleView/state";
 
-export interface SaleCreationFormProps {
-  artworkSummary: ArtworkSummaryProps;
-  onSubmit?(form: IForm): void;
-  onUpdate(isValid: boolean): void;
-  refForm?: RefObject<HTMLFormElement>;
-  refTriggerValidationFn: MutableRefObject<(() => void) | null>;
-}
+import { FormState } from "./interface";
 
-export const SaleCreationForm: FC<SaleCreationFormProps> = ({
-  artworkSummary,
-  onUpdate,
-  onSubmit,
-  refForm,
-  refTriggerValidationFn,
-}) => {
-  const methods = useForm<IForm>({
+export const Form: FC = () => {
+  const {
+    artworkSummary,
+    formSubmit,
+    formSubmitFx,
+    setIsFormValid,
+    triggerValidation,
+  } = createSaleFactory.useModel();
+
+  const methods = useForm<FormState>({
     mode: "onChange",
   });
-  const { register, control } = methods;
+  const { register, control, handleSubmit, formState, trigger } = methods;
+
   const minDate = useRef(new Date()).current;
   const maxMintsPerWallet =
-    Number(artworkSummary.total) - Number(artworkSummary.edition);
+    Number(artworkSummary?.total) - Number(artworkSummary?.edition);
 
-  const { handleSubmit } = methods;
-  const onSubmitHandle = useMemo(() => {
-    if (!onSubmit) {
-      return;
-    }
-    return handleSubmit((data) => onSubmit(data));
-  }, [handleSubmit, onSubmit]);
-
-  refTriggerValidationFn.current = () =>
-    methods.trigger(["price", "startDate", "piecesInOneWallet"], {
+  const handleValidation = useCallback(() => {
+    trigger(["price", "startDate", "piecesInOneWallet"], {
       shouldFocus: true,
     });
+  }, [trigger]);
 
   useEffect(() => {
-    onUpdate(methods.formState.isValid);
-  }, [methods.formState.isValid]);
+    const handler = handleSubmit(formSubmit);
+    formSubmitFx.use(() => handler());
+  }, [formSubmit, formSubmitFx, methods, handleSubmit]);
+
+  useEffect(() => {
+    const unwatch = triggerValidation.watch(() => {
+      handleValidation();
+    });
+
+    return () => {
+      unwatch();
+    };
+  }, [triggerValidation]);
+
+  useEffect(() => {
+    setIsFormValid(formState.isValid);
+  }, [formState.isValid]);
 
   return (
     <Box>
@@ -80,17 +70,13 @@ export const SaleCreationForm: FC<SaleCreationFormProps> = ({
           <Heading variant="h3">Configure sale</Heading>
         </Box>
 
-        <Flex
-          as="form"
-          flexDir="column"
-          onSubmit={onSubmitHandle}
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
-          ref={refForm as any}
-        >
+        <Flex flexDir="column">
           <Heading textTransform="uppercase" fontSize="sm" variant="h5" mb={4}>
             Membership token copies
           </Heading>
-          <ArtworkSummary {...artworkSummary} w="full" mb={8} />
+          {artworkSummary && (
+            <ArtworkSummary {...artworkSummary} w="full" mb={8} />
+          )}
 
           <Heading textTransform="uppercase" fontSize="sm" variant="h5">
             Sell Price
@@ -125,7 +111,6 @@ export const SaleCreationForm: FC<SaleCreationFormProps> = ({
             defaultValue="1"
             min={1}
             max={maxMintsPerWallet}
-            defaultActiveType={SupplyType.UNLIMITED}
           />
 
           <Heading textTransform="uppercase" fontSize="sm" variant="h5" mt={10}>

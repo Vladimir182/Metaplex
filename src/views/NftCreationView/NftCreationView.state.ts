@@ -20,7 +20,7 @@ import { createEntry } from "state/utils";
 import { $user, $walletAddress } from "state/wallet";
 import {
   createFilePack,
-  getFileAndMetadataCostInfo,
+  getFilesCost,
   getMetadataCost,
   METADATA_FILE_NAME,
 } from "utils/arweave-cost";
@@ -194,16 +194,15 @@ export function createPriceTools(
         }
 
         try {
-          const deferMetadataCost = getFileAndMetadataCostInfo(
+          const deferMetadataCost = getFilesCost([
             file,
-            metadata,
-            createFilePack(metadata, METADATA_FILE_NAME, WebFile)
-          );
-          const [{ info }, additionalSol] = await Promise.all([
+            createFilePack(metadata, METADATA_FILE_NAME, WebFile),
+          ]);
+          const [{ solana }, additionalSol] = await Promise.all([
             deferMetadataCost,
             metadataCostFx(connection),
           ]);
-          const price = info.solana + additionalSol;
+          const price = solana + additionalSol;
           return {
             price,
             dollarPrice:

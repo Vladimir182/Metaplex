@@ -1739,11 +1739,6 @@
   dependencies:
     "@chakra-ui/utils" "1.10.4"
 
-"@choc-ui/paginator@^3.2.2":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@choc-ui/paginator/-/paginator-3.4.0.tgz#3e542f995dfb13461825221f46d00b8d05e1b324"
-  integrity sha512-JZ9Ep5m2W5r9I9J2NKuKvNevKh8wyxieX/o8NdcOxiQUzcaiEHZh0I/+R3H+k6W7nu2v4ti72xHJb1PeiZFZNw==
-
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
@@ -7879,6 +7874,11 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
+effector-factorio@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/effector-factorio/-/effector-factorio-0.2.0.tgz#9076ab9a66e0ad7a8c2e7947a785b98625dbfed2"
+  integrity sha512-0g4DcMtCiisZLAXsszJRvbcbQUQDF2NqQj0Fg3q8BLkvPbc/lBwur10D3B7AWIJIoQnnDs7SlP1vrXWrjT22xA==
+
 effector-react@^22.0.4:
   version "22.0.6"
   resolved "https://registry.yarnpkg.com/effector-react/-/effector-react-22.0.6.tgz#e6651febfc124a8adf550deb950fbd03dfb9ec4e"
@@ -13214,10 +13214,10 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
-patronum@^1.8.1:
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/patronum/-/patronum-1.8.3.tgz#9f857fae0447043f60e442eb11dbe73a8dfd1965"
-  integrity sha512-6DiK5WEuKLxZuuIoWgAxMp5G04sNwmicVhX6IsyAN0AnqgH+PDQ/xssNUgAcu2/IYrPGdkmPuCqlH1nlbj7csA==
+patronum@1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/patronum/-/patronum-1.8.1.tgz#20c4d1c347142dd634429e939284dd0386541ca1"
+  integrity sha512-vcZpyeG23zccJYOQ3Vu0vnX+rFkZRGckytcj7I5mw4zOrPe6X1dFG8DbDZ7fyzr15xQmlMXS2FDVSG3++qTX5w==
 
 pause-stream@0.0.11:
   version "0.0.11"
