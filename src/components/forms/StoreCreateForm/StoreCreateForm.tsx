@@ -10,6 +10,7 @@ import { $user } from "state/wallet";
 import { FormField } from "components/FormField";
 import { WalletTransaction } from "components/WalletTransaction";
 import { StoreFormProps } from "./types";
+import { useBalance } from "state/react/useBalance";
 import { useSolToUsd } from "state/react/useCurrency";
 
 interface Props {
@@ -33,8 +34,11 @@ export const StoreCreateForm: React.FC<Props> = ({
     mode: "onChange",
   });
 
+  const { balance } = useBalance();
+
   const solPrice = 0.00192;
   const usdPrice = convert(solPrice);
+  const notValidBalance = solPrice > (balance?.sol || 0);
 
   return (
     <>
@@ -63,7 +67,9 @@ export const StoreCreateForm: React.FC<Props> = ({
             >
               {user && (
                 <Button
-                  isDisabled={disabled || !methods.formState.isValid}
+                  isDisabled={
+                    disabled || !methods.formState.isValid || notValidBalance
+                  }
                   type="submit"
                   size="lg"
                   variant="primary"
