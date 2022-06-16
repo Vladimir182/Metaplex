@@ -68,6 +68,7 @@ export const StoreCreateForm: React.FC<Props> = ({
             <WalletTransaction
               title="Creation Fee"
               sol={solPrice}
+              walletBalance={balance?.sol}
               usd={usdPrice ?? 0}
             >
               {user && (
