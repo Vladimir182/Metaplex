@@ -2,20 +2,20 @@ import { FC, MutableRefObject, useCallback } from "react";
 import { Button, HStack, VStack } from "@chakra-ui/react";
 import { SolUsdDisplay } from "components/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
-import { NewItemSidebarEnum } from "../NewItemSidebar";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "routes";
 import { useToast } from "../../../../components/modals/Toast";
 import { useStore } from "effector-react";
 import { $errorsStore } from "../../../../components/forms/NftCreate/helper";
 import { useCustomBreakpoints } from "../../../../hooks/useCustomBreakpoints";
+import { NftCreationSteps } from "views/NftCreationView/types";
 
 interface INftCreationFooterProps {
   price?: number;
   dollarPrice?: number;
-  step?: NewItemSidebarEnum;
+  step?: NftCreationSteps;
   isFormValid: boolean;
-  setStep(state: NewItemSidebarEnum): void;
+  setStep(state: NftCreationSteps): void;
   continueToMint?: (isActive: boolean) => Promise<void>;
   refTriggerValidationFn?: MutableRefObject<null | (() => void)>;
 }
@@ -40,7 +40,7 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
       try {
         if (continueToMint) {
           await continueToMint(isActive);
-          setStep(NewItemSidebarEnum.CONGRATULATION);
+          setStep(NftCreationSteps.CONGRATULATION);
         }
       } catch {
         toast({
@@ -55,16 +55,16 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
 
   const getRButtonProps = () => {
     switch (step) {
-      case NewItemSidebarEnum.CREATE:
+      case NftCreationSteps.CREATE:
         return {
           onClick: () =>
             isFormValid
-              ? setStep(NewItemSidebarEnum.PREVIEW)
+              ? setStep(NftCreationSteps.PREVIEW)
               : refTriggerValidationFn?.current?.(),
           children: "Preview",
           variant: isFormValid ? "primary" : "tertiary",
         };
-      case NewItemSidebarEnum.PREVIEW:
+      case NftCreationSteps.PREVIEW:
         return {
           onClick: () => onContinueMinting(isFormValid),
           children: "Confirm and Publish",
@@ -77,16 +77,16 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
 
   const getLButtonProps = () => {
     switch (step) {
-      case NewItemSidebarEnum.CREATE: {
+      case NftCreationSteps.CREATE: {
         return {
           children: "Back",
           onClick: () => navigate(-1),
         };
       }
-      case NewItemSidebarEnum.PREVIEW:
+      case NftCreationSteps.PREVIEW:
         return {
           children: "Back",
-          onClick: () => setStep(NewItemSidebarEnum.CREATE),
+          onClick: () => setStep(NftCreationSteps.CREATE),
         };
       default:
         return {
@@ -129,7 +129,7 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
             <SolUsdDisplay sol={price} usd={dollarPrice} />
           </TitledBlock>
         )}
-        {step !== NewItemSidebarEnum.CONGRATULATION && (
+        {step !== NftCreationSteps.CONGRATULATION && (
           <Button
             isDisabled={shouldEnableConfirmAndCreateButton}
             {...getRButtonProps()}

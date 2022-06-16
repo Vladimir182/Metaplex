@@ -1,20 +1,15 @@
 import React, { FC } from "react";
 import { Box, Heading, VStack } from "@chakra-ui/react";
 import { NewItemStepper } from "../NewItemStepper";
-import { FileType } from "components/MediaTypeSelector";
-import { NewItemSidebarEnum } from "../NewItemSidebar";
 import { getTextSelector } from "./utils";
+import { NftCreationSteps } from "views/NftCreationView/types";
 
 interface INftCreationHeaderProps {
-  metadataCategory: FileType;
-  step: NewItemSidebarEnum;
+  step: NftCreationSteps;
 }
 
-export const NftCreationHeader: FC<INftCreationHeaderProps> = ({
-  metadataCategory,
-  step,
-}) => {
-  const PAGE_TEXT = getTextSelector(step, metadataCategory);
+export const NftCreationHeader: FC<INftCreationHeaderProps> = ({ step }) => {
+  const PAGE_TEXT = getTextSelector(step);
 
   return (
     <VStack mb={12} spacing={12} alignItems="flex-start">

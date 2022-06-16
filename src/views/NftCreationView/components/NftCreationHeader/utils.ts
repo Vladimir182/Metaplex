@@ -1,5 +1,4 @@
-import { FileType } from "components/MediaTypeSelector";
-import { NewItemSidebarEnum } from "../NewItemSidebar";
+import { NftCreationSteps } from "views/NftCreationView/types";
 
 interface INftCreationHeaderText {
   label?: string;
@@ -7,29 +6,10 @@ interface INftCreationHeaderText {
   subtitle?: string[];
 }
 export const getTextSelector = (
-  step: NewItemSidebarEnum,
-  metadataCategory: FileType
+  step: NftCreationSteps
 ): INftCreationHeaderText => {
   switch (step) {
-    case NewItemSidebarEnum.CREATE:
-      return metadataCategory === FileType.VIDEO
-        ? {
-            label: "VIDEO",
-            title: "Create new Membership token",
-            subtitle: [
-              "We recommend an video of at least under 10 MB.",
-              "You can upload a MP4.",
-            ],
-          }
-        : {
-            label: "VIDEO",
-            title: "Create new Membership token",
-            subtitle: [
-              "We recommend an video of at least under 10 MB.",
-              "You can upload a MP4.",
-            ],
-          };
-    case NewItemSidebarEnum.PREVIEW:
+    case NftCreationSteps.PREVIEW:
       return {
         title: "Preview your Membership token",
       };

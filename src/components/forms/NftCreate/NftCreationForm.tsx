@@ -44,7 +44,7 @@ export interface NftCreationFormProps {
   onSubmit?(form: FormData): void;
   onUpdate?(form: Partial<FormData>, isValid: boolean): void;
   refForm?: RefObject<HTMLFormElement>;
-  refTriggerValidationFn: MutableRefObject<(() => void) | null>;
+  refTriggerValidationFn: MutableRefObject<(() => Promise<boolean>) | null>;
   formData?: Partial<FormData> | null;
 }
 

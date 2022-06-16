@@ -3,10 +3,6 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { Layout } from ".";
 import { MainSidebarContent } from "components/MainSidebar";
-import {
-  NewItemSidebarContent,
-  NewItemSidebarEnum,
-} from "views/NftCreationView/components/NewItemSidebar";
 
 export default {
   title: "Compound/Layout",
@@ -53,25 +49,4 @@ WithSidebar.args = {
     </div>
   ),
   sidebarContent: <MainSidebarContent />,
-};
-
-const sidebarState = {
-  viewList: () => {},
-
-  state: NewItemSidebarEnum.CREATE,
-  price: 1,
-  isFormReady: true,
-  dollarPrice: 200,
-  setState: () => {},
-};
-
-export const FocusedView = Template.bind({});
-FocusedView.args = {
-  children: (
-    <div style={{ whiteSpace: "pre-wrap" }}>
-      {[...new Array(5)].map(() => lorem).join("\n\n")}
-    </div>
-  ),
-  sidebarContent: <NewItemSidebarContent {...sidebarState} />,
-  focused: true,
 };

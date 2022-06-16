@@ -2,7 +2,6 @@ import { NftCreationForm } from "components/forms/NftCreate";
 import { Layout } from "components/Layout";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { useToast } from "components/modals/Toast";
-import { NewItemSidebarEnum } from "views/NftCreationView/components/NewItemSidebar";
 import { useStore } from "effector-react";
 import { FC, useEffect, useRef, useState } from "react";
 import { useLocalState } from "./NftCreationView.state";
@@ -10,6 +9,7 @@ import { PreviewStep } from "./components/PreviewStep";
 import { NftCreationHeader } from "./components/NftCreationHeader";
 import { NftCreationFooter } from "./components/NftCreationFooter";
 import { MintedStep } from "./components/MintedStep";
+import { NftCreationSteps } from "./types";
 
 export const NftCreationView: FC = () => {
   const refForm = useRef<HTMLFormElement | null>(null);
@@ -25,7 +25,7 @@ export const NftCreationView: FC = () => {
     formData,
     error,
   } = useLocalState(refForm);
-  const refTriggerValidationFn = useRef<null | (() => void)>(null);
+  const refTriggerValidationFn = useRef<null | (() => Promise<boolean>)>(null);
   const [isFormValid, setIsFormValid] = useState(false);
 
   const formError = useStore(error);
@@ -41,7 +41,7 @@ export const NftCreationView: FC = () => {
   }, [formError]);
 
   const content =
-    step === NewItemSidebarEnum.CREATE ? (
+    step === NftCreationSteps.CREATE ? (
       <NftCreationForm
         onUpdate={(form, isValid) => {
           onUpdateForm(form);
@@ -52,16 +52,16 @@ export const NftCreationView: FC = () => {
         metadataCategory={category}
         formData={formData}
       />
-    ) : step === NewItemSidebarEnum.PREVIEW ? (
+    ) : step === NftCreationSteps.PREVIEW ? (
       <PreviewStep formData={formData} file={file} type={category} />
-    ) : step === NewItemSidebarEnum.CONGRATULATION ? (
+    ) : step === NftCreationSteps.CONGRATULATION ? (
       <MintedStep file={file} type={category} />
     ) : null;
 
   return (
     <>
       <Layout narrow focused>
-        <NftCreationHeader metadataCategory={category} step={step} />
+        <NftCreationHeader step={step} />
         {content}
         <InfiniteProgress
           isOpen={progressMeta.isOpen}

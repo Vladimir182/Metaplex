@@ -3,6 +3,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { MdAdd } from "react-icons/md";
 import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
+import { useCallback } from "react";
 
 interface Props extends StackProps {
   sol?: number | null;
@@ -18,6 +19,10 @@ export const Balance: React.FC<Props> = ({
 }) => {
   const { disconnect } = useWallet();
 
+  const handleDisconnect = useCallback(() => {
+    disconnect();
+  }, [disconnect]);
+
   return (
     <VStack spacing={4} px={4} w="full" {...props}>
       <TitledBlock title={title} variant="sm" w="full">
@@ -28,7 +33,7 @@ export const Balance: React.FC<Props> = ({
         <Button leftIcon={<MdAdd />} flexGrow={1}>
           Add Funds
         </Button>
-        <Button onClick={disconnect} variant="tertiary" flexGrow={1}>
+        <Button onClick={handleDisconnect} variant="tertiary" flexGrow={1}>
           Disconnect
         </Button>
       </HStack>

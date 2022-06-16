@@ -2,7 +2,6 @@ import { Currency, MetadataJson, MetadataJsonCreator } from "@metaplex/js";
 import type { FormData } from "components/forms/NftCreate/NftCreationForm";
 import { FileType } from "components/MediaTypeSelector";
 import { useToast } from "components/modals/Toast";
-import { NewItemSidebarEnum } from "views/NftCreationView/components/NewItemSidebar";
 import {
   attach,
   createEffect,
@@ -32,6 +31,7 @@ import debug from "debug";
 import { $solToUsdRate } from "state/solToUsd";
 import { convertCurrency } from "utils/convertCurrency";
 import { AddressRow, getCreators } from "components/forms/NftCreate/helper";
+import { NftCreationSteps } from "./types";
 
 const LOGErr = debug("error:NftCreationView.state");
 
@@ -253,7 +253,7 @@ export function createLocalState(WebFile = File) {
 
   const metadataCategory = createEntry<FileType>(FileType.IMAGE);
 
-  const $state = createEntry<NewItemSidebarEnum>(NewItemSidebarEnum.CREATE);
+  const $state = createEntry<NftCreationSteps>(NftCreationSteps.CREATE);
 
   const submitMetadataSourceFx = createEffect(
     async ({

@@ -1,10 +1,4 @@
-import {
-  attach,
-  createEffect,
-  createEvent,
-  sample,
-  StoreValue,
-} from "effector";
+import { attach, createEffect, StoreValue } from "effector";
 import { createCachedStore } from "../cache";
 
 import { readCachedStoreFx, writeCachedStoreFx } from "./cached";
@@ -33,15 +27,6 @@ const cachedStore = createCachedStore<IStore | null, PublicKey>({
 });
 
 export const { $store, $pending } = cachedStore;
-
-export const setStore = createEvent<PublicKey>();
-export const unsetStore = createEvent();
-
-sample({
-  clock: setStore,
-  target: cachedStore.init,
-});
-$store.on(unsetStore, () => null);
 
 export const $hasStore = $store.map((store) => !!store);
 

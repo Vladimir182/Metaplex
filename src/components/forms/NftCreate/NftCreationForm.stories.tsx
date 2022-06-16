@@ -14,6 +14,6 @@ const Template: ComponentStory<typeof NftCreationForm> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  refTriggerValidationFn: { current: () => {} },
+  refTriggerValidationFn: { current: () => Promise.resolve(false) },
   metadataCategory: FileType.IMAGE,
 };

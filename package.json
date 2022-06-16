@@ -10,7 +10,7 @@
     "@fontsource/inter": "^4.5.0",
     "@metaplex-foundation/beet": "^0.1.0",
     "@metaplex-foundation/mpl-core": "^0.0.2",
-    "@metaplex-foundation/mpl-fixed-price-sale": "^0.9.1",
+    "@metaplex-foundation/mpl-fixed-price-sale": "^0.11.0",
     "@metaplex-foundation/mpl-token-metadata": "^1.2.4",
     "@metaplex/arweave-cost": "1.0.4",
     "@metaplex/js": "4.10.1",

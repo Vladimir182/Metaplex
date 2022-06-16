@@ -1,4 +1,4 @@
-export enum NewItemSidebarEnum {
+export enum NftCreationSteps {
   CREATE,
   PREVIEW,
   CONGRATULATION,

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Button, Divider, Heading, Stack, Text } from "@chakra-ui/react";
 import {
   WalletModalProvider,
@@ -40,6 +41,10 @@ export const StoreCreateForm: React.FC<Props> = ({
   const usdPrice = convert(solPrice);
   const notValidBalance = solPrice > (balance?.sol || 0);
 
+  const handleSubmit = useCallback(() => {
+    methods.handleSubmit(onSubmit);
+  }, [methods.handleSubmit, onSubmit]);
+
   return (
     <>
       <Heading variant={mdUp ? "h2" : "h3"} mb={4}>
@@ -50,7 +55,7 @@ export const StoreCreateForm: React.FC<Props> = ({
       </Text>
 
       <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit}>
           <Stack spacing={8} mt={14}>
             <FormField
               id="name"

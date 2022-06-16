@@ -116,7 +116,7 @@ export const createWithdrawTransaction = async ({
           payer: wallet.publicKey,
           payoutTicket,
           associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-          primaryMetadataCreators,
+          primaryMetadataCreators: [primaryMetadataCreators],
           clock: SYSVAR_CLOCK_PUBKEY,
         },
         {
