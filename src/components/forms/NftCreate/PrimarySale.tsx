@@ -7,6 +7,8 @@ import { AddressRow, calcProportionsSum } from "./helper";
 import { useFormContext } from "react-hook-form";
 import { FormData } from "./NftCreationForm";
 
+const MAX_PRIMARY_ROYALTIES = 4; // due to limitation in contract
+
 interface FormFieldProps {
   onRemove: (id: number) => void;
   onAddField: (state: AddressRow) => void;
@@ -23,6 +25,8 @@ export const PrimarySale: React.FC<FormFieldProps> = ({
 
   const proportionSum = calcProportionsSum(primaryRoyalties);
   const undistributed = proportionSum > 100 ? 0 : 100 - proportionSum;
+  const shouldRenderAddBtn =
+    (primaryRoyalties?.length ?? 1) < MAX_PRIMARY_ROYALTIES;
 
   return (
     <Flex direction="column">
@@ -48,13 +52,17 @@ export const PrimarySale: React.FC<FormFieldProps> = ({
           shouldShowDelete={shouldShowDelete}
         />
       ))}
-      <Button
-        mt={4}
-        w={156}
-        onClick={() => onAddField({ address: "", verified: false, share: "0" })}
-      >
-        Add Address <PlusIcon ml={2} />
-      </Button>
+      {shouldRenderAddBtn && (
+        <Button
+          mt={4}
+          w={156}
+          onClick={() =>
+            onAddField({ address: "", verified: false, share: "0" })
+          }
+        >
+          Add Address <PlusIcon ml={2} />
+        </Button>
+      )}
     </Flex>
   );
 };
