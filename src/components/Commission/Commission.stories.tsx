@@ -10,7 +10,6 @@ const Template: ComponentStory<typeof Commission> = ({ isActive }) => (
   <Commission
     isActive={isActive}
     price={0.00726}
-    dollarPrice={1.05}
     onClick={() => {}}
     onCancel={() => {}}
   />

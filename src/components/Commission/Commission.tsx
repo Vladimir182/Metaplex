@@ -8,7 +8,6 @@ import { useStore } from "effector-react";
 
 interface Props {
   price?: number;
-  dollarPrice?: number;
   isActive: boolean;
   submitText?: string;
   onClick: (isActive: boolean) => void;
@@ -17,7 +16,6 @@ interface Props {
 
 export const Commission: React.FC<Props> = ({
   price,
-  dollarPrice,
   isActive,
   submitText = "Confirm & Create",
   onClick,
@@ -30,9 +28,9 @@ export const Commission: React.FC<Props> = ({
   return (
     <Flex flexDirection="column">
       <Box bg="whiteAlpha.50" p={4} borderRadius="xl">
-        {!!(price || dollarPrice) && (
+        {!!price && (
           <TitledBlock title="Creation Fee" variant="sm">
-            <SolUsdDisplay sol={price} usd={dollarPrice} />
+            <SolUsdDisplay sol={price} />
           </TitledBlock>
         )}
         <Button

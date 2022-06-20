@@ -15,5 +15,4 @@ const Template: ComponentStory<typeof SolUsdDisplay> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   sol: 0.1,
-  usd: 100,
 };

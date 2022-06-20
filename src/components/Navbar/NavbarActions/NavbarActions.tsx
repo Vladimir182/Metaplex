@@ -28,7 +28,6 @@ export const NavbarActions: React.FC<NavbarActionsProps> = ({
   const balance = useMemo(() => {
     return {
       sol: refBalance.balance?.sol,
-      usd: refBalance.balance?.usd,
     };
   }, [refBalance]);
 

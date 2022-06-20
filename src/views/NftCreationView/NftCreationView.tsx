@@ -14,7 +14,7 @@ import { NftCreationSteps } from "./types";
 export const NftCreationView: FC = () => {
   const refForm = useRef<HTMLFormElement | null>(null);
   const {
-    price: { price, dollarPrice },
+    price,
     step,
     file,
     category,
@@ -71,7 +71,6 @@ export const NftCreationView: FC = () => {
       </Layout>
       <NftCreationFooter
         price={price}
-        dollarPrice={dollarPrice}
         step={step}
         setStep={setStep}
         refTriggerValidationFn={refTriggerValidationFn}

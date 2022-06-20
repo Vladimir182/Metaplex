@@ -6,7 +6,7 @@ import {
   VStack,
 } from "@chakra-ui/layout";
 
-import { useSolToUsd } from "state/react/useCurrency";
+import { useSolToUsd } from "state/react/useSolToUsd";
 
 import { truncateDecimals } from "utils/truncateDecimals";
 
@@ -21,7 +21,7 @@ export const ArtworkListItemSaleAmount: React.FC<Props> = ({
   ...props
 }) => {
   const hasAmount = typeof saleAmount !== "undefined";
-  const { convert } = useSolToUsd();
+  const usd = useSolToUsd(saleAmount);
 
   return (
     <HStack
@@ -38,7 +38,7 @@ export const ArtworkListItemSaleAmount: React.FC<Props> = ({
               {truncateDecimals(saleAmount, 5)} SOL
             </Text>
             <Text variant="subtitle" color="whiteAlpha.500">
-              / ${truncateDecimals(convert(saleAmount), 2)}
+              / ${truncateDecimals(usd, 2)}
             </Text>
           </HStack>
         </VStack>

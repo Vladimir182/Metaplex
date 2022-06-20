@@ -49,9 +49,7 @@ export const UserProfile: React.FC<Props> = ({
           <UserInfo user={user} variant="profile-popover" />
           <Divider my={4} />
           <VStack spacing={6}>
-            {balance ? (
-              <Balance sol={balance.sol} usd={balance.usd} p={0} />
-            ) : null}
+            {balance ? <Balance sol={balance.sol} p={0} /> : null}
 
             <NetworkSelector
               networks={networks}

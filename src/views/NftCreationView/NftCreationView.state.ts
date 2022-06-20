@@ -1,4 +1,4 @@
-import { Currency, MetadataJson, MetadataJsonCreator } from "@metaplex/js";
+import { MetadataJson, MetadataJsonCreator } from "@metaplex/js";
 import type { FormData } from "components/forms/NftCreate/NftCreationForm";
 import { FileType } from "components/MediaTypeSelector";
 import { useToast } from "components/modals/Toast";
@@ -28,8 +28,6 @@ import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
 import { createProgressTools } from "utils/createProgressTools";
 import { throttle } from "utils/throttle";
 import debug from "debug";
-import { $solToUsdRate } from "state/solToUsd";
-import { convertCurrency } from "utils/convertCurrency";
 import { AddressRow, getCreators } from "components/forms/NftCreate/helper";
 import { NftCreationSteps } from "./types";
 
@@ -164,10 +162,7 @@ export function createPriceTools(
   >,
   WebFile = File
 ) {
-  const { $node: $price, set: setPrice } = createEntry({
-    price: 0,
-    dollarPrice: 0,
-  });
+  const { $node: $price, set: setPrice } = createEntry(0);
 
   const metadataCostFx = createEffect(
     (connection: StoreValue<typeof $connection>) => getMetadataCost(connection)
@@ -179,12 +174,10 @@ export function createPriceTools(
         metadata,
         file,
         connection,
-        solToUsdRate,
       }: {
         metadata: StoreValue<typeof $metadataObject>;
         file: StoreValue<typeof $fileObject>;
         connection: StoreValue<typeof $connection>;
-        solToUsdRate: StoreValue<typeof $solToUsdRate>;
       }) => {
         if (!metadata) {
           throw new Error("Missing metadata");
@@ -203,16 +196,7 @@ export function createPriceTools(
             metadataCostFx(connection),
           ]);
           const price = solana + additionalSol;
-          return {
-            price,
-            dollarPrice:
-              convertCurrency(
-                price,
-                solToUsdRate,
-                Currency.SOL,
-                Currency.USD
-              ) ?? 0,
-          };
+          return price;
         } catch (err) {
           LOGErr.log(err);
           throw err;
@@ -223,7 +207,6 @@ export function createPriceTools(
       metadata: $metadataObject,
       file: $fileObject,
       connection: $connection,
-      solToUsdRate: $solToUsdRate,
     },
   });
 

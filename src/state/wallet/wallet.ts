@@ -1,4 +1,4 @@
-import { Wallet } from "@metaplex/js";
+import { Wallet } from "wallet";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { createEvent, restore } from "effector";
 

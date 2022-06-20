@@ -1,10 +1,12 @@
-import { FC, useCallback, useEffect } from "react";
+import "./Wallet.css";
+
 import { WalletAdapterNetwork, WalletError } from "@solana/wallet-adapter-base";
 import {
+  useWallet,
   WalletProvider as WalletProviderBase,
   WalletProviderProps as WalletProviderBaseProps,
-  useWallet,
 } from "@solana/wallet-adapter-react";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import {
   getLedgerWallet,
   getPhantomWallet,
@@ -13,13 +15,12 @@ import {
   getSolletExtensionWallet,
   getSolletWallet,
 } from "@solana/wallet-adapter-wallets";
-import { useEvent, useStoreMap } from "effector-react";
-
-import { $network } from "state/connection";
-import { WalletModalProvider } from "components/smart/Wallet";
-import { getWalletErrorDescription } from "utils/getWalletErrorDescription";
 import { useToast } from "components/modals/Toast";
+import { useEvent, useStoreMap } from "effector-react";
+import { FC, useCallback, useEffect } from "react";
+import { $network } from "state/connection";
 import { walletChange } from "state/wallet";
+import { getWalletErrorDescription } from "utils/getWalletErrorDescription";
 
 export type WalletProviderProps = Partial<WalletProviderBaseProps>;
 
@@ -29,19 +30,18 @@ const WalletCatcher: FC = ({ children }) => {
 
   useEffect(() => {
     setWallet(wallet);
-  }, [wallet]);
+  }, [setWallet, wallet]);
 
   return <>{children}</>;
 };
 
 export const WalletProvider: FC<WalletProviderProps> = ({
-  wallets,
-  onError,
   children,
   ...props
 }) => {
   const toast = useToast();
-  const walletList = useStoreMap($network, (network) => [
+
+  const wallets = useStoreMap($network, (network) => [
     getPhantomWallet(),
     getSlopeWallet(),
     getSolflareWallet(),
@@ -50,7 +50,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     getSolletExtensionWallet({ network: network as WalletAdapterNetwork }),
   ]);
 
-  const onErrorLocal = useCallback(
+  const onError = useCallback(
     (error: WalletError) => {
       toast({
         title: "Wallet error",
@@ -64,11 +64,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({
   );
 
   return (
-    <WalletProviderBase
-      wallets={wallets ?? walletList}
-      onError={onError ?? onErrorLocal}
-      {...props}
-    >
+    <WalletProviderBase wallets={wallets} onError={onError} {...props}>
       <WalletModalProvider>
         <WalletCatcher>{children}</WalletCatcher>
       </WalletModalProvider>

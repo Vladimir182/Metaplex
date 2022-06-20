@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { Navbar } from ".";
 import { NavbarActions } from "./NavbarActions";
-import { WalletProvider } from "contexts";
+import { WalletProvider } from "wallet";
 
 export default {
   title: "Compound/Navbar",

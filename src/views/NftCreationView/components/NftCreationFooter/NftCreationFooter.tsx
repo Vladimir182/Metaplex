@@ -12,7 +12,6 @@ import { NftCreationSteps } from "views/NftCreationView/types";
 
 interface INftCreationFooterProps {
   price?: number;
-  dollarPrice?: number;
   step?: NftCreationSteps;
   isFormValid: boolean;
   setStep(state: NftCreationSteps): void;
@@ -22,7 +21,6 @@ interface INftCreationFooterProps {
 
 export const NftCreationFooter: FC<INftCreationFooterProps> = ({
   price,
-  dollarPrice,
   step,
   isFormValid,
   setStep,
@@ -117,7 +115,7 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
         variant="ghost"
       />
       <VStack alignItems="flex-end" spacing={6}>
-        {!!(price || dollarPrice) && (
+        {!!price && (
           <TitledBlock
             title="Creation Fee"
             variant="sm"
@@ -126,7 +124,7 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
             minW={200}
             borderRadius={12}
           >
-            <SolUsdDisplay sol={price} usd={dollarPrice} />
+            <SolUsdDisplay sol={price} />
           </TitledBlock>
         )}
         {step !== NftCreationSteps.CONGRATULATION && (

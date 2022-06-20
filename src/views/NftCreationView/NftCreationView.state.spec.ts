@@ -1,10 +1,8 @@
-import { ConversionRatePair, Currency } from "@metaplex/js";
 import type { WalletContextState } from "@solana/wallet-adapter-react";
 import { File } from "@web-std/file";
 import { FormData } from "components/forms/NftCreate";
 import { allSettled, fork } from "effector";
 import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
-import { fetchRateSolToUsdFx } from "state/solToUsd";
 import { walletChange } from "state/wallet";
 import {
   createMetadataTools,
@@ -186,30 +184,16 @@ describe("NftCreationView.state", () => {
   it("createPriceTools", async () => {
     const metadataEntry = createMetadataTools(File);
     const entry = createPriceTools(metadataEntry, File);
-    const PAIR: ConversionRatePair = {
-      from: Currency.SOL,
-      to: Currency.USD,
-      rate: 10,
-    };
     const scope = fork({
-      handlers: [
-        [entry.metadataCostFx, () => Promise.resolve(0.00707832)],
-        [fetchRateSolToUsdFx, () => Promise.resolve([PAIR])],
-      ],
+      handlers: [[entry.metadataCostFx, () => Promise.resolve(0.00707832)]],
     });
-    expect(scope.getState(entry.$price)).toEqual({
-      price: 0,
-      dollarPrice: 0,
-    });
-    await allSettled(fetchRateSolToUsdFx, { scope });
+    expect(scope.getState(entry.$price)).toEqual(0);
+
     await allSettled(metadataEntry.updateMetadata, {
       scope,
       params: FORM_DATA,
     });
     await allSettled(entry.updateCostFx, { scope });
-    expect(scope.getState(entry.$price)).toEqual({
-      dollarPrice: 0.07090523910368002,
-      price: 0.007090523910368001,
-    });
+    expect(scope.getState(entry.$price)).toEqual(0.007090523910368001);
   });
 });

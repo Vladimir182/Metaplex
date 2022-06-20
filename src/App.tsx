@@ -7,7 +7,7 @@ import { AppRoutes } from "routes/AppRoutes";
 import { useToast } from "components/modals/Toast";
 import { startStatusCheck, stopStatusCheck } from "state/connection";
 
-import { WalletProvider } from "./contexts";
+import { WalletProvider } from "./wallet";
 import { theme } from "./theme";
 
 const LOGErr = debug("error:App");

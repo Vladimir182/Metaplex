@@ -1,5 +1,4 @@
-import { Cluster, clusterApiUrl } from "@solana/web3.js";
-import { Connection } from "@metaplex/js";
+import { Connection, Cluster, clusterApiUrl } from "@solana/web3.js";
 import { getStorage } from "utils/storage";
 import {
   combine,

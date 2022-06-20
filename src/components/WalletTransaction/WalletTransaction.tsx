@@ -6,14 +6,12 @@ import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 interface WalletTransactionProps extends StackProps {
   sol?: number;
-  usd?: number;
   title?: string;
   walletBalance?: number;
 }
 
 export const WalletTransaction: React.FC<WalletTransactionProps> = ({
   sol,
-  usd,
   title = "Price",
   children,
   walletBalance,
@@ -46,7 +44,7 @@ export const WalletTransaction: React.FC<WalletTransactionProps> = ({
         {...rest}
       >
         <TitledBlock title={title} w="full">
-          <SolUsdDisplay sol={sol} usd={usd} />
+          <SolUsdDisplay sol={sol} />
         </TitledBlock>
         <Box w="ful">{children}</Box>
       </Stack>

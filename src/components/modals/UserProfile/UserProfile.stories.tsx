@@ -18,7 +18,7 @@ Default.args = {
     address: "9ncWZT92PzDS4A5ibKkQ1vGsnPLQB3B5skuZWbrDX2uq",
     avatarUrl: "https://bit.ly/code-beast",
   },
-  balance: { sol: 10.25, usd: 1210.45 },
+  balance: { sol: 10.25 },
   networks: NETWORK_LIST,
   currentNetwork: "devnet",
   setNetwork: action("Set network"),

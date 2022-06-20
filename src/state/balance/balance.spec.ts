@@ -1,8 +1,9 @@
 import type { WalletContextState } from "@solana/wallet-adapter-react";
 import { allSettled, fork } from "effector";
+import { lamportsToSol } from "utils/lamportsToSol";
+
+import { $wallet, walletChange } from "../wallet/wallet";
 import { updateWalletBalanceFx } from "./balance";
-import { lamportsToSol } from "../../utils/lamportsToSol";
-import { $wallet, walletChange } from "./wallet";
 
 describe("balance", () => {
   it("extractBalance", () => {

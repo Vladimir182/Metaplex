@@ -76,7 +76,7 @@ export const MainView: React.FC<Props> = ({ user, onOpen, ...boxProps }) => {
           Resources
         </SidebarMenuItem>
       )}
-      {balance ? <Balance sol={balance.sol} usd={balance.usd} /> : null}
+      {balance ? <Balance sol={balance.sol} /> : null}
     </VStack>
   );
 };

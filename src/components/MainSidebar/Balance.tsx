@@ -7,13 +7,11 @@ import { useCallback } from "react";
 
 interface Props extends StackProps {
   sol?: number | null;
-  usd?: number | null;
   title?: string;
 }
 
 export const Balance: React.FC<Props> = ({
   sol,
-  usd,
   title = "Balance",
   ...props
 }) => {
@@ -26,7 +24,7 @@ export const Balance: React.FC<Props> = ({
   return (
     <VStack spacing={4} px={4} w="full" {...props}>
       <TitledBlock title={title} variant="sm" w="full">
-        <SolUsdDisplay sol={sol} usd={usd} />
+        <SolUsdDisplay sol={sol} />
       </TitledBlock>
 
       <HStack w="full">

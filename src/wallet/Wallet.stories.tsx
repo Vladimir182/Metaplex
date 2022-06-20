@@ -1,11 +1,12 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { FC } from "react";
-import { WalletMultiButton } from ".";
-import { useEvent } from "effector-react";
-import { networkChange } from "state/connection";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { truncateDecimals } from "utils/truncateDecimals";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { useEvent } from "effector-react";
+import { FC } from "react";
+import { networkChange } from "state/connection";
 import { useBalance } from "state/react/useBalance";
+import { truncateDecimals } from "utils/truncateDecimals";
+
+import { WalletMultiButton } from "./";
 
 export default {
   title: "Compound/Smart/Wallet",
@@ -19,7 +20,7 @@ const Balance: FC = () => {
   return balance === null ? (
     <div>Loading balance</div>
   ) : (
-    <div>Balance {truncateDecimals(balance.sol, 2)} SOL</div>
+    <div>Balance {truncateDecimals(balance.sol, 2)} SOL, </div>
   );
 };
 

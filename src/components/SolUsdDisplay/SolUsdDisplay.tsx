@@ -1,19 +1,17 @@
 import { Circle, HStack, StackProps, Text } from "@chakra-ui/react";
 import { SolanaIcon } from "components/Icons";
-import { useSolToUsd } from "state/react/useCurrency";
+import { useSolToUsd } from "state/react/useSolToUsd";
 import { truncateDecimals } from "utils/truncateDecimals";
 
 interface SolUsdDisplayProps extends StackProps {
   sol?: number | null;
-  usd?: number | null;
 }
 
 export const SolUsdDisplay: React.FC<SolUsdDisplayProps> = ({
   sol = 0,
   ...props
 }) => {
-  const { convert } = useSolToUsd();
-  const usd = convert(sol);
+  const usd = useSolToUsd(sol);
 
   return (
     <HStack {...props}>

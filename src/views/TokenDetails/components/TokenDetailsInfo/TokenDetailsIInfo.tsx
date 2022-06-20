@@ -14,7 +14,7 @@ import { IArt } from "state/artworks";
 import { ArtworkListItemActions } from "views/HomePage/components/TokensList/components/ArtworkListItem/components/ArtworkListItemActions";
 import { IArtworkSummary } from "views/TokenDetails/TokenDetails.state";
 import { TitledField } from "./components/TitledField";
-import { useSolToUsd } from "state/react/useCurrency";
+import { useSolToUsd } from "state/react/useSolToUsd";
 import { truncateDecimals } from "utils/truncateDecimals";
 import { CopyButton } from "./components/CopyButton";
 import { getShortAddress, getSolExplorerLink } from "./utils";
@@ -41,7 +41,7 @@ export const TokenDetailsInfo: FC<ITokenDetailsInfoProps> = ({
     edition = 0,
     primarySaleAmount,
   } = artworkSummary || {};
-  const { convert } = useSolToUsd();
+  const usd = useSolToUsd(primarySaleAmount);
   const isExhaustedMints =
     artwork && artwork.prints?.supply === artwork.prints?.maxSupply;
 
@@ -97,7 +97,7 @@ export const TokenDetailsInfo: FC<ITokenDetailsInfoProps> = ({
                 {`${truncateDecimals(primarySaleAmount, 5)} SOL `}
               </chakra.span>
               <chakra.span fontWeight="400" color="whiteAlpha.500">
-                / {truncateDecimals(convert(primarySaleAmount), 2)}$
+                / {truncateDecimals(usd, 2)}$
               </chakra.span>
             </TitledField>
           )}

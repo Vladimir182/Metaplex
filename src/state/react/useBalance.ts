@@ -1,17 +1,23 @@
-import { preloadWalletBalance } from "state/wallet";
-import { usePreload } from "./usePreload";
-import { useSolToUsd } from "./useCurrency";
+import { useStore } from "effector-react";
+import { useEffect } from "react";
+import {
+  $walletBalance,
+  startBalancePolling,
+  stopBalancePolling,
+  updateWalletBalanceFx,
+} from "state/balance";
 
 export const useBalance = () => {
-  const { data, fail, effectFx } = usePreload(preloadWalletBalance);
+  const sol = useStore($walletBalance);
 
-  const { convert } = useSolToUsd();
-  const balance =
-    data === null
-      ? null
-      : {
-          sol: data,
-          usd: convert(data) ?? 0,
-        };
-  return { balance, fail, fetch: effectFx };
+  useEffect(() => {
+    startBalancePolling();
+
+    return () => {
+      stopBalancePolling();
+    };
+  }, []);
+
+  const balance = sol === null ? null : { sol };
+  return { balance, fetch: updateWalletBalanceFx };
 };

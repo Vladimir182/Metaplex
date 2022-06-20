@@ -12,7 +12,6 @@ import { FormField } from "components/FormField";
 import { WalletTransaction } from "components/WalletTransaction";
 import { StoreFormProps } from "./types";
 import { useBalance } from "state/react/useBalance";
-import { useSolToUsd } from "state/react/useCurrency";
 
 interface Props {
   onSubmit: SubmitHandler<StoreFormProps>;
@@ -20,6 +19,8 @@ interface Props {
   actionButtonName: string;
   disabled?: boolean;
 }
+
+const CREATION_TRANSACTION_PRICE = 0.00192;
 
 export const StoreCreateForm: React.FC<Props> = ({
   onSubmit,
@@ -30,16 +31,13 @@ export const StoreCreateForm: React.FC<Props> = ({
 }) => {
   const { mdUp } = useCustomBreakpoints();
   const user = useStore($user);
-  const { convert } = useSolToUsd();
   const methods = useForm<StoreFormProps>({
     mode: "onChange",
   });
 
   const { balance } = useBalance();
 
-  const solPrice = 0.00192;
-  const usdPrice = convert(solPrice);
-  const notValidBalance = solPrice > (balance?.sol || 0);
+  const notValidBalance = CREATION_TRANSACTION_PRICE > (balance?.sol || 0);
 
   const handleSubmit = useCallback(() => {
     methods.handleSubmit(onSubmit);
@@ -67,9 +65,8 @@ export const StoreCreateForm: React.FC<Props> = ({
 
             <WalletTransaction
               title="Creation Fee"
-              sol={solPrice}
+              sol={CREATION_TRANSACTION_PRICE}
               walletBalance={balance?.sol}
-              usd={usdPrice ?? 0}
             >
               {user && (
                 <Button
