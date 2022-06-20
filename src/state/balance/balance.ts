@@ -5,11 +5,14 @@ import {
   createEvent,
   createStore,
   forward,
+  sample,
   StoreValue,
 } from "effector";
 import { interval } from "patronum";
 import { $connection } from "state/connection";
 import { lamportsToSol } from "utils/lamportsToSol";
+import { createMarketFx } from "views/CreateSaleView/state/createMarketFx";
+import { closeMarketAndWithdrawFx } from "views/HomePage/components/TokensList/state/effects/closeMarketAndWithdrawFx";
 import { $wallet, walletChange } from "../wallet";
 
 export const startBalancePolling = createEvent();
@@ -54,3 +57,8 @@ forward({
 forward({ from: updateWalletBalanceFx.doneData, to: $walletBalance });
 
 forward({ from: tick, to: updateWalletBalanceFx });
+
+sample({
+  clock: [closeMarketAndWithdrawFx.finally, createMarketFx.finally],
+  target: updateWalletBalanceFx,
+});
