@@ -1,6 +1,5 @@
 import { Button, HStack, VStack, StackProps } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { MdAdd } from "react-icons/md";
 import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
 import { useCallback } from "react";
@@ -28,9 +27,6 @@ export const Balance: React.FC<Props> = ({
       </TitledBlock>
 
       <HStack w="full">
-        <Button leftIcon={<MdAdd />} flexGrow={1}>
-          Add Funds
-        </Button>
         <Button onClick={handleDisconnect} variant="tertiary" flexGrow={1}>
           Disconnect
         </Button>
