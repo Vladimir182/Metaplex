@@ -10,19 +10,13 @@ import { UserProfile } from "components/modals/UserProfile";
 import { PersonProps } from "components/Person";
 import { WalletMultiButton } from "components/smart/Wallet";
 
-import { Hamburger } from "../Hamburger";
 import { MobileNotifications } from "../MobileNotifications";
-import { ResourcesMenu } from "../ResourcesMenu";
 
 export interface NavbarActionsProps {
   user?: (PersonProps & { notifications?: number }) | null;
-  onToggleSidebar?: () => void;
 }
 
-export const NavbarActions: React.FC<NavbarActionsProps> = ({
-  user,
-  onToggleSidebar,
-}) => {
+export const NavbarActions: React.FC<NavbarActionsProps> = ({ user }) => {
   const { mdUp } = useCustomBreakpoints();
   const network = useStore($network);
   const refBalance = useBalance();
@@ -36,7 +30,6 @@ export const NavbarActions: React.FC<NavbarActionsProps> = ({
 
   return (
     <HStack>
-      {mdUp && <ResourcesMenu />}
       {mdUp &&
         (user ? (
           <UserProfile
@@ -52,7 +45,6 @@ export const NavbarActions: React.FC<NavbarActionsProps> = ({
           <WalletMultiButton />
         ))}
       {!mdUp && <MobileNotifications notifications={user?.notifications} />}
-      {!mdUp && <Hamburger onClick={onToggleSidebar} />}
     </HStack>
   );
 };

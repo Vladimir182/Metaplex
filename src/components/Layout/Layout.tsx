@@ -31,11 +31,6 @@ export const Layout: FC<LayoutProps> = ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [atTop, setAtTop] = useState(true);
 
-  const handleToggleSidebar = useCallback(
-    () => setSidebarOpen((currentState) => !currentState),
-    [setSidebarOpen]
-  );
-
   const handleCloseSidebar = useCallback(
     () => setSidebarOpen(false),
     [setSidebarOpen]
@@ -58,7 +53,7 @@ export const Layout: FC<LayoutProps> = ({
           position="fixed"
           zIndex="sticky"
         >
-          <NavbarActions user={user} onToggleSidebar={handleToggleSidebar} />
+          <NavbarActions user={user} />
         </Navbar>
       )}
 

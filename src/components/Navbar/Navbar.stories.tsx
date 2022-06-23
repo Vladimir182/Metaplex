@@ -18,7 +18,7 @@ export default {
 
 const Template: ComponentStory<typeof NavbarActions> = ({ user }) => (
   <Navbar>
-    <NavbarActions user={user} onToggleSidebar={() => {}} />
+    <NavbarActions user={user} />
   </Navbar>
 );
 
