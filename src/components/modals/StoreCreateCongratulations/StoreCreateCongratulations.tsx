@@ -1,11 +1,12 @@
-import { BoxProps, Text } from "@chakra-ui/react";
-
-import { CreateButton } from "components/buttons/CreateButton";
-import { FlowStatus } from "../FlowStatus";
-import { HaloedIcon } from "components/HaloedIcon";
-import { ROUTES } from "routes";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { BoxProps, Text } from "@chakra-ui/react";
+import { ROUTES } from "routes";
+
+import { CreateButton } from "components/buttons/CreateButton";
+import { HaloedIcon } from "components/HaloedIcon";
+
+import { FlowStatus } from "../FlowStatus";
 
 interface Props extends BoxProps {
   onClose?: () => void;

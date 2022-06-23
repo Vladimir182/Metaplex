@@ -1,8 +1,8 @@
-import { Stack, StackProps, Box, Divider } from "@chakra-ui/react";
+import { Box, Divider, Stack, StackProps } from "@chakra-ui/react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 interface WalletTransactionProps extends StackProps {
   sol?: number;

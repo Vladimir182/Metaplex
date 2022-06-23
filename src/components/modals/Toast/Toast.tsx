@@ -1,7 +1,8 @@
 import { FC } from "react";
+import { VStack } from "@chakra-ui/react";
+
 import { ToastBody } from "./ToastBody";
 import { ToastHeader } from "./ToastHeader";
-import { VStack } from "@chakra-ui/react";
 
 export interface ToastProps {
   title?: string;

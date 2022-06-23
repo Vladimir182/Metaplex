@@ -1,11 +1,12 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FC } from "react";
-import { WalletMultiButton } from ".";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { useEvent } from "effector-react";
 import { networkChange } from "state/connection";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { truncateDecimals } from "utils/truncateDecimals";
 import { useBalance } from "state/react/useBalance";
+import { truncateDecimals } from "utils/truncateDecimals";
+
+import { WalletMultiButton } from ".";
 
 export default {
   title: "Compound/Smart/Wallet",

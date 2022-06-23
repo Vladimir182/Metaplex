@@ -1,15 +1,16 @@
 import {
   FlexProps,
-  HStack,
   Heading,
+  HStack,
   Image,
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 import { ConditionalWrapper } from "components/utility/ConditionalWrapper";
+
 import { DesktopHeroWrapper } from "./DesktopHeroWrapper";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 interface Props extends FlexProps {
   title: string;

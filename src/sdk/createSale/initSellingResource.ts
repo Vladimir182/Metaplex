@@ -1,18 +1,20 @@
+import { Wallet } from "@metaplex/js";
+import { bignum, COption } from "@metaplex-foundation/beet";
+import { findVaultOwnerAddress } from "@metaplex-foundation/mpl-fixed-price-sale";
+import {
+  MasterEdition,
+  Metadata,
+  MetadataProgram,
+} from "@metaplex-foundation/mpl-token-metadata";
 import {
   Connection,
   Keypair,
   PublicKey,
   TransactionInstruction,
 } from "@solana/web3.js";
-import { bignum, COption } from "@metaplex-foundation/beet";
-import { findVaultOwnerAddress } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { Wallet } from "@metaplex/js";
+
 import { createTokenAccount } from "../createTokenAccount";
-import {
-  MasterEdition,
-  Metadata,
-  MetadataProgram,
-} from "@metaplex-foundation/mpl-token-metadata";
+
 import { createInitSellingResourceTransaction } from "./initSellingResourceTransaction";
 
 export interface InitSellingResourceProps {

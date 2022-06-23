@@ -1,29 +1,29 @@
 import React, {
-  useMemo,
   FC,
-  RefObject,
   MutableRefObject,
+  RefObject,
   useLayoutEffect,
+  useMemo,
 } from "react";
-import { Box, Textarea, VStack } from "@chakra-ui/react";
 import {
   Controller,
   FormProvider,
   useFieldArray,
   useForm,
 } from "react-hook-form";
+import { Box, Textarea, VStack } from "@chakra-ui/react";
+import { useStore } from "effector-react";
+import { $user } from "state/wallet";
 
 import { FileUpload } from "components/FileUpload";
 import { FormField } from "components/FormField";
 import { FileType } from "components/MediaTypeSelector";
 import { TitledBlock } from "components/TitledBlock";
 
+import { AddressRow, calcAllErrors } from "./helper";
 import { MaximumSupply } from "./MaximumSupply";
 import { PrimarySale } from "./PrimarySale";
 import { SecondarySale } from "./SecondarySale";
-import { AddressRow, calcAllErrors } from "./helper";
-import { useStore } from "effector-react";
-import { $user } from "state/wallet";
 import { MAXIMUM_SUPPLY_DEFAULT } from "./SupplyType";
 
 export interface FormData {

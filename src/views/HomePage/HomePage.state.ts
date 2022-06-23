@@ -1,6 +1,7 @@
-import { startStoreFetch, stopStoreFetch } from "state/markets";
-import { useWalletStore } from "../../state/react/useWalletStore";
 import { useEffect } from "react";
+import { startStoreFetch, stopStoreFetch } from "state/markets";
+
+import { useWalletStore } from "../../state/react/useWalletStore";
 
 export type ViewMode = "list" | "grid";
 

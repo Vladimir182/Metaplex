@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { SidebarMenuItemWrapper } from "components/Sidebar/SidebarMenuItemWrapper";
 import { Sidebar } from "components/Sidebar";
+import { SidebarMenuItemWrapper } from "components/Sidebar/SidebarMenuItemWrapper";
 
 export default {
   title: "Compound/Sidebar/SidebarMenuItemWrapper",

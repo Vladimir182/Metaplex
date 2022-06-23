@@ -1,11 +1,11 @@
-import "./DateTimePicker.css";
-
-import { Box, Stack, StyleProps } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
+import { Box, Stack, StyleProps } from "@chakra-ui/react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 import { DatePickerCustom } from "./DatePickerCustom";
 import { DateTimeCustom } from "./DateTimeCustom";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+
+import "./DateTimePicker.css";
 
 interface Props extends StyleProps {
   minDate: Date;

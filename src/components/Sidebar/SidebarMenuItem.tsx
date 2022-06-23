@@ -1,6 +1,6 @@
+import { ReactElement } from "react";
 import { Button, ButtonProps } from "@chakra-ui/react";
 
-import { ReactElement } from "react";
 import { SidebarStepItem } from "./SidebarStepItem";
 
 interface MenuItemProps extends ButtonProps {

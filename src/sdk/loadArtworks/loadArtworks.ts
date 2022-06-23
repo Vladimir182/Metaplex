@@ -1,9 +1,9 @@
+import { MetadataJson } from "@metaplex/js";
 import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
-import { MetadataJson } from "@metaplex/js";
 import { Connection } from "@solana/web3.js";
-
 import { ArtType, IArt } from "state/artworks/types";
+
 import { loadArtworkEdition } from "../loadArtworkEdition";
 import { loadExtraContent } from "../loadExtraContent";
 

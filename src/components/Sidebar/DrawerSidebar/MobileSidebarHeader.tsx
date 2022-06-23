@@ -1,14 +1,14 @@
+import { MdArrowBack } from "react-icons/md";
 import {
   DrawerCloseButton,
   DrawerHeader,
   IconButton,
   Text,
 } from "@chakra-ui/react";
-
-import { MdArrowBack } from "react-icons/md";
-import { MetaplexIcon } from "components/Icons";
-import { fontSizes } from "theme/typography";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+import { fontSizes } from "theme/typography";
+
+import { MetaplexIcon } from "components/Icons";
 
 interface Props {
   secondaryView?: boolean;

@@ -1,6 +1,7 @@
 import { combine } from "effector";
-import { $store } from "./store";
 import { $wallet } from "state/wallet";
+
+import { $store } from "./store";
 
 export const $isStoreAdmin = combine($store, $wallet, (store, wallet) => {
   const owner = store?.admin ?? null;

@@ -1,9 +1,11 @@
-import { Heading, VStack, Text } from "@chakra-ui/react";
 import { FC } from "react";
+import { Heading, Text, VStack } from "@chakra-ui/react";
+
+import { AddressRow } from "components/forms/NftCreate/helper";
+
 import { PreviewStepAddress } from "./PreviewStepAddress";
 import { PreviewStepField } from "./PreviewStepField";
 import { getSaleText } from "./utils";
-import { AddressRow } from "components/forms/NftCreate/helper";
 
 interface IPreviewSaleProps {
   type: "primary" | "secondary";

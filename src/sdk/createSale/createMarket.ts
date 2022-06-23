@@ -1,15 +1,15 @@
 import { Wallet } from "@metaplex/js";
 import { bignum, COption } from "@metaplex-foundation/beet";
 import { Connection, PublicKey } from "@solana/web3.js";
-
 import { ETransactionProgress } from "enums/transactionProgress";
 
+import { createAndSignTransaction } from "../createAndSignTransaction";
+import { throwTransactionError } from "../transactions/throwTransactionError";
+import { waitConfirmation } from "../transactions/waitConfirmation";
+
+import { createMarketTransaction } from "./createMarketTransaction";
 import { createTreasury } from "./createTreasury";
 import { initSellingResource } from "./initSellingResource";
-import { createMarketTransaction } from "./createMarketTransaction";
-import { createAndSignTransaction } from "../createAndSignTransaction";
-import { waitConfirmation } from "../transactions/waitConfirmation";
-import { throwTransactionError } from "../transactions/throwTransactionError";
 
 export interface CreateMarketTransactionProps {
   wallet: Wallet;

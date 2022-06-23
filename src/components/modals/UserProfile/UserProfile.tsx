@@ -7,12 +7,13 @@ import {
   PopoverTrigger,
   VStack,
 } from "@chakra-ui/react";
-import { NetworkSelector, NetworkSelectorProps } from "./NetworkSelector";
 
 import { Balance } from "components/MainSidebar/Balance";
+import { UserInfo } from "components/MainSidebar/UserInfo";
 import { PersonProps } from "components/Person";
 import { SolUsdDisplay } from "components/SolUsdDisplay";
-import { UserInfo } from "components/MainSidebar/UserInfo";
+
+import { NetworkSelector, NetworkSelectorProps } from "./NetworkSelector";
 
 interface Props extends NetworkSelectorProps {
   user: PersonProps;

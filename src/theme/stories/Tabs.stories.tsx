@@ -1,5 +1,5 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Tab, TabList, Tabs } from "@chakra-ui/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
   title: "Simple/UI kit/Tabs",

@@ -1,7 +1,8 @@
 import { Circle, HStack, StackProps, Text } from "@chakra-ui/react";
-import { SolanaIcon } from "components/Icons";
 import { useSolToUsd } from "state/react/useSolToUsd";
 import { truncateDecimals } from "utils/truncateDecimals";
+
+import { SolanaIcon } from "components/Icons";
 
 interface SolUsdDisplayProps extends StackProps {
   sol?: number | null;

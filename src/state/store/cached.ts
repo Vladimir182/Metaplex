@@ -2,9 +2,9 @@ import { Cluster, PublicKey } from "@solana/web3.js";
 import { attach, Effect } from "effector";
 import { composeKey, readCacheFx, writeCacheFx } from "state/cache";
 import { $network } from "state/connection";
+import { key2String } from "utils/base";
 
 import { IStore } from "./store";
-import { key2String } from "utils/base";
 
 const getKey = (owner?: string, network?: Cluster) =>
   composeKey([network, "store", owner]);

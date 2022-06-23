@@ -1,6 +1,6 @@
-import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { Connection } from "@metaplex/js";
 import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
+import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import dayjs from "dayjs";
 
 export const tokenVerification = async (

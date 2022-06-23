@@ -1,10 +1,11 @@
 import { FC, useMemo } from "react";
 import { MdOutlineImage, MdOutlinePlayCircle } from "react-icons/md";
-import { MediaTypeItem } from "./MediaTypeItem";
-import { FileType } from "./FileType";
 import { VStack } from "@chakra-ui/layout";
-import { fontSizes } from "theme/typography";
 import { Box, Heading } from "@chakra-ui/react";
+import { fontSizes } from "theme/typography";
+
+import { FileType } from "./FileType";
+import { MediaTypeItem } from "./MediaTypeItem";
 
 interface Props {
   onCategorySelect: (category: FileType) => void;

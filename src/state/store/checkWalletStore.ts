@@ -1,7 +1,7 @@
 import { attach, createEffect, sample, StoreValue } from "effector";
 import { $connection } from "state/connection";
-import { $wallet } from "state/wallet";
 import { $store, loadStoreFx } from "state/store";
+import { $wallet } from "state/wallet";
 
 export const checkWalletStoreOriginFx = attach({
   effect: createEffect(

@@ -1,7 +1,7 @@
-import { Box, Flex } from "@chakra-ui/react";
-
 import { FC } from "react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+
 import { useScrollTrigger } from "./useScrollTrigger";
 import { getPadding } from "./utils";
 

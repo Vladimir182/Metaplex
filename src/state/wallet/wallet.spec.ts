@@ -1,5 +1,6 @@
 import type { WalletContextState } from "@solana/wallet-adapter-react";
-import { fork, allSettled } from "effector";
+import { allSettled, fork } from "effector";
+
 import { $user, $wallet, $walletAddress, walletChange } from "./wallet";
 
 describe("wallet", () => {

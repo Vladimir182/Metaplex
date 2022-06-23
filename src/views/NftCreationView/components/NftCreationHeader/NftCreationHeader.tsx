@@ -1,8 +1,10 @@
 import React, { FC } from "react";
 import { Box, Heading, VStack } from "@chakra-ui/react";
-import { NewItemStepper } from "../NewItemStepper";
-import { getTextSelector } from "./utils";
 import { NftCreationSteps } from "views/NftCreationView/types";
+
+import { NewItemStepper } from "../NewItemStepper";
+
+import { getTextSelector } from "./utils";
 
 interface INftCreationHeaderProps {
   step: NftCreationSteps;

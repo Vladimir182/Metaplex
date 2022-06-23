@@ -1,5 +1,5 @@
-import { useStore } from "effector-react";
 import { useCallback, useEffect } from "react";
+import { useStore } from "effector-react";
 import { $solToUsdRate } from "state/currency";
 import { fetchRatesFx } from "state/currency";
 

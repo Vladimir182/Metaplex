@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { StringPublicKey } from "@metaplex-foundation/mpl-core";
 import { MetadataJsonCreator } from "@metaplex/js";
+import { StringPublicKey } from "@metaplex-foundation/mpl-core";
 import { PublicKey } from "@solana/web3.js";
 import { createEvent, restore } from "effector";
 

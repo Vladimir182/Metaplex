@@ -1,6 +1,6 @@
 import { BoxProps, HStack, Text } from "@chakra-ui/layout";
-
 import { Tag } from "@chakra-ui/react";
+
 import { useCustomBreakpoints } from "../../hooks/useCustomBreakpoints";
 
 interface Props extends BoxProps {

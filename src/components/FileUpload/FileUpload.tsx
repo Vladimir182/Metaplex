@@ -1,5 +1,7 @@
-import { FileType } from "components/MediaTypeSelector";
 import React from "react";
+
+import { FileType } from "components/MediaTypeSelector";
+
 import { FileUploadProps } from "./FileUploadProps";
 import { FileUploadSimple } from "./FileUploadSimple";
 import { FileUploadWithPreview } from "./FileUploadWithPreview";

@@ -1,4 +1,5 @@
-import { ComponentStory, ComponentMeta } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import { CreateSaleView } from "./CreateSaleView";
 export default {
   title: "Views/CreateSaleView",

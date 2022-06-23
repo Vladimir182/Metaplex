@@ -1,7 +1,6 @@
-import { Flex, Heading, IconButton } from "@chakra-ui/react";
-
 import { FC } from "react";
 import { MdOutlineClose } from "react-icons/md";
+import { Flex, Heading, IconButton } from "@chakra-ui/react";
 import { fontSizes } from "theme/typography";
 
 interface Props {

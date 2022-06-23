@@ -1,7 +1,7 @@
+import { FC } from "react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { useEvent } from "effector-react";
-import { FC } from "react";
 import { networkChange } from "state/connection";
 import { useBalance } from "state/react/useBalance";
 import { truncateDecimals } from "utils/truncateDecimals";

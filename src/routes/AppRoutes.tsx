@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { Routes } from "react-router-dom";
+
 import { render } from "./render";
 import { SCHEMA } from "./schema";
 

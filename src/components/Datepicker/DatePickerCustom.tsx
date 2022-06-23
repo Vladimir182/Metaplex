@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
 import DatePicker from "react-datepicker";
-import { Button, Flex, HStack, Text } from "@chakra-ui/react";
 import { MdChevronLeft, MdChevronRight, MdExpandMore } from "react-icons/md";
+import { Button, Flex, HStack, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
+
 import { DatePickerProps } from "./DatePickerProps";
 
 export const DatePickerCustom: React.FC<DatePickerProps> = ({

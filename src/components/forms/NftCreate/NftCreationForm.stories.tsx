@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { FileType } from "components/MediaTypeSelector/FileType";
+
 import { NftCreationForm } from "./NftCreationForm";
 
 export default {

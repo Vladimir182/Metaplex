@@ -1,6 +1,5 @@
-import { Box, BoxProps, Center, HStack, Heading, Text } from "@chakra-ui/react";
-
 import React from "react";
+import { Box, BoxProps, Center, Heading, HStack, Text } from "@chakra-ui/react";
 import { sizeToPixels } from "utils/sizeToPixels";
 
 interface Props extends BoxProps {

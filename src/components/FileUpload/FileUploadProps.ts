@@ -1,5 +1,6 @@
-import { FileType } from "components/MediaTypeSelector";
 import { BoxProps } from "@chakra-ui/react";
+
+import { FileType } from "components/MediaTypeSelector";
 
 export interface FileUploadProps extends BoxProps {
   type?: FileType;

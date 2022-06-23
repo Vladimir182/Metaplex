@@ -1,6 +1,7 @@
+import { FC } from "react";
+
 import { ResourcesList } from "components/Navbar/ResourcesList";
 import { MobileSidebarHeader } from "components/Sidebar/DrawerSidebar/MobileSidebarHeader";
-import { FC } from "react";
 
 interface Props {
   onClose?: () => void;

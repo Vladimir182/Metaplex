@@ -1,9 +1,9 @@
+import { MdOutlineLocalOffer } from "react-icons/md";
+import { Image } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { fontSizes } from "theme/typography";
 
 import { ArtworkBadge } from "./ArtworkBadge";
-import { Image } from "@chakra-ui/react";
-import { MdOutlineLocalOffer } from "react-icons/md";
-import { fontSizes } from "theme/typography";
 
 export default {
   title: "Compound/Artwork/ArtworkBadge",

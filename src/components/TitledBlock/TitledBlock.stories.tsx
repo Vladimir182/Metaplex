@@ -1,10 +1,11 @@
+import { HStack, Text } from "@chakra-ui/layout";
+import { Tag } from "@chakra-ui/tag";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { HStack, Text } from "@chakra-ui/layout";
-import { TitledBlock } from ".";
-import { Tag } from "@chakra-ui/tag";
-import { Person } from "components/Person";
 import { Fraction } from "components/Fraction";
+import { Person } from "components/Person";
+
+import { TitledBlock } from ".";
 
 export default {
   title: "Simple/TitledBlock",

@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { Image } from "@chakra-ui/image";
 import { Flex, FlexProps } from "@chakra-ui/layout";
 import {
   Modal,
@@ -6,10 +8,8 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 
-import { ExpandIcon } from "components/Icons";
 import { Fab } from "components/buttons/Fab";
-import { Image } from "@chakra-ui/image";
-import { useState } from "react";
+import { ExpandIcon } from "components/Icons";
 
 interface Props extends FlexProps {
   uri: string;

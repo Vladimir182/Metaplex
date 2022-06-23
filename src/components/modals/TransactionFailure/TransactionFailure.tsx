@@ -1,7 +1,6 @@
-import { Circle, Flex, FlexProps, Heading, Text } from "@chakra-ui/layout";
-
-import { Button } from "@chakra-ui/button";
 import { MdErrorOutline } from "react-icons/md";
+import { Button } from "@chakra-ui/button";
+import { Circle, Flex, FlexProps, Heading, Text } from "@chakra-ui/layout";
 import { fontSizes } from "theme/typography";
 
 interface ListingSuccessProps extends FlexProps {

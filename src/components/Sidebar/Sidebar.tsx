@@ -1,8 +1,10 @@
-import { DrawerSidebar } from "./DrawerSidebar";
 import React from "react";
-import { StaticSidebar } from "./StaticSidebar";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+
 import { ResourcesSidebarContent } from "components/ResourcesSidebarContent";
+
+import { DrawerSidebar } from "./DrawerSidebar";
+import { StaticSidebar } from "./StaticSidebar";
 
 export interface SidebarProps {
   isOpen?: boolean;

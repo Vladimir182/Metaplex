@@ -5,7 +5,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 // import "@testing-library/jest-dom";
-import fetch, { Response, Request, Headers } from "node-fetch";
+import fetch, { Headers, Request, Response } from "node-fetch";
 
 const g: any = self;
 g.Response = Response;

@@ -1,6 +1,5 @@
-import { Badge, Button, ButtonProps } from "@chakra-ui/react";
-
 import { MdOutlineNotifications } from "react-icons/md";
+import { Badge, Button, ButtonProps } from "@chakra-ui/react";
 import { fontSizes } from "theme/typography";
 
 interface Props extends ButtonProps {

@@ -1,5 +1,6 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { HStack, Text } from "@chakra-ui/react";
+
 import { getPersonName } from "./getPersonName";
 
 export interface PersonProps {

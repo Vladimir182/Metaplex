@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
+import debug from "debug";
 import { createEffect } from "effector";
 import { Optional } from "ts-toolbelt/out/List/Optional";
 
 import { cacheDb } from "./db";
-import debug from "debug";
 
 export const TIME_TO_LIVE = 604_800; // one week
 

@@ -1,4 +1,5 @@
 import { allSettled, fork } from "effector";
+
 import { createEntry } from "./utils";
 
 describe("state/utils", () => {

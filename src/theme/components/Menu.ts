@@ -3,6 +3,7 @@ import type {
   PartsStyleFunction,
   SystemStyleObject,
 } from "@chakra-ui/theme-tools";
+
 import { Text } from "./Text";
 
 const baseStyleList: SystemStyleObject = {

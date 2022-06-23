@@ -1,8 +1,8 @@
+import { forwardRef } from "react";
 import { Avatar, Badge, Button } from "@chakra-ui/react";
 
 import type { PersonProps } from "components/Person";
 import { getPersonName } from "components/Person/getPersonName";
-import { forwardRef } from "react";
 
 export interface PersonButtonProps
   extends PersonProps,

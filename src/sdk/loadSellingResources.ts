@@ -5,6 +5,7 @@ import {
   SellingResourceArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
+
 import { getMultipleAccounts } from "./getMultipleAccounts";
 
 export const loadSellingResources = async ({

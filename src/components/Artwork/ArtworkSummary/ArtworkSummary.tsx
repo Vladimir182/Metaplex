@@ -1,7 +1,8 @@
+import React from "react";
 import { Image } from "@chakra-ui/image";
 import { Flex, FlexProps, Text, VStack } from "@chakra-ui/layout";
+
 import { Fraction } from "components/Fraction";
-import React from "react";
 
 export interface ArtworkSummaryProps extends FlexProps {
   img?: string;

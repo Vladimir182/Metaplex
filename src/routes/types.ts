@@ -1,6 +1,6 @@
-import type { Store } from "effector";
 import type { ComponentProps, FC } from "react";
 import type { Route } from "react-router-dom";
+import type { Store } from "effector";
 import { ROUTES } from "routes";
 
 export type TValues = typeof ROUTES[keyof typeof ROUTES];

@@ -1,5 +1,5 @@
-import { BoxProps, Circle, Text } from "@chakra-ui/react";
 import React from "react";
+import { BoxProps, Circle, Text } from "@chakra-ui/react";
 
 interface Props extends BoxProps {
   isActive?: boolean;

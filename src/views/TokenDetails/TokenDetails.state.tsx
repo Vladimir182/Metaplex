@@ -1,5 +1,5 @@
-import { useStore } from "effector-react";
 import { useMemo } from "react";
+import { useStore } from "effector-react";
 import { $isInitalLoadHappened, $storeArtworks } from "state/artworks";
 import { $wallet } from "state/wallet";
 import { $progress } from "views/HomePage/components/TokensList/state/store/progress";

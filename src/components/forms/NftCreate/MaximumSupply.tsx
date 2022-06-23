@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
 import {
+  Box,
+  Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -7,18 +11,14 @@ import {
   NumberInput,
   NumberInputField,
   RequiredIndicator,
-  Flex,
-  Box,
-  Button,
 } from "@chakra-ui/react";
 
+import { FormData } from "./NftCreationForm";
 import {
+  MAXIMUM_SUPPLY_DEFAULT,
   SupplyType,
   SupplyTypesMap,
-  MAXIMUM_SUPPLY_DEFAULT,
 } from "./SupplyType";
-import { FormData } from "./NftCreationForm";
-import { Controller, RegisterOptions, useFormContext } from "react-hook-form";
 
 interface FormFieldProps {
   id: keyof FormData;

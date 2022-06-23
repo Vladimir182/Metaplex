@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, ButtonProps } from "@chakra-ui/react";
 
 const defaultAccept = ".png,.jpg,.gif,.mp4,.svg";

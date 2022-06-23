@@ -7,7 +7,9 @@ import {
 } from "@metaplex/js";
 import { METADATA_FILE_NAME } from "utils/arweave-cost";
 import { Pipeline } from "utils/pipeline";
+
 import { EUploadProgress } from "../../enums/uploadProgress";
+
 import { payForFiles } from "./payForFiles";
 
 const { sendTransaction } = actions;

@@ -1,9 +1,10 @@
-import { Center, Flex, Heading, Text } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
+import { Center, Flex, Heading, Text } from "@chakra-ui/react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 import { ModalFootnote } from "../ModalFootnote";
+
 import { Spinner } from "./Spinner";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 export interface LoaderProps {
   title?: string;

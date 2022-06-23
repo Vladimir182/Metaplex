@@ -1,5 +1,5 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { MdGolfCourse } from "react-icons/md";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 import { HaloedIcon } from ".";
 

@@ -1,12 +1,12 @@
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 import {
   FormControl,
-  FormLabel,
-  FormHelperText,
   FormErrorMessage,
+  FormHelperText,
+  FormLabel,
   Input,
   RequiredIndicator,
 } from "@chakra-ui/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
   title: "Simple/UI kit/FormControl",

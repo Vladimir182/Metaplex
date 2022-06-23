@@ -1,7 +1,7 @@
-import { getFileHash } from "utils/crypto";
-import { PublicKey } from "@solana/web3.js";
 import { programs, Wallet } from "@metaplex/js";
+import { PublicKey } from "@solana/web3.js";
 import { getFilesCost } from "utils/arweave-cost";
+import { getFileHash } from "utils/crypto";
 import { solToLamports } from "utils/solToLamports";
 const { PayForFiles } = programs;
 

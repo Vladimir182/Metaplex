@@ -1,19 +1,18 @@
+import { useCallback } from "react";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { createEvent, forward } from "effector";
 import { useStore } from "effector-react";
-import { useCallback } from "react";
-
 import {
   $isInitalLoadHappened,
   $storeArtworks,
   fetchStoreArtworksFx,
 } from "state/artworks";
-import { $store } from "state/store";
 import { IArt } from "state/artworks/types";
+import { $store } from "state/store";
 
+import { closeMarketAndWithdrawFx } from "./effects/closeMarketAndWithdrawFx";
 import { $error } from "./store/error";
 import { $progress, ActionType } from "./store/progress";
-import { closeMarketAndWithdrawFx } from "./effects/closeMarketAndWithdrawFx";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 
 export function useLocalState() {
   const isInitalLoadHappened = useStore($isInitalLoadHappened);

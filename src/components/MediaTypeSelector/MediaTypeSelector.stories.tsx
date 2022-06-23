@@ -1,7 +1,8 @@
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { useState } from "react";
-import { MediaTypeSelector } from "./MediaTypeSelector";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import { FileType } from "./FileType";
+import { MediaTypeSelector } from "./MediaTypeSelector";
 
 export default {
   title: "Simple/MediaTypeSelector",

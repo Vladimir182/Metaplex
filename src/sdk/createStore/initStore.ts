@@ -1,8 +1,8 @@
-import { createCreateStoreInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Wallet } from "@metaplex/js";
+import { createCreateStoreInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection, Keypair, Transaction } from "@solana/web3.js";
-import { IStore } from "state/store";
 import { ETransactionProgress } from "enums/transactionProgress";
+import { IStore } from "state/store";
 import { fetchConfirmation } from "utils/fetchConfirmation";
 
 export interface InitStoreProps {

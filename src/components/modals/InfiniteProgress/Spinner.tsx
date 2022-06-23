@@ -1,6 +1,6 @@
-import "./spinner.css";
-
 import { Box, BoxProps } from "@chakra-ui/layout";
+
+import "./spinner.css";
 
 interface Props extends BoxProps {
   darkBg?: boolean;

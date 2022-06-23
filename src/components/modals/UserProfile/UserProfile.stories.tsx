@@ -1,8 +1,8 @@
+import { action } from "@storybook/addon-actions";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { NETWORK_LIST } from "state/connection";
 
 import { UserProfile } from ".";
-import { action } from "@storybook/addon-actions";
-import { NETWORK_LIST } from "state/connection";
 export default {
   title: "Compound/Modals/UserProfile",
   component: UserProfile,

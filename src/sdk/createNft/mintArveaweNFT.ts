@@ -1,33 +1,32 @@
-import BN from "bn.js";
-import { PublicKey } from "@solana/web3.js";
 import {
   actions,
+  ArweaveStorage,
+  ArweaveUploadResult,
   Connection,
   MetadataJson,
   Wallet,
-  ArweaveStorage,
-  ArweaveUploadResult,
 } from "@metaplex/js";
-import { createFilePack, METADATA_FILE_NAME } from "utils/arweave-cost";
-import { Pipeline } from "utils/pipeline";
-import { payForFiles } from "./payForFiles";
-
 import {
-  Metadata,
-  MasterEdition,
-  Creator,
   CreateMasterEditionV3,
   CreateMetadataV2,
+  Creator,
   DataV2,
+  MasterEdition,
+  Metadata,
   UpdateMetadataV2,
 } from "@metaplex-foundation/mpl-token-metadata";
-
+import { PublicKey } from "@solana/web3.js";
+import BN from "bn.js";
+import { createFilePack, METADATA_FILE_NAME } from "utils/arweave-cost";
+import { Pipeline } from "utils/pipeline";
 import { wrappedSendTransaction } from "utils/wrappedSendTransaction";
+
+import { payForFiles } from "./payForFiles";
 import { tokenVerification } from "./utils";
 const { prepareTokenAccountAndMintTxs } = actions;
 
-import { createPrimaryMetadataCreatorsTransaction } from "../createPrimaryMetadataCreatorsTransaction";
 import { AddressRow } from "../../components/forms/NftCreate/helper";
+import { createPrimaryMetadataCreatorsTransaction } from "../createPrimaryMetadataCreatorsTransaction";
 
 const EMPTY_URI = " ".repeat(64);
 

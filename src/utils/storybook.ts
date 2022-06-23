@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  ComponentProps,
+  createElement,
+  FC,
+  JSXElementConstructor,
+  useMemo,
+} from "react";
 import type { ComponentStory } from "@storybook/react";
 import { fork } from "effector";
 import { Provider } from "effector-react/ssr";
-import {
-  FC,
-  ComponentProps,
-  JSXElementConstructor,
-  createElement,
-  useMemo,
-} from "react";
 
 export function createTemplate<
   T extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>

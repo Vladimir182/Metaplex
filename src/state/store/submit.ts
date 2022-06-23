@@ -1,7 +1,9 @@
-import { StoreFormProps } from "components/forms/StoreCreateForm";
 import { attach, createEffect, StoreValue } from "effector";
 import { ETransactionProgress } from "enums/transactionProgress";
 import { $walletAddress } from "state/wallet";
+
+import { StoreFormProps } from "components/forms/StoreCreateForm";
+
 import { initStoreFx } from "./init";
 
 export interface ISubmitProps {

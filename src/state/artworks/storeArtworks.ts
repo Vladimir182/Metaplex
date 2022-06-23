@@ -8,12 +8,12 @@ import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
 
+import { logAsyncExecTime } from "../../utils/logAsyncExecTime";
 import { $markets } from "../markets";
 import {
   $sellingResources,
   fetchSellingResourcesFx,
 } from "../sellingResources";
-import { logAsyncExecTime } from "../../utils/logAsyncExecTime";
 
 export const $storeArtworks = createStore<IArt[]>([]);
 

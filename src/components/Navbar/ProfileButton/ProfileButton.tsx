@@ -1,8 +1,8 @@
-import { WalletMultiButton } from "components/smart/Wallet";
-
 import { Link } from "react-router-dom";
-import { Person } from "components/Person";
+
 import { PersonButton } from "components/buttons/PersonButton";
+import { Person } from "components/Person";
+import { WalletMultiButton } from "components/smart/Wallet";
 
 export interface ProfileButtonProps {
   user?: React.ComponentProps<typeof Person> & { notifications?: number };

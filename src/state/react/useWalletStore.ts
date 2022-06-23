@@ -1,8 +1,9 @@
-import { useStore } from "effector-react";
 import { useEffect } from "react";
+import { useStore } from "effector-react";
 import { loadStoreFx } from "state/store";
-import { useWalletStoreId } from "./useWalletStoreId";
 import { $store } from "state/store";
+
+import { useWalletStoreId } from "./useWalletStoreId";
 
 export function useWalletStore() {
   const $pending = loadStoreFx.pending;

@@ -1,8 +1,8 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
-import { ModalFootnote } from "./ModalFootnote";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { fontSizes } from "theme/typography";
+
+import { ModalFootnote } from "./ModalFootnote";
 
 export default {
   title: "Compound/Modals/ModalFootnote",

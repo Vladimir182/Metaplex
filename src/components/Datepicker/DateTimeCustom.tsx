@@ -1,6 +1,7 @@
 import React from "react";
-import { Input } from "@chakra-ui/react";
 import DatePicker from "react-datepicker";
+import { Input } from "@chakra-ui/react";
+
 import { DatePickerProps } from "./DatePickerProps";
 
 export const DateTimeCustom: React.FC<DatePickerProps> = ({

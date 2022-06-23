@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect } from "react";
-import { FormControl, Button, Flex, Box, Text } from "@chakra-ui/react";
-import { FormField } from "components/FormField";
 import { useFormContext } from "react-hook-form";
+import { Box, Button, Flex, FormControl, Text } from "@chakra-ui/react";
+
+import { FormField } from "components/FormField";
+import { FormData } from "components/forms/NftCreate/NftCreationForm";
+
+import { PinkTrashIcon } from "../../Icons/PinkTrashIcon";
+
 import {
   AddressRow,
   calcAllErrors,
   calcProportionsSum,
   useUpdateCalculationsOnSecondary,
 } from "./helper";
-import { FormData } from "components/forms/NftCreate/NftCreationForm";
-import { PinkTrashIcon } from "../../Icons/PinkTrashIcon";
 
 interface FormFieldProps {
   id: number;

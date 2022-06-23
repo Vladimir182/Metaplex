@@ -1,4 +1,4 @@
-import { IArt, ArtType } from "state/artworks/types";
+import { ArtType, IArt } from "state/artworks/types";
 
 export function getArtworks(): IArt[] {
   return [

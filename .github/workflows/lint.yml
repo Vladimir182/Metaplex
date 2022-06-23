@@ -14,7 +14,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '14.17.0'
 
       - name: Get yarn cache
         id: yarn-cache
@@ -28,7 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - run: yarn install --frozen-lockfile
+      - run: yarn install
 
       - name: Run ESLint
         run: yarn lint:eslint

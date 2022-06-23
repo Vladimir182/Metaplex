@@ -1,12 +1,13 @@
-import { StoreFormProps } from "components/forms/StoreCreateForm";
-import { createEffect } from "effector";
-import { useEvent, useStore } from "effector-react";
 import { useMemo } from "react";
 import type { NavigateFunction } from "react-router-dom";
-import { ETransactionProgress } from "enums/transactionProgress";
-import { createProgressTools } from "utils/createProgressTools";
-import { submitStoreFx, setShowStoreCongratulations } from "state/store";
 import { WalletSignTransactionError } from "@solana/wallet-adapter-base";
+import { createEffect } from "effector";
+import { useEvent, useStore } from "effector-react";
+import { ETransactionProgress } from "enums/transactionProgress";
+import { setShowStoreCongratulations, submitStoreFx } from "state/store";
+import { createProgressTools } from "utils/createProgressTools";
+
+import { StoreFormProps } from "components/forms/StoreCreateForm";
 
 export interface IOptions {
   navigate: NavigateFunction;

@@ -1,6 +1,5 @@
-import { HStack, Text } from "@chakra-ui/react";
-
 import { FC } from "react";
+import { HStack, Text } from "@chakra-ui/react";
 
 interface Props {
   text?: string;

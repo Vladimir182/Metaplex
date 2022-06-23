@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import {
   MetaDataJsonCategory,
   MetadataJsonCreator,
   MetadataJsonFile,
 } from "@metaplex/js";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { PublicKey } from "@solana/web3.js";
 import dayjs from "dayjs";
 

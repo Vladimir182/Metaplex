@@ -1,11 +1,11 @@
-import { ThemeConfig, extendTheme } from "@chakra-ui/react";
-import { fontSizes, fonts, letterSpacings, lineHeights } from "./typography";
+import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 
 import { colors } from "./colors";
 import { components } from "./components";
+import { layerStyles } from "./layerStyles";
 import { shadows } from "./shadows";
 import { styles } from "./styles";
-import { layerStyles } from "./layerStyles";
+import { fonts, fontSizes, letterSpacings, lineHeights } from "./typography";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",

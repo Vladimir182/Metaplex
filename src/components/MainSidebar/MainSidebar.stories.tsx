@@ -1,7 +1,8 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { MainSidebarContent } from "./MainSidebarContent";
 import { Sidebar } from "components/Sidebar";
+
+import { MainSidebarContent } from "./MainSidebarContent";
 
 export default {
   title: "Compound/Sidebar/MainSidebar",

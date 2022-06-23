@@ -1,7 +1,7 @@
-import { Keypair, PublicKey, TransactionInstruction } from "@solana/web3.js";
+import { Wallet } from "@metaplex/js";
 import { bignum, COption } from "@metaplex-foundation/beet";
 import { createInitSellingResourceInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { Wallet } from "@metaplex/js";
+import { Keypair, PublicKey, TransactionInstruction } from "@solana/web3.js";
 
 export interface CreateInitSellingResourceTransactionProps {
   payer: Wallet;

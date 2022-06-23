@@ -1,9 +1,10 @@
 import { Route } from "react-router-dom";
+import { Store } from "effector";
 import { useStore } from "effector-react";
 import { AppLoading } from "views/routes/AppLoading";
 import { AppNoAccess } from "views/routes/AppNoAccess";
+
 import { ISchema } from "./types";
-import { Store } from "effector";
 
 export function render(
   {

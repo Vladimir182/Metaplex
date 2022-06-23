@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { tagAnatomy as parts } from "@chakra-ui/anatomy";
 import type {
   PartsStyleInterpolation,
   PartsStyleObject,
   SystemStyleFunction,
 } from "@chakra-ui/theme-tools";
-
 import { getColor } from "@chakra-ui/theme-tools";
-import { tagAnatomy as parts } from "@chakra-ui/anatomy";
 
 const sizes: Record<string, PartsStyleObject<typeof parts>> = {
   sm: {

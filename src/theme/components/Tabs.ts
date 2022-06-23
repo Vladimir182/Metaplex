@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { tabsAnatomy as parts } from "@chakra-ui/anatomy";
 import type {
   PartsStyleFunction,
   PartsStyleInterpolation,
   SystemStyleFunction,
 } from "@chakra-ui/theme-tools";
-
 import { getColor } from "@chakra-ui/theme-tools";
-import { tabsAnatomy as parts } from "@chakra-ui/anatomy";
 
 const baseStyleTab: SystemStyleFunction = () => {
   return {

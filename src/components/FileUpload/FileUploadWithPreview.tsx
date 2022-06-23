@@ -1,13 +1,15 @@
 import React from "react";
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+import { useFileReader } from "hooks/useFileReader";
+
 import { DragAndDrop } from "components/DragAndDrop";
 import {
   FileType,
   FiletypeAcceptMap,
 } from "components/MediaTypeSelector/FileType";
 import { UploadButton } from "components/UploadButton";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
-import { useFileReader } from "hooks/useFileReader";
+
 import { FileUploadProps } from "./FileUploadProps";
 import { Preview } from "./Preview";
 

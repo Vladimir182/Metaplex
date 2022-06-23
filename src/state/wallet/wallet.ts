@@ -1,6 +1,6 @@
-import { Wallet } from "wallet";
 import { WalletContextState } from "@solana/wallet-adapter-react";
 import { createEvent, restore } from "effector";
+import { Wallet } from "wallet";
 
 type ConnectedWallet = WalletContextState &
   Wallet & {

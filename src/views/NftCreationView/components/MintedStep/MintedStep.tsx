@@ -1,8 +1,8 @@
 import { FC, useEffect } from "react";
 import { Flex, Heading, Text } from "@chakra-ui/react";
+import { useFileReader } from "hooks/useFileReader";
 
 import { ArtImage } from "components/ArtPreview";
-import { useFileReader } from "hooks/useFileReader";
 import { FileType } from "components/MediaTypeSelector/FileType";
 
 export const MintedStep: FC<{

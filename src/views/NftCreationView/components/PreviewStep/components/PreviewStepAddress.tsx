@@ -1,5 +1,6 @@
 import { FC } from "react";
-import { Divider, VStack, Text, Flex, HStack } from "@chakra-ui/react";
+import { Divider, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+
 import { AddressRow } from "../../../../../components/forms/NftCreate/helper";
 
 export const PreviewStepAddress: FC<{

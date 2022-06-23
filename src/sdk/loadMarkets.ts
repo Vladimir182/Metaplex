@@ -1,10 +1,11 @@
 import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
 import {
+  FixedPriceSaleProgram,
   Market,
   MarketArgs,
-  FixedPriceSaleProgram,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
+
 import { toPubkey } from "../utils/toPubkey";
 
 const MARKET_DATA_SIZE = 395;

@@ -1,12 +1,11 @@
 import { FC } from "react";
-import { Flex, Box, Heading, Divider, Text } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, Text } from "@chakra-ui/react";
+import { useStore } from "effector-react";
+import { toNumber } from "utils/base";
+import { createSaleFactory } from "views/CreateSaleView/state";
 
 import { ArtworkSummary } from "components/Artwork/ArtworkSummary";
 import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
-import { createSaleFactory } from "views/CreateSaleView/state";
-
-import { toNumber } from "utils/base";
-import { useStore } from "effector-react";
 
 export const PreviewStep: FC = () => {
   const { artworkSummary, $saleDetails } = createSaleFactory.useModel();

@@ -1,10 +1,11 @@
-import { Button, Circle, Text, VStack } from "@chakra-ui/react";
-
-import type { Cluster } from "@solana/web3.js";
-import { TitledBlock } from "components/TitledBlock";
-import { useStore } from "effector-react";
 import { useCallback } from "react";
+import { Button, Circle, Text, VStack } from "@chakra-ui/react";
+import type { Cluster } from "@solana/web3.js";
+import { useStore } from "effector-react";
 import { $networkStatus } from "state/connection";
+
+import { TitledBlock } from "components/TitledBlock";
+
 import { ConnectionStatus } from "./utils/getNetworksStatus";
 export interface NetworkSelectorProps {
   networks: Cluster[];

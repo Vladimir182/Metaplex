@@ -1,4 +1,4 @@
-import { BoxProps, Spacer, VStack } from "@chakra-ui/react";
+import { useMemo } from "react";
 import {
   MdGridView,
   MdList,
@@ -6,14 +6,15 @@ import {
   MdOutlineShoppingCart,
   MdOutlineStorefront,
 } from "react-icons/md";
+import { BoxProps, Spacer, VStack } from "@chakra-ui/react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+import { useBalance } from "state/react/useBalance";
 
-import { Balance } from "./Balance";
 import type { PersonProps } from "components/Person";
 import { SidebarMenuItem } from "components/Sidebar/SidebarMenuItem";
+
+import { Balance } from "./Balance";
 import { UserInfo } from "./UserInfo";
-import { useBalance } from "state/react/useBalance";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
-import { useMemo } from "react";
 
 export type TMenuTypes =
   | "resources"

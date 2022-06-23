@@ -1,6 +1,5 @@
 import { SellingResourceArgs } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { attach, createStore, forward, StoreValue } from "effector";
-
 import { $connection } from "state/connection";
 import { $markets } from "state/markets";
 

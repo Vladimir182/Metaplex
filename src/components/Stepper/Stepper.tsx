@@ -1,5 +1,5 @@
-import { Divider, Flex, FlexProps, Text } from "@chakra-ui/react";
 import { FC, Fragment } from "react";
+import { Divider, Flex, FlexProps, Text } from "@chakra-ui/react";
 
 import { Step } from "./Step";
 

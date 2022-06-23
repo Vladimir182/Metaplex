@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
+import { useStore } from "effector-react";
 
 import { Layout } from "components/Layout";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { ListingSuccess } from "components/modals/ListingSuccess";
-import { TransactionFailure } from "components/modals/TransactionFailure";
 import { ModalTemplate } from "components/modals/template";
+import { TransactionFailure } from "components/modals/TransactionFailure";
 
 import {
   CreateSaleSidebarContent,
@@ -13,9 +14,7 @@ import {
 } from "./components/CreateSaleSidebar";
 import { Form } from "./components/Form";
 import { PreviewStep } from "./components/PreviewStep";
-
 import { createSaleFactory } from "./state";
-import { useStore } from "effector-react";
 
 export const CreateSaleView: FC = () => {
   const { itemId } = useParams();

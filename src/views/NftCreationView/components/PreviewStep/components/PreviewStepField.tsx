@@ -1,5 +1,5 @@
-import { Divider, Flex, Text, VStack } from "@chakra-ui/react";
 import { FC } from "react";
+import { Divider, Flex, Text, VStack } from "@chakra-ui/react";
 
 interface IPreviewStepFieldProps {
   title?: string;

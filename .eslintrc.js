@@ -20,13 +20,40 @@ module.exports = {
     "@typescript-eslint",
     "prettier",
     "effector",
+    "simple-import-sort",
   ],
   overrides: [
     {
       files: ["**/*.stories.*"],
     },
+    {
+      files: ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      rules: {
+        "simple-import-sort/imports": [
+          "error",
+          {
+            groups: [
+              // Packages `react` related packages come first.
+              ["^react", "^@?\\w"],
+              // Internal packages.
+              ["^(@|components)(/.*|$)"],
+              // Side effect imports.
+              ["^\\u0000"],
+              // Parent imports. Put `..` last.
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+              // Other relative imports. Put same-folder imports and `.` last.
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+              // Style imports.
+              ["^.+\\.?(css)$"],
+            ],
+          },
+        ],
+      },
+    },
   ],
   rules: {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "effector/no-watch": "off",
     "import/no-anonymous-default-export": "off",
     "@typescript-eslint/no-floating-promises": "off",

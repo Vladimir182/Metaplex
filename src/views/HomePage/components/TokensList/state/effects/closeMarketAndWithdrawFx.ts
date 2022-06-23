@@ -1,14 +1,13 @@
-import { attach, createEffect, StoreValue } from "effector";
+import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { PublicKey } from "@solana/web3.js";
-
-import { $connection } from "state/connection";
-import { $wallet } from "state/wallet";
+import { attach, createEffect, StoreValue } from "effector";
 import { closeMarketAndWithdraw } from "sdk/sale/closeMarketAndWithdraw";
-import { $markets } from "state/markets";
 import { IArt } from "state/artworks";
+import { $connection } from "state/connection";
+import { $markets } from "state/markets";
 import { $sellingResources } from "state/sellingResources";
 import { $store } from "state/store";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { $wallet } from "state/wallet";
 
 export interface ISource {
   connection: StoreValue<typeof $connection>;

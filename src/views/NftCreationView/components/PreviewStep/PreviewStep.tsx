@@ -1,11 +1,13 @@
 import { FC, useEffect } from "react";
-import { ArtImage } from "components/ArtPreview";
+import { VStack } from "@chakra-ui/react";
 import { useFileReader } from "hooks/useFileReader";
-import { PreviewStepField } from "./components/PreviewStepField";
+
+import { ArtImage } from "components/ArtPreview";
 import { FormData } from "components/forms/NftCreate";
 import { FileType } from "components/MediaTypeSelector";
-import { VStack } from "@chakra-ui/react";
+
 import { PreviewSale } from "./components/PreviewSale";
+import { PreviewStepField } from "./components/PreviewStepField";
 
 interface IPrevieewBodyProps {
   formData: Partial<FormData> | null;

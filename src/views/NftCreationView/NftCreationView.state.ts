@@ -1,7 +1,6 @@
+import { RefObject, useCallback, useMemo } from "react";
 import { MetadataJson, MetadataJsonCreator } from "@metaplex/js";
-import type { FormData } from "components/forms/NftCreate/NftCreationForm";
-import { FileType } from "components/MediaTypeSelector";
-import { useToast } from "components/modals/Toast";
+import debug from "debug";
 import {
   attach,
   createEffect,
@@ -12,7 +11,7 @@ import {
 } from "effector";
 import { useStore } from "effector-react";
 import { reshape } from "patronum/reshape";
-import { RefObject, useCallback, useMemo } from "react";
+import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
 import { $connection } from "state/connection";
 import { mintArweaveFx } from "state/nft";
 import { createEntry } from "state/utils";
@@ -24,11 +23,14 @@ import {
   METADATA_FILE_NAME,
 } from "utils/arweave-cost";
 import { toNumber } from "utils/base";
-import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
 import { createProgressTools } from "utils/createProgressTools";
 import { throttle } from "utils/throttle";
-import debug from "debug";
+
 import { AddressRow, getCreators } from "components/forms/NftCreate/helper";
+import type { FormData } from "components/forms/NftCreate/NftCreationForm";
+import { FileType } from "components/MediaTypeSelector";
+import { useToast } from "components/modals/Toast";
+
 import { NftCreationSteps } from "./types";
 
 const LOGErr = debug("error:NftCreationView.state");

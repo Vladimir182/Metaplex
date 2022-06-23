@@ -1,8 +1,8 @@
-import { Center, Flex, FlexProps, Heading, Text } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
+import { Center, Flex, FlexProps, Heading, Text } from "@chakra-ui/react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 import { ModalFootnote } from "../ModalFootnote";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 export interface FlowStatusProps extends FlexProps {
   statusIcon?: ReactNode;

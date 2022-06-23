@@ -1,10 +1,10 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
-
 import React from "react";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import { useStore } from "effector-react";
+
+import { $errorsStore } from "components/forms/NftCreate/helper";
 import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
-import { $errorsStore } from "components/forms/NftCreate/helper";
-import { useStore } from "effector-react";
 
 interface Props {
   price?: number;

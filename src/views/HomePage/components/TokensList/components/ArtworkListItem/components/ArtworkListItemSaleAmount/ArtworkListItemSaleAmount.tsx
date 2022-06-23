@@ -5,9 +5,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/layout";
-
 import { useSolToUsd } from "state/react/useSolToUsd";
-
 import { truncateDecimals } from "utils/truncateDecimals";
 
 interface Props extends StackProps {

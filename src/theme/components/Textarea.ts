@@ -1,7 +1,8 @@
 import type {
-  SystemStyleObject,
   SystemStyleInterpolation,
+  SystemStyleObject,
 } from "@chakra-ui/theme-tools";
+
 import { Input } from "./Input";
 
 const sizes: Record<string, SystemStyleObject> = {

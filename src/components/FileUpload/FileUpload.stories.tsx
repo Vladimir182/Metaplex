@@ -1,6 +1,8 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { FileUpload } from "./FileUpload";
+
 import { FileType } from "components/MediaTypeSelector/FileType";
+
+import { FileUpload } from "./FileUpload";
 
 export default {
   title: "Compound/FileUpload",

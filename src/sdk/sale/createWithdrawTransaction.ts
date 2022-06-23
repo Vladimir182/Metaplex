@@ -1,10 +1,3 @@
-import {
-  Connection,
-  PublicKey,
-  SYSVAR_CLOCK_PUBKEY,
-  Transaction,
-  TransactionInstruction,
-} from "@solana/web3.js";
 import { Wallet } from "@metaplex/js";
 import {
   createWithdrawInstruction,
@@ -15,14 +8,22 @@ import {
   MarketArgs,
   PrimaryMetadataCreators,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { IArt } from "state/artworks";
-import { createPrimaryMetadataCreatorsTransaction } from "../createPrimaryMetadataCreatorsTransaction";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   Token,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
+import {
+  Connection,
+  PublicKey,
+  SYSVAR_CLOCK_PUBKEY,
+  Transaction,
+  TransactionInstruction,
+} from "@solana/web3.js";
+import { IArt } from "state/artworks";
+
 import { createAndSignTransaction } from "../createAndSignTransaction";
+import { createPrimaryMetadataCreatorsTransaction } from "../createPrimaryMetadataCreatorsTransaction";
 
 interface WithdrawProps {
   connection: Connection;

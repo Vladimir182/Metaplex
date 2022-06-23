@@ -1,13 +1,13 @@
 import { calculate } from "@metaplex/arweave-cost";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { Connection, MetadataJson } from "@metaplex/js";
-import { MintLayout } from "@solana/spl-token";
 import {
   MAX_CREATOR_LEN,
   MAX_NAME_LENGTH,
   MAX_SYMBOL_LENGTH,
   MAX_URI_LENGTH,
 } from "@metaplex-foundation/mpl-token-metadata";
+import { MintLayout } from "@solana/spl-token";
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 export const METADATA_FILE_NAME = "metadata.json";
 
 export function createFilePack(

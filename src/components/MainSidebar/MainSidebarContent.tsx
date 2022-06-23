@@ -1,9 +1,10 @@
 import { FC, useCallback, useState } from "react";
 
-import { MainView, TMenuTypes } from "./MainView";
-import { MobileSidebarHeader } from "components/Sidebar/DrawerSidebar/MobileSidebarHeader";
-import { PersonProps } from "components/Person";
 import { ResourcesList } from "components/Navbar/ResourcesList";
+import { PersonProps } from "components/Person";
+import { MobileSidebarHeader } from "components/Sidebar/DrawerSidebar/MobileSidebarHeader";
+
+import { MainView, TMenuTypes } from "./MainView";
 
 interface Props {
   user?: PersonProps | null;

@@ -1,4 +1,12 @@
 import {
+  Controller,
+  ControllerProps,
+  FieldValues,
+  useFormContext,
+  UseFormRegister,
+} from "react-hook-form";
+import { RegisterOptions } from "react-hook-form/dist/types/validator";
+import {
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -8,14 +16,6 @@ import {
   NumberInputField,
   RequiredIndicator,
 } from "@chakra-ui/react";
-import {
-  FieldValues,
-  useFormContext,
-  UseFormRegister,
-  Controller,
-  ControllerProps,
-} from "react-hook-form";
-import { RegisterOptions } from "react-hook-form/dist/types/validator";
 
 interface FormFieldProps {
   id: string;

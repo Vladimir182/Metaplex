@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { Layout } from ".";
 import { MainSidebarContent } from "components/MainSidebar";
+
+import { Layout } from ".";
 
 export default {
   title: "Compound/Layout",

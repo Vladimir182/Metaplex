@@ -4,14 +4,15 @@ import { Connection } from "@solana/web3.js";
 import { File } from "@web-std/file";
 import { allSettled, fork } from "effector";
 import { MintArveaweNFTResponse } from "sdk/createNft/mintArveaweNFT";
+
 import { $network } from "./connection";
 import {
-  mintArweaveFx,
   $storage,
   ARWEAVE_UPLOAD_ENDPOINT,
   IMintArweaveParams,
   IMintArweaveParamsWithSource,
   IMintArweaveSource,
+  mintArweaveFx,
 } from "./nft";
 
 describe("nft", () => {

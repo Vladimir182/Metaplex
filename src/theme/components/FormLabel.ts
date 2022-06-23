@@ -1,4 +1,5 @@
 import type { SystemStyleObject } from "@chakra-ui/theme-tools";
+
 import { Text } from "./Text";
 
 const baseStyle: SystemStyleObject = {

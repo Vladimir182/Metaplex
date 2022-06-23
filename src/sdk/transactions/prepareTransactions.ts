@@ -1,6 +1,7 @@
 import { Transaction } from "@metaplex-foundation/mpl-core";
 import { TransactionCtorFields } from "@solana/web3.js";
 import { NonNullable } from "ts-toolbelt/out/Object/NonNullable";
+
 import { TransactionsBatch } from "./TransactionsBatch";
 
 export const prepareTransactions = (

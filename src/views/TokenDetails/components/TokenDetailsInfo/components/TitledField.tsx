@@ -1,5 +1,5 @@
-import { StackProps, VStack, Text, Divider } from "@chakra-ui/react";
 import { FC } from "react";
+import { Divider, StackProps, Text, VStack } from "@chakra-ui/react";
 
 interface ITitledFieldProps {
   title?: string;

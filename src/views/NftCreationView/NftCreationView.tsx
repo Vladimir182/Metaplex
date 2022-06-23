@@ -1,14 +1,16 @@
+import { FC, useEffect, useRef, useState } from "react";
+import { useStore } from "effector-react";
+
 import { NftCreationForm } from "components/forms/NftCreate";
 import { Layout } from "components/Layout";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { useToast } from "components/modals/Toast";
-import { useStore } from "effector-react";
-import { FC, useEffect, useRef, useState } from "react";
-import { useLocalState } from "./NftCreationView.state";
-import { PreviewStep } from "./components/PreviewStep";
-import { NftCreationHeader } from "./components/NftCreationHeader";
-import { NftCreationFooter } from "./components/NftCreationFooter";
+
 import { MintedStep } from "./components/MintedStep";
+import { NftCreationFooter } from "./components/NftCreationFooter";
+import { NftCreationHeader } from "./components/NftCreationHeader";
+import { PreviewStep } from "./components/PreviewStep";
+import { useLocalState } from "./NftCreationView.state";
 import { NftCreationSteps } from "./types";
 
 export const NftCreationView: FC = () => {

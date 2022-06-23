@@ -1,6 +1,6 @@
+import { Link } from "react-router-dom";
 import { Flex, FlexProps, HStack, Spacer } from "@chakra-ui/react";
 
-import { Link } from "react-router-dom";
 import { MetaplexIcon } from "components/Icons";
 
 interface Props extends FlexProps {

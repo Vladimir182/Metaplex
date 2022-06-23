@@ -1,7 +1,8 @@
 import { allSettled, fork } from "effector";
 import { toPubkey } from "utils/toPubkey";
-import { $hasStore, $store, loadStoreByOwnerFx } from ".";
+
 import { store as storeMock } from "./store.mock";
+import { $hasStore, $store, loadStoreByOwnerFx } from ".";
 
 describe("store", () => {
   const STORE_OWNER = toPubkey("8NHnPQhioK9oQTQUWqhc6HgpcKnRDafu9tmjHWL7W2dy");

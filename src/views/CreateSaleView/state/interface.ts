@@ -1,11 +1,10 @@
-import { StoreValue } from "effector";
 import { bignum, COption } from "@metaplex-foundation/beet";
-
-import { $connection } from "state/connection";
+import { StoreValue } from "effector";
+import { ETransactionProgress } from "enums/transactionProgress";
 import { IArt } from "state/artworks";
+import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
-import { ETransactionProgress } from "enums/transactionProgress";
 
 import { FormState } from "../components/Form";
 

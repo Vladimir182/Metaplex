@@ -1,9 +1,3 @@
-import {
-  Connection,
-  PublicKey,
-  SYSVAR_CLOCK_PUBKEY,
-  Transaction,
-} from "@solana/web3.js";
 import { Wallet } from "@metaplex/js";
 import {
   createClaimResourceInstruction,
@@ -11,12 +5,19 @@ import {
   MarketArgs,
   SellingResourceArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { MetadataProgram } from "@metaplex-foundation/mpl-token-metadata";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   Token,
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import { MetadataProgram } from "@metaplex-foundation/mpl-token-metadata";
+import {
+  Connection,
+  PublicKey,
+  SYSVAR_CLOCK_PUBKEY,
+  Transaction,
+} from "@solana/web3.js";
+
 import { createAndSignTransaction } from "../createAndSignTransaction";
 
 interface ClaimProps {

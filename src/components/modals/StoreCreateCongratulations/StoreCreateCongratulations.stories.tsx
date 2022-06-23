@@ -1,4 +1,5 @@
 import { ComponentMeta } from "@storybook/react";
+
 import { StoreCreateCongratulations } from "./StoreCreateCongratulations";
 
 export default {

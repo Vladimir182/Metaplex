@@ -1,5 +1,5 @@
-import { useStore } from "effector-react";
 import { useMemo } from "react";
+import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
 import {
   attach,
   createEffect,
@@ -10,13 +10,11 @@ import {
   restore,
 } from "effector";
 import { modelFactory } from "effector-factorio";
-import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
-
+import { useStore } from "effector-react";
+import { ETransactionProgress } from "enums/transactionProgress";
+import { $storeArtworks } from "state/artworks";
 import { createProgressTools } from "utils/createProgressTools";
 import { CreateSaleSidebarEnum } from "views/CreateSaleView/components/CreateSaleSidebar";
-import { ETransactionProgress } from "enums/transactionProgress";
-
-import { $storeArtworks } from "state/artworks";
 
 import { FormState } from "../components/Form";
 import { getContent } from "../utils/getContent";

@@ -1,8 +1,8 @@
+import { useEffect } from "react";
 import { combine, restore } from "effector";
 import { useStore } from "effector-react";
-import { useEffect } from "react";
 import { $connection } from "state/connection";
-import { checkWalletStoreOriginFx } from "state/store";
+import { checkWalletStoreOriginFx } from "state/store/checkWalletStore";
 import { $wallet } from "state/wallet";
 
 const $data = restore(checkWalletStoreOriginFx.finally, null);

@@ -1,9 +1,10 @@
 import { FC } from "react";
-import { Layout } from "components/Layout";
-import { Button, Center, Heading } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { VStack } from "@chakra-ui/layout";
+import { Button, Center, Heading } from "@chakra-ui/react";
 import { ROUTES } from "routes";
+
+import { Layout } from "components/Layout";
 
 interface Props {
   href?: string;

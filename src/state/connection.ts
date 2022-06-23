@@ -1,5 +1,4 @@
-import { Connection, Cluster, clusterApiUrl } from "@solana/web3.js";
-import { getStorage } from "utils/storage";
+import { Cluster, clusterApiUrl, Connection } from "@solana/web3.js";
 import {
   combine,
   createEffect,
@@ -9,11 +8,13 @@ import {
   restore,
   sample,
 } from "effector";
+import { interval } from "patronum";
+import { getStorage } from "utils/storage";
+
 import {
   getNetworksStatus,
   NetworksStatus,
 } from "components/modals/UserProfile/NetworkSelector/utils/getNetworksStatus";
-import { interval } from "patronum";
 
 export const NETWORK_KEY = "networkkey";
 export const NETWORK_LIST: Cluster[] = ["devnet", "testnet", "mainnet-beta"];

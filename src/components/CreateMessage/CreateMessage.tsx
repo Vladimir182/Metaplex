@@ -1,6 +1,6 @@
+import { FC } from "react";
 import { Flex, Heading, Image, Text } from "@chakra-ui/react";
 
-import { FC } from "react";
 import backgroundImage from "./wallet-not-connected-background.png";
 
 export const CreateMessage: FC = ({ children }) => {

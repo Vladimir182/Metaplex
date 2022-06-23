@@ -1,7 +1,7 @@
-import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/react";
 import { FC } from "react";
-
+import { Modal, ModalBody, ModalContent, ModalOverlay } from "@chakra-ui/react";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+
 import { LoaderComponent, LoaderProps } from "./LoaderComponent";
 
 export interface Props extends LoaderProps {

@@ -1,10 +1,12 @@
-import { attach, createEffect, StoreValue } from "effector";
-import { File } from "@web-std/file";
 import { ArweaveStorage, MetadataJson } from "@metaplex/js";
+import { File } from "@web-std/file";
+import { attach, createEffect, StoreValue } from "effector";
 import { ENftProgress, mintArweaveNFT } from "sdk/createNft/mintArveaweNFT";
-import { $network, $connection } from "./connection";
-import { $wallet } from "./wallet";
+
 import { AddressRow } from "../components/forms/NftCreate/helper";
+
+import { $connection, $network } from "./connection";
+import { $wallet } from "./wallet";
 
 export const ARWEAVE_UPLOAD_ENDPOINT =
   "https://us-central1-metaplex-studios.cloudfunctions.net/uploadFile";

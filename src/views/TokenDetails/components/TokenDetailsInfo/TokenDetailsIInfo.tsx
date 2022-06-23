@@ -1,22 +1,23 @@
+import { FC } from "react";
 import {
   Box,
-  VStack,
-  Heading,
-  Flex,
-  Text,
   chakra,
-  useClipboard,
+  Flex,
+  Heading,
   Link,
+  Text,
+  useClipboard,
+  VStack,
 } from "@chakra-ui/react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { FC } from "react";
 import { IArt } from "state/artworks";
-import { ArtworkListItemActions } from "views/HomePage/components/TokensList/components/ArtworkListItem/components/ArtworkListItemActions";
-import { IArtworkSummary } from "views/TokenDetails/TokenDetails.state";
-import { TitledField } from "./components/TitledField";
 import { useSolToUsd } from "state/react/useSolToUsd";
 import { truncateDecimals } from "utils/truncateDecimals";
+import { ArtworkListItemActions } from "views/HomePage/components/TokensList/components/ArtworkListItem/components/ArtworkListItemActions";
+import { IArtworkSummary } from "views/TokenDetails/TokenDetails.state";
+
 import { CopyButton } from "./components/CopyButton";
+import { TitledField } from "./components/TitledField";
 import { getShortAddress, getSolExplorerLink } from "./utils";
 
 interface ITokenDetailsInfoProps {

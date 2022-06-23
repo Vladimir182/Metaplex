@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
-import { FileUploadProps } from "./FileUploadProps";
 import { HStack, Input, Tab, TabList, Tabs, VStack } from "@chakra-ui/react";
-import { UploadButton } from "components/UploadButton";
-import { FileType, FiletypeAcceptMap } from "components/MediaTypeSelector";
+
 import { DragAndDrop } from "components/DragAndDrop";
+import { FileType, FiletypeAcceptMap } from "components/MediaTypeSelector";
+import { UploadButton } from "components/UploadButton";
+
+import { FileUploadProps } from "./FileUploadProps";
 
 export const FileUploadSimple: React.FC<FileUploadProps> = ({
   onFileChange,

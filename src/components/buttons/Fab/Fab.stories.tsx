@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
+
 import { ExpandIcon } from "components/Icons";
 
 import { Fab } from ".";

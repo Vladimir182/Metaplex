@@ -1,6 +1,5 @@
-import { BoxProps, Circle, Text } from "@chakra-ui/react";
 import { ComponentType, FC } from "react";
-
+import { BoxProps, Circle, Text } from "@chakra-ui/react";
 import { fontSizes } from "theme/typography";
 
 interface IconProps {

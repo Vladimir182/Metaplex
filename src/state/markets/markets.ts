@@ -7,10 +7,11 @@ import {
   sample,
   StoreValue,
 } from "effector";
+import { interval } from "patronum";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
+
 import { loadMarkets } from "../../sdk/loadMarkets";
-import { interval } from "patronum";
 
 export const $markets = createStore<Map<string, MarketArgs>>(new Map());
 

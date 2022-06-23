@@ -1,15 +1,15 @@
+import { FC } from "react";
+import { ModalCloseButton } from "@chakra-ui/modal";
+import { useEvent, useStore } from "effector-react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 import {
   $showStoreCongratulations,
   $store,
   setShowStoreCongratulations,
 } from "state/store";
-import { useEvent, useStore } from "effector-react";
 
-import { FC } from "react";
-import { ModalCloseButton } from "@chakra-ui/modal";
-import { ModalTemplate } from "components/modals/template";
 import { StoreCreateCongratulations } from "components/modals/StoreCreateCongratulations";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+import { ModalTemplate } from "components/modals/template";
 
 interface Props {
   forceOpen?: boolean;

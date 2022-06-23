@@ -2,7 +2,9 @@ import {
   useToast as useOriginalToast,
   UseToastOptions,
 } from "@chakra-ui/react";
+
 import { WalletMultiButton } from "components/smart/Wallet";
+
 import { Toast, ToastProps } from "./Toast";
 
 export const useToast = () => {

@@ -1,5 +1,5 @@
-import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Button } from "@chakra-ui/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
   title: "Simple/UI kit/Button",

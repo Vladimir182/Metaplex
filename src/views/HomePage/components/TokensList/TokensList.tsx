@@ -1,18 +1,18 @@
 import React, { useCallback } from "react";
-import { Heading, VStack, Flex } from "@chakra-ui/layout";
-import { Button, Center } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 import { BsWallet2 } from "react-icons/bs";
-
+import { useNavigate } from "react-router-dom";
+import { Flex, Heading, VStack } from "@chakra-ui/layout";
+import { Button, Center } from "@chakra-ui/react";
 import { ROUTES } from "routes";
-import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
-import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { fontSizes } from "theme/typography";
 
-import { ActionType } from "./state/store/progress";
+import { InfiniteProgress } from "components/modals/InfiniteProgress";
+import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
+
 import { ArtworkListItem } from "./components/ArtworkListItem";
 import { ClaimSuccess } from "./components/ClaimSuccess";
 import { ErrorModal } from "./components/ErrorModal";
+import { ActionType } from "./state/store/progress";
 import { MODAL_COPY } from "./data";
 import { useLocalState } from "./state";
 

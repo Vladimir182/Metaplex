@@ -1,8 +1,8 @@
 import { Box, HStack, Image, Text } from "@chakra-ui/react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 import { ArtworkListItemStatus } from "../ArtworkListItemStatus";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 
 interface Props {
   imgUrl: string;

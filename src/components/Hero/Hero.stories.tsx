@@ -1,8 +1,9 @@
+import { Button } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { Button } from "@chakra-ui/react";
-import { Hero } from "./Hero";
 import { Layout } from "components/Layout";
+
+import { Hero } from "./Hero";
 
 export default {
   title: "Simple/Hero",

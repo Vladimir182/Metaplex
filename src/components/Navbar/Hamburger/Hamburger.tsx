@@ -1,6 +1,5 @@
-import { Button, ButtonProps } from "@chakra-ui/button";
-
 import { MdMenu } from "react-icons/md";
+import { Button, ButtonProps } from "@chakra-ui/button";
 
 export const Hamburger: React.FC<ButtonProps> = (props) => {
   return (

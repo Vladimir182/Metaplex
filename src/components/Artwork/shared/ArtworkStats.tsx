@@ -5,7 +5,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/layout";
-
 import { ArtworkCardVariant } from "state/artworks";
 
 interface Props extends StackProps {

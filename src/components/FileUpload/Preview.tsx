@@ -1,10 +1,11 @@
-import { CloseButton, Flex, Image } from "@chakra-ui/react";
-
-import { ConditionalWrapper } from "components/utility/ConditionalWrapper";
-import { FileType } from "components/MediaTypeSelector/FileType";
 import { FC } from "react";
-import { FileUploadProps } from ".";
+import { CloseButton, Flex, Image } from "@chakra-ui/react";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+
+import { FileType } from "components/MediaTypeSelector/FileType";
+import { ConditionalWrapper } from "components/utility/ConditionalWrapper";
+
+import { FileUploadProps } from ".";
 
 interface Props {
   variant: FileUploadProps["variant"];

@@ -1,10 +1,11 @@
+import { MetadataJson } from "@metaplex/js";
+import { File } from "@web-std/file";
+
 import {
   createFilePack,
   getFilesCost,
   METADATA_FILE_NAME,
 } from "./arweave-cost";
-import { File } from "@web-std/file";
-import { MetadataJson } from "@metaplex/js";
 
 jest.mock("@metaplex/arweave-cost", () => ({
   calculate: () =>

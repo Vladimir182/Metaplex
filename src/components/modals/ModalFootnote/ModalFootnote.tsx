@@ -1,5 +1,5 @@
-import { Box, HStack, Text } from "@chakra-ui/react";
 import { FC, ReactNode } from "react";
+import { Box, HStack, Text } from "@chakra-ui/react";
 
 interface Props {
   icon?: ReactNode;

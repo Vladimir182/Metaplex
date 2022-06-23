@@ -1,3 +1,4 @@
+import { AccountLayout, Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {
   Connection,
   Keypair,
@@ -5,7 +6,6 @@ import {
   SystemProgram,
   TransactionInstruction,
 } from "@solana/web3.js";
-import { AccountLayout, Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
 export const createTokenAccount = async ({
   payer,

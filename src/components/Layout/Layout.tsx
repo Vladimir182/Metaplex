@@ -1,12 +1,13 @@
 import { FC, ReactNode, useCallback, useState } from "react";
-
-import { $user } from "state/wallet";
 import { Flex } from "@chakra-ui/react";
-import { LayoutContent } from ".";
+import { useStore } from "effector-react";
+import { $user } from "state/wallet";
+
 import { Navbar } from "components/Navbar";
 import { NavbarActions } from "components/Navbar/NavbarActions";
 import { Sidebar } from "components/Sidebar";
-import { useStore } from "effector-react";
+
+import { LayoutContent } from ".";
 
 export interface LayoutProps {
   narrow?: boolean;

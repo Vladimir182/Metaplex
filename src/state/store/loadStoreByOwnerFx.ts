@@ -1,7 +1,7 @@
+import { PublicKey } from "@solana/web3.js";
 import { attach, createEffect, StoreValue } from "effector";
 import { loadStore } from "sdk/loadStore";
 import { $connection } from "state/connection";
-import { PublicKey } from "@solana/web3.js";
 
 export const loadStoreByOwnerFx = attach({
   effect: createEffect(

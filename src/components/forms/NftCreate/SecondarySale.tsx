@@ -1,11 +1,12 @@
 import React from "react";
-import { Flex, Box, Heading, Text, Button } from "@chakra-ui/react";
+import { useFormContext } from "react-hook-form";
+import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 
 import { FormField } from "components/FormField";
-import { AddressCell } from "./AddressCell";
 import { PlusIcon } from "components/Icons/PlusIcon";
+
+import { AddressCell } from "./AddressCell";
 import { AddressRow, calcProportionsSum } from "./helper";
-import { useFormContext } from "react-hook-form";
 import { FormData } from "./NftCreationForm";
 
 interface FormFieldProps {

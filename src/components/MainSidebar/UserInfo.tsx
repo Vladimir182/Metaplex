@@ -1,15 +1,15 @@
+import { MdContentCopy, MdDone } from "react-icons/md";
 import {
   Avatar,
   Button,
-  HStack,
   Heading,
-  VStack,
+  HStack,
   useClipboard,
+  VStack,
 } from "@chakra-ui/react";
-import { MdContentCopy, MdDone } from "react-icons/md";
+import { fontSizes } from "theme/typography";
 
 import { PersonProps } from "components/Person";
-import { fontSizes } from "theme/typography";
 import { getPersonName } from "components/Person/getPersonName";
 
 interface Props {

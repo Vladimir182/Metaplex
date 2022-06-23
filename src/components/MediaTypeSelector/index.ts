@@ -1,2 +1,2 @@
-export * from "./MediaTypeSelector";
 export * from "./FileType";
+export * from "./MediaTypeSelector";

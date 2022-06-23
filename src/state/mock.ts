@@ -1,6 +1,7 @@
+import { createEvent, forward, Store } from "effector";
+
 import { getArtworks } from "./artworks/artworks.mock";
 import { $storeArtworks } from "./artworks";
-import { createEvent, forward, Store } from "effector";
 
 function init<T>(store: Store<T>, data?: T) {
   const set = createEvent<T>();

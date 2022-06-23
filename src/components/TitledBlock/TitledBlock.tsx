@@ -1,6 +1,5 @@
-import { Flex, FlexProps, Text } from "@chakra-ui/react";
-
 import { ReactNode } from "react";
+import { Flex, FlexProps, Text } from "@chakra-ui/react";
 
 interface TitledBlockProps extends FlexProps {
   title: string;

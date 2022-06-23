@@ -1,4 +1,5 @@
 import { ComponentMeta } from "@storybook/react";
+
 import { ArtImage } from "./ArtImage";
 
 export default {

@@ -1,7 +1,8 @@
-import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { InfiniteProgress } from ".";
 import { BsWallet2 } from "react-icons/bs";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { fontSizes } from "theme/typography";
+
+import { InfiniteProgress } from ".";
 
 export default {
   title: "Compound/Modals/InfiniteProgress",

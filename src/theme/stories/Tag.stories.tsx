@@ -1,6 +1,5 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-
 import { Tag } from "@chakra-ui/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
   title: "Simple/UI kit/Tag",

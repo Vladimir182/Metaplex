@@ -1,7 +1,8 @@
 import React from "react";
+import { ButtonProps } from "@chakra-ui/button";
+
 import { SidebarMenuItem } from "components/Sidebar/SidebarMenuItem";
 import { Step } from "components/Step";
-import { ButtonProps } from "@chakra-ui/button";
 
 interface Props extends ButtonProps {
   step: number;

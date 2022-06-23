@@ -1,15 +1,17 @@
+import { Wallet } from "@metaplex/js";
 import {
   MarketArgs,
   MarketState,
   SellingResourceArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { Wallet } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { IArt } from "state/artworks";
+
 import { sendTransactions } from "../../utils/sendTransactions";
-import { createWithdrawTransaction } from "./createWithdrawTransaction";
+
 import { createClaimTransaction } from "./createClaimTransaction";
 import { createCloseMarketTransaction } from "./createCloseMarketTransaction";
+import { createWithdrawTransaction } from "./createWithdrawTransaction";
 
 interface Props {
   connection: Connection;

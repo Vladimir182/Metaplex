@@ -3,6 +3,7 @@ import { allSettled, fork } from "effector";
 import { lamportsToSol } from "utils/lamportsToSol";
 
 import { $wallet, walletChange } from "../wallet/wallet";
+
 import { updateWalletBalanceFx } from "./balance";
 
 describe("balance", () => {

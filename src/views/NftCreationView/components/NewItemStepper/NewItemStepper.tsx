@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { Flex, Text } from "@chakra-ui/react";
+
 import { Stepper } from "components/Stepper";
+
 import { creationSteps } from "./data";
 interface NewItemStepperProps {
   activeStep?: number;

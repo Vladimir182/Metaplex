@@ -1,17 +1,19 @@
 import { useCallback } from "react";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Divider, Heading, Stack, Text } from "@chakra-ui/react";
+import { useStore } from "effector-react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+import { useBalance } from "state/react/useBalance";
+import { $user } from "state/wallet";
+
+import { FormField } from "components/FormField";
 import {
   WalletModalProvider,
   WalletMultiButton,
 } from "components/smart/Wallet";
-import { useStore } from "effector-react";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
-import { $user } from "state/wallet";
-import { FormField } from "components/FormField";
 import { WalletTransaction } from "components/WalletTransaction";
+
 import { StoreFormProps } from "./types";
-import { useBalance } from "state/react/useBalance";
 
 interface Props {
   onSubmit: SubmitHandler<StoreFormProps>;

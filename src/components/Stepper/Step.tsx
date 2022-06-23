@@ -1,7 +1,6 @@
-import { Box, BoxProps, Circle, Text } from "@chakra-ui/react";
-
-import { BsCheck } from "react-icons/bs";
 import React from "react";
+import { BsCheck } from "react-icons/bs";
+import { Box, BoxProps, Circle, Text } from "@chakra-ui/react";
 import { fontSizes } from "theme/typography";
 
 interface Props extends BoxProps {

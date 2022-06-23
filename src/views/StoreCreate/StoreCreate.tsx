@@ -1,11 +1,13 @@
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { Center } from "@chakra-ui/react";
+import { ROUTES } from "routes";
+import { useLocalState as useLocalStateHome } from "views/HomePage/HomePage.state";
+
 import { StoreCreateForm } from "components/forms/StoreCreateForm";
 import { Layout } from "components/Layout";
 import { InfiniteProgress } from "components/modals/InfiniteProgress";
 import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
-import { NavigateFunction, useNavigate } from "react-router-dom";
-import { ROUTES } from "routes";
-import { useLocalState as useLocalStateHome } from "views/HomePage/HomePage.state";
+
 import { useLocalState } from "./StoreCreate.state";
 
 function goToSuccessPage(navigate: NavigateFunction) {

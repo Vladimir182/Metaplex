@@ -1,7 +1,8 @@
 import { fork } from "effector";
+import { $walletContext } from "state/wallet";
+
 import { $isStoreAdmin } from "./isStoreAdmin";
 import { $store } from "./store";
-import { $walletContext } from "state/wallet";
 
 describe("isStoreAdmin", () => {
   const WALLET = {

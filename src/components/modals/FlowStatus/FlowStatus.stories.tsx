@@ -1,14 +1,15 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import {
   MdCheck,
   MdErrorOutline,
   MdOutlineAccountBalanceWallet,
 } from "react-icons/md";
-
 import { Button } from "@chakra-ui/react";
-import { FlowStatus } from ".";
-import { HaloedIcon } from "components/HaloedIcon";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { fontSizes } from "theme/typography";
+
+import { HaloedIcon } from "components/HaloedIcon";
+
+import { FlowStatus } from ".";
 
 export default {
   title: "Compound/Modals/FlowStatus",

@@ -1,12 +1,13 @@
 import { ROUTES } from "routes";
-import type { ISchema } from "./types";
-import { HomePage } from "views/HomePage";
-import { StoreCreate } from "views/StoreCreate";
-import { NftCreationView } from "views/NftCreationView";
 import { $hasConnectedWallet } from "state/wallet";
-import { WalletNotConnected } from "views/routes/WalletNotConnected";
 import { CreateSaleView } from "views/CreateSaleView/CreateSaleView";
+import { HomePage } from "views/HomePage";
+import { NftCreationView } from "views/NftCreationView";
+import { WalletNotConnected } from "views/routes/WalletNotConnected";
+import { StoreCreate } from "views/StoreCreate";
 import { TokenDetails } from "views/TokenDetails/TokenDetails";
+
+import type { ISchema } from "./types";
 
 export const SCHEMA: ISchema[] = [
   {

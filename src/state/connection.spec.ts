@@ -1,11 +1,12 @@
 import { Cluster, Connection } from "@solana/web3.js";
 import { allSettled, fork } from "effector";
+
 import {
   $connection,
   $network,
-  networkChange,
   getSavedNetwork,
   NETWORK_KEY,
+  networkChange,
   setNetworkToStorageFx,
 } from "./connection";
 

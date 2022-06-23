@@ -1,5 +1,4 @@
-import "./Wallet.css";
-
+import { FC, useCallback, useEffect } from "react";
 import { WalletAdapterNetwork, WalletError } from "@solana/wallet-adapter-base";
 import {
   useWallet,
@@ -15,12 +14,14 @@ import {
   getSolletExtensionWallet,
   getSolletWallet,
 } from "@solana/wallet-adapter-wallets";
-import { useToast } from "components/modals/Toast";
 import { useEvent, useStoreMap } from "effector-react";
-import { FC, useCallback, useEffect } from "react";
 import { $network } from "state/connection";
 import { walletChange } from "state/wallet";
 import { getWalletErrorDescription } from "utils/getWalletErrorDescription";
+
+import { useToast } from "components/modals/Toast";
+
+import "./Wallet.css";
 
 export type WalletProviderProps = Partial<WalletProviderBaseProps>;
 

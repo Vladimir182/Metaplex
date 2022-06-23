@@ -1,12 +1,12 @@
 import { FC, useCallback } from "react";
-import { BoxProps, Heading, Spacer } from "@chakra-ui/react";
-import { VStack } from "@chakra-ui/layout";
 import { useNavigate } from "react-router-dom";
+import { VStack } from "@chakra-ui/layout";
+import { BoxProps, Heading, Spacer } from "@chakra-ui/react";
 import { useStore } from "effector-react";
-
-import { SidebarMenuItemWrapper } from "components/Sidebar/SidebarMenuItemWrapper";
-import { Commission } from "components/Commission/Commission";
 import { createSaleFactory } from "views/CreateSaleView/state";
+
+import { Commission } from "components/Commission/Commission";
+import { SidebarMenuItemWrapper } from "components/Sidebar/SidebarMenuItemWrapper";
 
 import { CreateSaleSidebarEnum } from "./types";
 

@@ -1,6 +1,7 @@
 import React from "react";
-import { Button } from "@chakra-ui/react";
 import { MdContentCopy, MdDone } from "react-icons/md";
+import { Button } from "@chakra-ui/react";
+
 import { fontSizes } from "../../../../../theme/typography";
 
 interface CopyButtonProps {

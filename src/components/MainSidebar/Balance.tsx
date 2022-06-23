@@ -1,8 +1,9 @@
-import { Button, HStack, VStack, StackProps } from "@chakra-ui/react";
+import { useCallback } from "react";
+import { Button, HStack, StackProps, VStack } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
+
 import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
-import { useCallback } from "react";
 
 interface Props extends StackProps {
   sol?: number | null;

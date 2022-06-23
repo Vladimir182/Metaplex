@@ -1,7 +1,8 @@
-import { useEffect, useRef, useCallback, FC } from "react";
+import { FC, useCallback, useEffect, useRef } from "react";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import {
-  Flex,
   Box,
+  Flex,
   Heading,
   Input,
   InputGroup,
@@ -9,14 +10,12 @@ import {
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
-import { Controller, useForm, FormProvider } from "react-hook-form";
+import { createSaleFactory } from "views/CreateSaleView/state";
 
 import { ArtworkSummary } from "components/Artwork/ArtworkSummary";
-import { SolanaIcon } from "components/Icons";
 import { DateTimePicker } from "components/Datepicker/DateTimePicker";
 import { MaximumSupply } from "components/forms/NftCreate/MaximumSupply";
-
-import { createSaleFactory } from "views/CreateSaleView/state";
+import { SolanaIcon } from "components/Icons";
 
 import { FormState } from "./interface";
 

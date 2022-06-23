@@ -1,14 +1,16 @@
 import { FC, MutableRefObject, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, HStack, VStack } from "@chakra-ui/react";
+import { useStore } from "effector-react";
+import { ROUTES } from "routes";
+import { NftCreationSteps } from "views/NftCreationView/types";
+
 import { SolUsdDisplay } from "components/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "routes";
-import { useToast } from "../../../../components/modals/Toast";
-import { useStore } from "effector-react";
+
 import { $errorsStore } from "../../../../components/forms/NftCreate/helper";
+import { useToast } from "../../../../components/modals/Toast";
 import { useCustomBreakpoints } from "../../../../hooks/useCustomBreakpoints";
-import { NftCreationSteps } from "views/NftCreationView/types";
 
 interface INftCreationFooterProps {
   price?: number;

@@ -1,16 +1,18 @@
 import { FC } from "react";
-import { Layout } from "components/Layout";
-import { Center, Flex } from "@chakra-ui/react";
-import { PreviePane } from "./components/TokenPreviewPane";
-import { TokenDetailsInfo } from "./components/TokenDetailsInfo/TokenDetailsIInfo";
-import { useLocalState } from "./TokenDetails.state";
+import { BsWallet2 } from "react-icons/bs";
 import { useParams } from "react-router-dom";
-import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
-import { InfiniteProgress } from "components/modals/InfiniteProgress";
+import { Center, Flex } from "@chakra-ui/react";
+import { fontSizes } from "theme/typography";
 import { MODAL_COPY } from "views/HomePage/components/TokensList/data";
 import { ActionType } from "views/HomePage/components/TokensList/state/store/progress";
-import { BsWallet2 } from "react-icons/bs";
-import { fontSizes } from "theme/typography";
+
+import { Layout } from "components/Layout";
+import { InfiniteProgress } from "components/modals/InfiniteProgress";
+import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
+
+import { TokenDetailsInfo } from "./components/TokenDetailsInfo/TokenDetailsIInfo";
+import { PreviePane } from "./components/TokenPreviewPane";
+import { useLocalState } from "./TokenDetails.state";
 
 export const TokenDetails: FC = () => {
   const { itemId } = useParams();

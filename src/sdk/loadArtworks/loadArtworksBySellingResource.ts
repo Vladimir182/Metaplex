@@ -1,19 +1,20 @@
-import BN from "bn.js";
+import { Wallet } from "@metaplex/js";
 import {
-  MarketState,
   MarketArgs,
+  MarketState,
   SellingResourceArgs,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { Wallet } from "@metaplex/js";
 import { Connection } from "@solana/web3.js";
+import BN from "bn.js";
 import dayjs from "dayjs";
-
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { IArt } from "state/artworks/types";
+import { lamportsToSol } from "utils/lamportsToSol";
+
 import { loadSellingResourcesTokenAccounts } from "../loadSellingResources";
 import { isSaleWithdrawn } from "../sale/isSaleWithdrawn";
-import { lamportsToSol } from "utils/lamportsToSol";
+
 import { loadArtworksByAccounts } from "./loadArtworksByAccounts";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
 dayjs.extend(isSameOrBefore);
 
