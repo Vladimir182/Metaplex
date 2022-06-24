@@ -89,7 +89,10 @@ export const createSaleFactory = modelFactory((defaults: ModelDefaults) => {
       };
     },
   });
-  const $createdSale = restore(createMarketFx.doneData, null);
+
+  $progressMeta.reset(createMarketFx.finally);
+
+  const $createdSale = restore(createMarketFx.done, null);
 
   const reviewSubmit = createEvent();
   forward({ from: reviewSubmit, to: createSaleFx });

@@ -49,8 +49,6 @@ export const createMarket = async (
 
   const error = await waitConfirmation(connection, rawTx, txId);
 
-  updateProgress(null);
-
   error && throwTransactionError(txId, error);
 
   return { market: market.publicKey.toBase58() };
