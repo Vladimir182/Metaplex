@@ -1,8 +1,10 @@
 import { Wallet } from "@metaplex/js";
+import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { IFixedPrice, isEndedSale } from "state/sales";
 import { sendTransactions } from "utils/sendTransactions";
 import { toPubkey } from "utils/toPubkey";
+import { waitForResponse } from "utils/waitForResponse";
 
 import { createClaimTransaction } from "../transactions/createClaimTransaction";
 import { createCloseMarketTransaction } from "../transactions/createCloseMarketTransaction";
@@ -48,4 +50,9 @@ export const closeMarketAndWithdraw = async ({
   txs.push(claimTx);
 
   await sendTransactions(connection, wallet, txs);
+
+  await waitForResponse(async () => {
+    const tokenAccount = await TokenAccount.load(connection, sale.refs.vault);
+    return tokenAccount.data.amount.toNumber() === 0;
+  });
 };
