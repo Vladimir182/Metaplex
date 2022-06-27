@@ -1,21 +1,17 @@
 import { useEffect } from "react";
-import { startStoreFetch, stopStoreFetch } from "state/markets";
-
-import { useWalletStore } from "../../state/react/useWalletStore";
+import { useWalletStore } from "state/react/useWalletStore";
+import { startSalesFetch, stopSalesFetch } from "state/sales";
 
 export type ViewMode = "list" | "grid";
 
 export function useLocalState() {
   const { store, pending } = useWalletStore();
 
-  const onPageUnload = () => {
-    stopStoreFetch();
-  };
-
   useEffect(() => {
-    startStoreFetch();
+    startSalesFetch();
+
     return () => {
-      onPageUnload();
+      stopSalesFetch();
     };
   }, [store]);
 

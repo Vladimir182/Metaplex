@@ -1,4 +1,4 @@
-export const chunks = <T>(array: T[], size: number): T[][] => {
+export const chunks = <T>(array: T[], size = 100): T[][] => {
   if (size <= 0) {
     throw new Error("Chunk size can't be smaller than 1");
   }

@@ -1,9 +1,12 @@
 import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { Connection, PublicKey } from "@solana/web3.js";
+import { IArt } from "state/artworks";
 import { excludesFalsy } from "utils/excludeFalsy";
+import { parseBN } from "utils/parseBN";
 
 import { loadArtworks } from "./loadArtworks";
+import { populateArtwork } from "./populateArtwork";
 
 export const loadArtworksByAccounts = async ({
   connection,
@@ -11,9 +14,9 @@ export const loadArtworksByAccounts = async ({
 }: {
   connection: Connection;
   accounts: TokenAccount[];
-}) => {
+}): Promise<IArt[]> => {
   const accountsWithAmount = accounts.filter(
-    ({ data: { amount } }) => amount?.toNumber() > 0
+    ({ data: { amount } }) => parseBN(amount) === 1
   );
 
   const accountByMint = accounts.reduce<Map<string, TokenAccount>>(
@@ -46,7 +49,11 @@ export const loadArtworksByAccounts = async ({
     )
   );
 
-  return results
+  const lightArtworks = results
     .filter(excludesFalsy)
-    .filter((item) => item.prints?.maxSupply !== 1);
+    .filter(
+      ({ prints }) => prints?.maxSupply === undefined || prints.maxSupply > 1
+    );
+
+  return Promise.all(lightArtworks.map((art) => populateArtwork(art)));
 };

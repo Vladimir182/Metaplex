@@ -1,82 +1,42 @@
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { PublicKey } from "@solana/web3.js";
 import { attach, createEffect, StoreValue } from "effector";
-import { closeMarketAndWithdraw } from "sdk/sale/closeMarketAndWithdraw";
-import { IArt } from "state/artworks";
+import { closeMarketAndWithdraw } from "sdk/market/actions/closeMarketAndWithdraw";
 import { $connection } from "state/connection";
-import { $markets } from "state/markets";
-import { $sellingResources } from "state/sellingResources";
+import { IFixedPrice } from "state/sales";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
 
 export interface ISource {
   connection: StoreValue<typeof $connection>;
   wallet: StoreValue<typeof $wallet>;
-  markets: StoreValue<typeof $markets>;
-  sellingResources: StoreValue<typeof $sellingResources>;
   store: StoreValue<typeof $store>;
 }
 export interface IParams {
-  metadata: string;
-  market: string;
-  artwork: IArt;
-  state: MarketState;
+  sale: IFixedPrice;
 }
 
 export const closeMarketAndWithdrawFx = attach({
   effect: createEffect(
-    async ({
-      metadata,
-      market,
-      state,
-      artwork,
-      markets,
-      wallet,
-      connection,
-      sellingResources,
-      store,
-    }: ISource & IParams) => {
+    async ({ sale, wallet, connection, store }: ISource & IParams) => {
       if (!wallet || !store?.storeId) {
-        return;
-      }
-
-      const marketData = markets.get(market);
-      if (!marketData) {
-        return;
-      }
-
-      const sellingResourceData = sellingResources.get(
-        marketData.sellingResource.toBase58()
-      );
-      if (!sellingResourceData) {
         return;
       }
 
       return closeMarketAndWithdraw({
         connection,
         wallet,
-        marketData,
-        market: new PublicKey(market),
-        state,
-        metadata: new PublicKey(metadata),
-        artwork,
+        sale,
         store: new PublicKey(store.storeId),
-        sellingResourceData,
       });
     }
   ),
   source: {
     connection: $connection,
     wallet: $wallet,
-    markets: $markets,
-    sellingResources: $sellingResources,
     store: $store,
   },
-  mapParams: ({ metadata, market, state, artwork }: IParams, sources) => ({
+  mapParams: (params: IParams, sources) => ({
     ...sources,
-    metadata,
-    market,
-    artwork,
-    state,
+    ...params,
   }),
 });

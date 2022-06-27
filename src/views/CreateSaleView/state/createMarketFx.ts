@@ -1,8 +1,9 @@
+import { Market } from "@metaplex-foundation/mpl-fixed-price-sale";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { attach, createEffect } from "effector";
 import { createMarket } from "sdk/createSale/createMarket";
-import { loadMarket } from "sdk/loadMarkets";
+import { loadAccountAndDeserialize } from "sdk/share";
 import { IArt } from "state/artworks";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
@@ -50,7 +51,8 @@ export const createMarketFx = attach({
       });
 
       await waitForResponse(
-        async () => await loadMarket({ connection, marketId: market })
+        async () =>
+          await loadAccountAndDeserialize(connection, Market, toPubkey(market))
       );
     }
   ),

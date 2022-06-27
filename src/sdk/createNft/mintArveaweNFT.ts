@@ -6,6 +6,13 @@ import {
   MetadataJson,
   Wallet,
 } from "@metaplex/js";
+import { createFilePack, METADATA_FILE_NAME } from "utils/arweave-cost";
+import { Pipeline } from "utils/pipeline";
+
+import { payForFiles } from "./payForFiles";
+
+const { sendTransaction } = actions;
+
 import {
   CreateMasterEditionV3,
   CreateMetadataV2,
@@ -15,18 +22,15 @@ import {
   Metadata,
   UpdateMetadataV2,
 } from "@metaplex-foundation/mpl-token-metadata";
-import { PublicKey } from "@solana/web3.js";
-import BN from "bn.js";
-import { createFilePack, METADATA_FILE_NAME } from "utils/arweave-cost";
-import { Pipeline } from "utils/pipeline";
-import { wrappedSendTransaction } from "utils/wrappedSendTransaction";
 
-import { payForFiles } from "./payForFiles";
 import { tokenVerification } from "./utils";
 const { prepareTokenAccountAndMintTxs } = actions;
 
-import { AddressRow } from "../../components/forms/NftCreate/helper";
-import { createPrimaryMetadataCreatorsTransaction } from "../createPrimaryMetadataCreatorsTransaction";
+import { PublicKey } from "@solana/web3.js";
+import BN from "bn.js";
+import { createPrimaryMetadataCreatorsTransaction } from "sdk/creators/transactions/createPrimaryMetadataCreatorsTransaction";
+
+import { AddressRow } from "components/forms/NftCreate/helper";
 
 const EMPTY_URI = " ".repeat(64);
 
@@ -144,7 +148,7 @@ export async function mintArweaveNFT(
 
     const txid = await pipe.exec(
       () =>
-        wrappedSendTransaction({
+        sendTransaction({
           connection,
           wallet,
           signers: [mint],
@@ -237,12 +241,12 @@ export async function mintArweaveNFT(
 
       const createPrimaryCreators = await pipe.exec(async () => {
         const creators = primaryRoyalties.map((item) => ({
-          address: new PublicKey(item.address),
+          address: item.address,
           share: Number(item.share),
           verified: item.verified,
         }));
 
-        const { createPrimaryMetadataCreatorsTx } =
+        const createPrimaryMetadataCreatorsTx =
           await createPrimaryMetadataCreatorsTransaction({
             wallet,
             connection,
@@ -255,7 +259,7 @@ export async function mintArweaveNFT(
 
       const transactionResult = await pipe.exec(
         () =>
-          wrappedSendTransaction({
+          sendTransaction({
             connection,
             signers: [],
             txs: [updateTx, createMetadataTx, createPrimaryCreators],

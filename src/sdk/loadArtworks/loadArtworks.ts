@@ -1,50 +1,38 @@
-import { MetadataJson } from "@metaplex/js";
 import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { Connection } from "@solana/web3.js";
-import { ArtType, IArt } from "state/artworks/types";
+import { ArtType } from "state/artworks/types";
 
-import { loadArtworkEdition } from "../loadArtworkEdition";
-import { loadExtraContent } from "../loadExtraContent";
+import { combineArtwork, IArtLight } from "./combineArtwork";
+import { loadArtworkEdition } from "./loadArtworkEdition";
 
 export const loadArtworks = async ({
   connection,
-  account: {
-    data: {
-      mint,
-      data: { uri },
-      primarySaleHappened = false,
-    },
-    pubkey,
-  },
+  account,
   accountByMint,
 }: {
   connection: Connection;
   account: Metadata;
   accountByMint: Map<string, TokenAccount>;
-}): Promise<undefined | IArt> => {
+}): Promise<undefined | IArtLight> => {
+  const mint = account.data.mint;
+
   const editionProps = await loadArtworkEdition({ connection, mint });
   // We ignore non-master editions
-  if (!editionProps || editionProps.type !== ArtType.Master) {
+  if (editionProps?.type !== ArtType.Master) {
     return;
   }
 
-  const artworkContent = await loadExtraContent<MetadataJson>(uri);
-  const account = accountByMint.get(mint);
-  const token = account?.pubkey.toBase58();
+  const token = accountByMint.get(mint);
 
-  return {
-    id: pubkey.toString(),
+  if (!token) {
+    return;
+  }
+
+  return combineArtwork({
+    editionProps,
     token,
-    mint,
-    primarySaleHappened,
-    image: artworkContent.image,
-    title: artworkContent.name,
-    description: artworkContent.description,
-    creators: artworkContent.properties.creators,
-    format: artworkContent.properties.category,
-    assets: artworkContent.properties.files,
-    owner: account?.data.owner.toBase58(),
-    ...editionProps,
-  };
+    pubkey: account.pubkey,
+    metadata: account.data,
+  });
 };

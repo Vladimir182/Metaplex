@@ -1,12 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   MetaDataJsonCategory,
   MetadataJsonCreator,
   MetadataJsonFile,
 } from "@metaplex/js";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { PublicKey } from "@solana/web3.js";
-import dayjs from "dayjs";
+import { StringPublicKey } from "@metaplex-foundation/mpl-core";
 
 export enum ArtType {
   Master = "Master",
@@ -15,26 +12,22 @@ export enum ArtType {
 }
 
 export interface IArt {
-  id: string;
+  id: StringPublicKey;
+  accountAddress: StringPublicKey;
+  token: StringPublicKey;
+  tokenAmount: number;
+  mint: StringPublicKey;
+  primarySaleHappened?: boolean;
+  sellerFeeBasisPoints: number;
   image: string;
   title: string;
   description?: string;
   creators: MetadataJsonCreator[];
   format: MetaDataJsonCategory;
-  primarySaleHappened: boolean;
   assets?: MetadataJsonFile[];
   type: ArtType;
   prints?: IPrintNumbers;
-  price?: number; // TODO: remove price from artwork
-  primarySaleAmount?: number;
-  mint?: string;
-  token?: string;
-  state?: MarketState;
-  startDate?: dayjs.Dayjs;
-  endDate?: dayjs.Dayjs;
-  market?: string;
-  isWithdrawn?: boolean;
-  owner?: string;
+  ownerAddress?: StringPublicKey;
 }
 
 export interface IPrintNumbers {
@@ -45,5 +38,3 @@ export interface IPrintNumbers {
   // maximum amount of prints (0 = unlimited)
   maxSupply?: number;
 }
-
-export type ArtworkCardVariant = "sell" | "buy" | "onSale" | "select";

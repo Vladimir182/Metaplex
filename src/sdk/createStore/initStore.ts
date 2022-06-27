@@ -2,8 +2,8 @@ import { Wallet } from "@metaplex/js";
 import { createCreateStoreInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection, Keypair, Transaction } from "@solana/web3.js";
 import { ETransactionProgress } from "enums/transactionProgress";
+import { waitConfirmation } from "sdk/transactions/waitConfirmation";
 import { IStore } from "state/store";
-import { fetchConfirmation } from "utils/fetchConfirmation";
 
 export interface InitStoreProps {
   name: string;
@@ -56,8 +56,8 @@ export const initStore = async ({
 
   updateProgress(ETransactionProgress.signing_transaction);
   const signedTx = await wallet.signTransaction(storeTx);
-
-  const txId = await connection.sendRawTransaction(signedTx.serialize(), {
+  const rawTx = signedTx.serialize();
+  const txId = await connection.sendRawTransaction(rawTx, {
     skipPreflight: true,
   });
   updateProgress(ETransactionProgress.sending_transaction_to_solana);
@@ -65,6 +65,6 @@ export const initStore = async ({
   // Force wait for max confirmations
   updateProgress(ETransactionProgress.waiting_for_final_confirmation);
 
-  await fetchConfirmation(connection, txId);
+  await waitConfirmation(connection, rawTx, txId);
   return { storeId: store.publicKey.toString() };
 };

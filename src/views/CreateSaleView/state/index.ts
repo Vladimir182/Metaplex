@@ -12,7 +12,7 @@ import {
 import { modelFactory } from "effector-factorio";
 import { useStore } from "effector-react";
 import { ETransactionProgress } from "enums/transactionProgress";
-import { $storeArtworks } from "state/artworks";
+import { $profileArtworks } from "state/artworks";
 import { createProgressTools } from "utils/createProgressTools";
 import { CreateSaleSidebarEnum } from "views/CreateSaleView/components/CreateSaleSidebar";
 
@@ -34,7 +34,7 @@ export const createSaleFactory = modelFactory((defaults: ModelDefaults) => {
   const setStep = createEvent<CreateSaleSidebarEnum>();
   const $step = restore(setStep, CreateSaleSidebarEnum.CONFIGURE);
 
-  const artworks = useStore($storeArtworks);
+  const artworks = useStore($profileArtworks);
 
   const setIsFormValid = createEvent<boolean>();
   const $isFormValid = restore(setIsFormValid, false);
@@ -54,7 +54,8 @@ export const createSaleFactory = modelFactory((defaults: ModelDefaults) => {
   });
 
   const artwork = useMemo(
-    () => artworks.find(({ id }) => id === defaults.itemId),
+    () =>
+      artworks.find(({ accountAddress }) => accountAddress === defaults.itemId),
     [artworks, defaults.itemId]
   );
 
