@@ -1,10 +1,11 @@
 import { FC, MutableRefObject, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, HStack, VStack } from "@chakra-ui/react";
+import { Button, Flex, VStack } from "@chakra-ui/react";
 import { useStore } from "effector-react";
 import { ROUTES } from "routes";
 import { NftCreationSteps } from "views/NftCreationView/types";
 
+import { getPadding } from "components/Layout/utils";
 import { SolUsdDisplay } from "components/SolUsdDisplay";
 import { TitledBlock } from "components/TitledBlock";
 
@@ -16,6 +17,7 @@ interface INftCreationFooterProps {
   price?: number;
   step?: NftCreationSteps;
   isFormValid: boolean;
+  noPadding?: boolean;
   setStep(state: NftCreationSteps): void;
   continueToMint?: (isActive: boolean) => Promise<void>;
   refTriggerValidationFn?: MutableRefObject<null | (() => void)>;
@@ -25,6 +27,7 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
   price,
   step,
   isFormValid,
+  noPadding = false,
   setStep,
   continueToMint,
   refTriggerValidationFn,
@@ -33,7 +36,8 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
   const toast = useToast();
   const data = useStore($errorsStore);
   const shouldEnableConfirmAndCreateButton = !!data?.errorMessage;
-  const { xxlUp } = useCustomBreakpoints();
+  const { mdUp } = useCustomBreakpoints();
+  const paddingValue = getPadding(mdUp, noPadding);
 
   const onContinueMinting = useCallback(
     async (isActive: boolean) => {
@@ -97,16 +101,15 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
   };
 
   return (
-    <HStack
-      m="auto auto 0"
+    <Flex
       sx={{
         boxSizing: "border-box",
-        maxWidth: xxlUp ? "950px" : "100vw",
+        maxW: "3xl",
         width: "100%",
         justifyContent: "space-between",
-        padding: 4,
       }}
-      alignItems="flex-end"
+      p={paddingValue}
+      marginX="auto"
     >
       <Button
         {...getLButtonProps()}
@@ -139,6 +142,6 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
           />
         )}
       </VStack>
-    </HStack>
+    </Flex>
   );
 };
