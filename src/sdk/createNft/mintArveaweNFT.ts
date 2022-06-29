@@ -29,8 +29,7 @@ const { prepareTokenAccountAndMintTxs } = actions;
 import { PublicKey } from "@solana/web3.js";
 import BN from "bn.js";
 import { createPrimaryMetadataCreatorsTransaction } from "sdk/creators/transactions/createPrimaryMetadataCreatorsTransaction";
-
-import { AddressRow } from "components/forms/NftCreate/helper";
+import { AddressRow } from "views/NftCreationView";
 
 const EMPTY_URI = " ".repeat(64);
 

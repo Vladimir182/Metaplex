@@ -2,7 +2,6 @@ import { themes } from "@storybook/theming";
 import { ChakraProvider } from "@chakra-ui/react";
 import { MemoryRouter } from "react-router-dom";
 import { theme } from "../src/theme";
-import { WalletProvider } from "../src/contexts/WalletProvider";
 import "../src/state/mock";
 
 export const decorators = [
@@ -10,11 +9,6 @@ export const decorators = [
     <ChakraProvider resetCSS theme={theme}>
       <Story />
     </ChakraProvider>
-  ),
-  (Story) => (
-    <WalletProvider>
-      <Story />
-    </WalletProvider>
   ),
   (Story) => (
     <MemoryRouter>

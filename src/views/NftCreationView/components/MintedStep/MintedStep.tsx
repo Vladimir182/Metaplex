@@ -2,13 +2,11 @@ import { FC, useEffect } from "react";
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { useFileReader } from "hooks/useFileReader";
 
-import { ArtImage } from "components/ArtPreview";
-import { FileType } from "components/MediaTypeSelector/FileType";
+import { ArtImage } from "components/DataDisplay/ArtImage";
 
 export const MintedStep: FC<{
   file: File | null;
-  type: FileType;
-}> = ({ file, type }) => {
+}> = ({ file }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sourceUrl, _, read] = useFileReader();
 
@@ -25,22 +23,12 @@ export const MintedStep: FC<{
         can list it for instant sale if you’d like..
       </Text>
 
-      {sourceUrl && type === FileType.IMAGE && (
+      {sourceUrl && (
         <ArtImage
           uri={sourceUrl}
           my={12}
           bgColor="whiteAlpha.50"
           borderRadius="xl"
-        />
-      )}
-      {sourceUrl && type === FileType.VIDEO && (
-        <video
-          style={{
-            position: "relative",
-            zIndex: -1,
-            width: "100%",
-          }}
-          src={sourceUrl}
         />
       )}
     </Flex>

@@ -7,7 +7,7 @@ import { ETransactionProgress } from "enums/transactionProgress";
 import { setShowStoreCongratulations, submitStoreFx } from "state/store";
 import { createProgressTools } from "utils/createProgressTools";
 
-import { StoreFormProps } from "components/forms/StoreCreateForm";
+import { StoreFormProps } from "./components/Form";
 
 export interface IOptions {
   navigate: NavigateFunction;

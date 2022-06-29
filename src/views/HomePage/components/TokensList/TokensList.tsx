@@ -9,8 +9,8 @@ import { IArt } from "state/artworks";
 import { IFixedPrice, isSale } from "state/sales";
 import { fontSizes } from "theme/typography";
 
-import { InfiniteProgress } from "components/modals/InfiniteProgress";
-import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
+import { InfiniteProgress } from "components/Modals/InfiniteProgress";
+import { LoaderComponent } from "components/Modals/InfiniteProgress/LoaderComponent";
 
 import { ClaimSuccess } from "./components/ClaimSuccess";
 import { ErrorModal } from "./components/ErrorModal";

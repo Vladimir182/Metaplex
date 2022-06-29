@@ -9,7 +9,7 @@ import {
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
-  title: "Simple/UI kit/FormControl",
+  title: "UI kit/FormControl",
   component: FormControl,
   subcomponents: {
     FormLabel,

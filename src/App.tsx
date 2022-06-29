@@ -5,7 +5,7 @@ import debug from "debug";
 import { AppRoutes } from "routes/AppRoutes";
 import { startStatusCheck, stopStatusCheck } from "state/connection";
 
-import { useToast } from "components/modals/Toast";
+import { useToast } from "components/Modals/Toast";
 
 import { theme } from "./theme";
 import { WalletProvider } from "./wallet";

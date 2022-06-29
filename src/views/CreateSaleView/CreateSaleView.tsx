@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { useStore } from "effector-react";
 
 import { Layout } from "components/Layout";
-import { InfiniteProgress } from "components/modals/InfiniteProgress";
-import { ListingSuccess } from "components/modals/ListingSuccess";
-import { ModalTemplate } from "components/modals/template";
-import { TransactionFailure } from "components/modals/TransactionFailure";
+import { InfiniteProgress } from "components/Modals/InfiniteProgress";
+import { ListingSuccess } from "components/Modals/ListingSuccess";
+import { ModalTemplate } from "components/Modals/template";
+import { TransactionFailure } from "components/Modals/TransactionFailure";
 
 import {
   CreateSaleSidebarContent,

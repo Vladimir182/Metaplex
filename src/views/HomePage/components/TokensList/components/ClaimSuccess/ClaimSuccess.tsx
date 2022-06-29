@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/button";
 import { Image } from "@chakra-ui/image";
 import { Flex, Heading, VStack } from "@chakra-ui/layout";
 
-import { ModalTemplate } from "components/modals/template";
+import { ModalTemplate } from "components/Modals/template";
 
 import { useLocalState } from "../../state";
 

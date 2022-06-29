@@ -1,10 +1,10 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { useStore } from "effector-react";
+import { NftCreationForm } from "views/NftCreationView/components/NftCreate";
 
-import { NftCreationForm } from "components/forms/NftCreate";
 import { Layout } from "components/Layout";
-import { InfiniteProgress } from "components/modals/InfiniteProgress";
-import { useToast } from "components/modals/Toast";
+import { InfiniteProgress } from "components/Modals/InfiniteProgress";
+import { useToast } from "components/Modals/Toast";
 
 import { MintedStep } from "./components/MintedStep";
 import { NftCreationFooter } from "./components/NftCreationFooter";
@@ -19,7 +19,6 @@ export const NftCreationView: FC = () => {
     price,
     step,
     file,
-    category,
     setStep,
     progressMeta,
     onUpdateForm,
@@ -51,13 +50,12 @@ export const NftCreationView: FC = () => {
         }}
         refForm={refForm}
         refTriggerValidationFn={refTriggerValidationFn}
-        metadataCategory={category}
         formData={formData}
       />
     ) : step === NftCreationSteps.PREVIEW ? (
-      <PreviewStep formData={formData} file={file} type={category} />
+      <PreviewStep formData={formData} file={file} />
     ) : step === NftCreationSteps.CONGRATULATION ? (
-      <MintedStep file={file} type={category} />
+      <MintedStep file={file} />
     ) : null;
 
   return (

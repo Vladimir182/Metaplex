@@ -4,7 +4,7 @@ import {
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
 
-import { CreateMessage } from "components/CreateMessage";
+import { CreateMessage } from "components/Others/CreateMessage";
 
 export const WalletNotConnected: FC = () => {
   return (

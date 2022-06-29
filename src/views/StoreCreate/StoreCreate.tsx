@@ -3,11 +3,11 @@ import { Center } from "@chakra-ui/react";
 import { ROUTES } from "routes";
 import { useLocalState as useLocalStateHome } from "views/HomePage/HomePage.state";
 
-import { StoreCreateForm } from "components/forms/StoreCreateForm";
 import { Layout } from "components/Layout";
-import { InfiniteProgress } from "components/modals/InfiniteProgress";
-import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
+import { InfiniteProgress } from "components/Modals/InfiniteProgress";
+import { LoaderComponent } from "components/Modals/InfiniteProgress/LoaderComponent";
 
+import { Form } from "./components/Form";
 import { useLocalState } from "./StoreCreate.state";
 
 function goToSuccessPage(navigate: NavigateFunction) {
@@ -38,13 +38,13 @@ export const StoreCreate: React.FC = () => {
 
   return (
     <Layout narrow>
-      <StoreCreateForm
+      <Form
         onSubmit={onSubmit}
         title="Create your store"
         actionButtonName="Create Store"
       >
         <>No technical setup or coding required. Takes less than 5 minutes.</>
-      </StoreCreateForm>
+      </Form>
 
       <InfiniteProgress
         isOpen={progressMeta.isOpen}

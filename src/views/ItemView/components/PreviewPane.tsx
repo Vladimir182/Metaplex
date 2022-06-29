@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { Fab } from "components/buttons/Fab";
+import { Fab } from "components/Buttons/Fab";
 import { ExpandIcon } from "components/Icons";
 
 interface IPreviewPaneProps {

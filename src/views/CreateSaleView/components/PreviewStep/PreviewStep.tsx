@@ -4,8 +4,8 @@ import { useStore } from "effector-react";
 import { toNumber } from "utils/base";
 import { createSaleFactory } from "views/CreateSaleView/state";
 
-import { ArtworkSummary } from "components/Artwork/ArtworkSummary";
-import { SolUsdDisplay } from "components/SolUsdDisplay/SolUsdDisplay";
+import { ArtworkSummary } from "components/DataDisplay/ArtworkSummary";
+import { SolUsd } from "components/DataDisplay/SolUsd";
 
 export const PreviewStep: FC = () => {
   const { artworkSummary, $saleDetails } = createSaleFactory.useModel();
@@ -40,7 +40,7 @@ export const PreviewStep: FC = () => {
           >
             Sell Price
           </Heading>
-          <SolUsdDisplay sol={price} />
+          <SolUsd sol={price} />
           <Divider mb="4" mt="4" borderColor="whiteAlpha.700" />
         </Box>
 

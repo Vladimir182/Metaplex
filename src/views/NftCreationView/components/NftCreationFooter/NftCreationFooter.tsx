@@ -2,16 +2,16 @@ import { FC, MutableRefObject, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Flex, VStack } from "@chakra-ui/react";
 import { useStore } from "effector-react";
+import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
 import { ROUTES } from "routes";
 import { NftCreationSteps } from "views/NftCreationView/types";
 
+import { SolUsd } from "components/DataDisplay/SolUsd";
+import { TitledBlock } from "components/DataDisplay/TitledBlock";
 import { getPadding } from "components/Layout/utils";
-import { SolUsdDisplay } from "components/SolUsdDisplay";
-import { TitledBlock } from "components/TitledBlock";
+import { useToast } from "components/Modals/Toast";
 
-import { $errorsStore } from "../../../../components/forms/NftCreate/helper";
-import { useToast } from "../../../../components/modals/Toast";
-import { useCustomBreakpoints } from "../../../../hooks/useCustomBreakpoints";
+import { $errorsStore } from "../NftCreate/helper";
 
 interface INftCreationFooterProps {
   price?: number;
@@ -129,7 +129,7 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
             minW={200}
             borderRadius={12}
           >
-            <SolUsdDisplay sol={price} />
+            <SolUsd sol={price} />
           </TitledBlock>
         )}
         {step !== NftCreationSteps.CONGRATULATION && (

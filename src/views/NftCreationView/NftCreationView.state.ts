@@ -25,12 +25,12 @@ import {
 import { toNumber } from "utils/base";
 import { createProgressTools } from "utils/createProgressTools";
 import { throttle } from "utils/throttle";
+import { getCreators } from "views/NftCreationView/components/NftCreate/helper";
+import type { FormData } from "views/NftCreationView/components/NftCreate/NftCreationForm";
 
-import { AddressRow, getCreators } from "components/forms/NftCreate/helper";
-import type { FormData } from "components/forms/NftCreate/NftCreationForm";
-import { FileType } from "components/MediaTypeSelector";
-import { useToast } from "components/modals/Toast";
+import { useToast } from "components/Modals/Toast";
 
+import { AddressRow } from "./interface";
 import { NftCreationSteps } from "./types";
 
 const LOGErr = debug("error:NftCreationView.state");
@@ -236,8 +236,6 @@ export function createLocalState(WebFile = File) {
     WebFile
   );
 
-  const metadataCategory = createEntry<FileType>(FileType.IMAGE);
-
   const $state = createEntry<NftCreationSteps>(NftCreationSteps.CREATE);
 
   const submitMetadataSourceFx = createEffect(
@@ -311,7 +309,6 @@ export function createLocalState(WebFile = File) {
     $formData,
     setFormData,
     updateCostFx,
-    metadataCategory,
     fileObject: $fileObject,
     maxSupply: $maxSupply,
     error: $error,
@@ -328,7 +325,6 @@ export function createLocalState(WebFile = File) {
 
 export function useLocalState(refForm: RefObject<HTMLFormElement>) {
   const {
-    metadataCategory,
     metadataObject,
     fileObject,
     maxSupply,
@@ -374,7 +370,6 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
   const embed = useCallback(() => {}, []);
 
   const step = useStore($state.$node);
-  const category = useStore(metadataCategory.$node);
   const metadata = useStore(metadataObject);
   const file = useStore(fileObject);
   const progressMeta = useStore($progressMeta);
@@ -392,8 +387,6 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
       setFormData(payload);
       updateCost();
     },
-    onCategorySelect: metadataCategory.set,
-    category,
     step,
     setStep: $state.set,
     embed,

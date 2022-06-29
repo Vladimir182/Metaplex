@@ -2,7 +2,7 @@ import { Text } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
-  title: "Simple/UI kit/Text",
+  title: "UI kit/Text",
   component: Text,
   argTypes: {
     variant: {

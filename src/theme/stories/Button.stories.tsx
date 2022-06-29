@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
-  title: "Simple/UI kit/Button",
+  title: "UI kit/Button",
   component: Button,
   argTypes: {
     variant: {

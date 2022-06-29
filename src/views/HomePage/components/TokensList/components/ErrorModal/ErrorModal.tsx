@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { ModalTemplate } from "components/modals/template";
-import { TransactionFailure } from "components/modals/TransactionFailure";
+import { ModalTemplate } from "components/Modals/template";
+import { TransactionFailure } from "components/Modals/TransactionFailure";
 
 import { useLocalState } from "../../state";
 

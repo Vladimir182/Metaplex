@@ -19,7 +19,12 @@ import { $network } from "state/connection";
 import { walletChange } from "state/wallet";
 import { getWalletErrorDescription } from "utils/getWalletErrorDescription";
 
-import { useToast } from "components/modals/Toast";
+import { useToast } from "components/Modals/Toast";
+
+export {
+  WalletModalProvider,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
 
 import "./Wallet.css";
 

@@ -8,8 +8,8 @@ import {
   setShowStoreCongratulations,
 } from "state/store";
 
-import { StoreCreateCongratulations } from "components/modals/StoreCreateCongratulations";
-import { ModalTemplate } from "components/modals/template";
+import { StoreCreateCongratulations } from "components/Modals/StoreCreateCongratulations";
+import { ModalTemplate } from "components/Modals/template";
 
 interface Props {
   forceOpen?: boolean;

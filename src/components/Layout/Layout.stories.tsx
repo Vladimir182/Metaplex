@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { MainSidebarContent } from "components/MainSidebar";
-
 import { Layout } from ".";
 
 export default {
-  title: "Compound/Layout",
+  title: "Layout",
   component: Layout,
   parameters: { layout: "fullscreen" },
 } as ComponentMeta<typeof Layout>;
@@ -40,14 +38,4 @@ WideContent.args = {
       {[...new Array(5)].map(() => lorem).join("\n\n")}
     </div>
   ),
-};
-
-export const WithSidebar = Template.bind({});
-WithSidebar.args = {
-  children: (
-    <div style={{ whiteSpace: "pre-wrap" }}>
-      {[...new Array(5)].map(() => lorem).join("\n\n")}
-    </div>
-  ),
-  sidebarContent: <MainSidebarContent />,
 };

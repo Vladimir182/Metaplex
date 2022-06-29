@@ -7,8 +7,8 @@ import { MODAL_COPY } from "views/HomePage/components/TokensList/data";
 import { ActionType } from "views/HomePage/components/TokensList/state/store/progress";
 
 import { Layout } from "components/Layout";
-import { InfiniteProgress } from "components/modals/InfiniteProgress";
-import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
+import { InfiniteProgress } from "components/Modals/InfiniteProgress";
+import { LoaderComponent } from "components/Modals/InfiniteProgress/LoaderComponent";
 
 import { Details } from "./components/Details";
 import { PreviewPane } from "./components/PreviewPane";

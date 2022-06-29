@@ -1,7 +1,6 @@
 import { FC } from "react";
 import { Heading, Text, VStack } from "@chakra-ui/react";
-
-import { AddressRow } from "components/forms/NftCreate/helper";
+import { AddressRow } from "views/NftCreationView";
 
 import { PreviewStepAddress } from "./PreviewStepAddress";
 import { PreviewStepField } from "./PreviewStepField";

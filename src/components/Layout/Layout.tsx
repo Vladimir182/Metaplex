@@ -3,9 +3,9 @@ import { Flex } from "@chakra-ui/react";
 import { useStore } from "effector-react";
 import { $user } from "state/wallet";
 
-import { Navbar } from "components/Navbar";
-import { NavbarActions } from "components/Navbar/NavbarActions";
-import { Sidebar } from "components/Sidebar";
+import { Navbar } from "components/Navigation/Navbar";
+import { NavbarActions } from "components/Navigation/Navbar/NavbarActions";
+import { Sidebar } from "components/Navigation/Sidebar";
 
 import { LayoutContent } from ".";
 

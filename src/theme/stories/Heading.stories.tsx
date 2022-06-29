@@ -2,7 +2,7 @@ import { Heading } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
-  title: "Simple/UI kit/Heading",
+  title: "UI kit/Heading",
   component: Heading,
   argTypes: {
     variant: {

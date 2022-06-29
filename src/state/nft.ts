@@ -3,7 +3,7 @@ import { File } from "@web-std/file";
 import { attach, createEffect, StoreValue } from "effector";
 import { ENftProgress, mintArweaveNFT } from "sdk/createNft/mintArveaweNFT";
 
-import { AddressRow } from "../components/forms/NftCreate/helper";
+import { AddressRow } from "../views/NftCreationView";
 
 import { $connection, $network } from "./connection";
 import { $wallet } from "./wallet";

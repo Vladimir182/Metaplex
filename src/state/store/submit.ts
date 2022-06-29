@@ -1,8 +1,7 @@
 import { attach, createEffect, StoreValue } from "effector";
 import { ETransactionProgress } from "enums/transactionProgress";
 import { $walletAddress } from "state/wallet";
-
-import { StoreFormProps } from "components/forms/StoreCreateForm";
+import { StoreFormProps } from "views/StoreCreate/components/Form";
 
 import { initStoreFx } from "./init";
 

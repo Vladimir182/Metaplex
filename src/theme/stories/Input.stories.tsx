@@ -2,7 +2,7 @@ import { Input } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
-  title: "Simple/UI kit/Input",
+  title: "UI kit/Input",
   component: Input,
   argTypes: {
     size: {

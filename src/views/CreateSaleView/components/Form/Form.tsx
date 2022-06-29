@@ -12,10 +12,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { createSaleFactory } from "views/CreateSaleView/state";
+import { MaximumSupply } from "views/NftCreationView/components/NftCreate/MaximumSupply";
 
-import { ArtworkSummary } from "components/Artwork/ArtworkSummary";
-import { DateTimePicker } from "components/Datepicker/DateTimePicker";
-import { MaximumSupply } from "components/forms/NftCreate/MaximumSupply";
+import { ArtworkSummary } from "components/DataDisplay/ArtworkSummary";
+import { DateTimePicker } from "components/Forms/DateTimePicker";
 import { SolanaIcon } from "components/Icons";
 
 import { FormState } from "./interface";

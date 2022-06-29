@@ -2,7 +2,7 @@ import { Textarea } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
-  title: "Simple/UI kit/Textarea",
+  title: "UI kit/Textarea",
   component: Textarea,
   argTypes: {
     size: {

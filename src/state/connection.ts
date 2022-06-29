@@ -9,12 +9,8 @@ import {
   sample,
 } from "effector";
 import { interval } from "patronum";
+import { getNetworksStatus, NetworksStatus } from "utils/getNetworksStatus";
 import { getStorage } from "utils/storage";
-
-import {
-  getNetworksStatus,
-  NetworksStatus,
-} from "components/modals/UserProfile/NetworkSelector/utils/getNetworksStatus";
 
 export const NETWORK_KEY = "networkkey";
 export const NETWORK_LIST: Cluster[] = ["devnet", "testnet", "mainnet-beta"];

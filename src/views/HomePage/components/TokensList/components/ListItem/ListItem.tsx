@@ -1,10 +1,10 @@
 import React from "react";
-import { Flex, HStack, StackDivider } from "@chakra-ui/react";
+import { Flex, HStack, StackDivider, Text } from "@chakra-ui/react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { IArt } from "state/artworks";
 import { IFixedPrice } from "state/sales";
 
-import { ArtworkStats } from "components/Artwork/shared";
+import { ArtworkStats } from "components/DataDisplay/ArtworkStats";
 
 import { Actions } from "./components/Actions";
 import { Earnings } from "./components/Earnings";
@@ -58,15 +58,14 @@ export const ListItem: React.FC<Props> = ({
           </HStack>
           <Actions artwork={artwork} sale={sale} isSoldOut={isSoldOut} />
         </Flex>
-        {/* <Text
+        <Text
           fontSize={14}
           textOverflow="ellipsis"
           maxW="64px"
-          overflow="hidden"
           whiteSpace="nowrap"
         >
-          {market}
-        </Text> */}
+          {sale?.id}
+        </Text>
       </Flex>
     </HStack>
   );

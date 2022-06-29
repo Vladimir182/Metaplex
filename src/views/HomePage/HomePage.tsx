@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { Button, Center } from "@chakra-ui/react";
 import { ROUTES } from "routes";
 
-import { CreateMessage } from "components/CreateMessage";
 import { Layout } from "components/Layout";
-import { LoaderComponent } from "components/modals/InfiniteProgress/LoaderComponent";
+import { LoaderComponent } from "components/Modals/InfiniteProgress/LoaderComponent";
+import { CreateMessage } from "components/Others/CreateMessage";
 
 import { CongratulationsModal } from "./components/CongratulationsModal/CongratulationsModal";
 import { TokensList } from "./components/TokensList";

@@ -1,10 +1,9 @@
 import { FC, useEffect } from "react";
 import { VStack } from "@chakra-ui/react";
 import { useFileReader } from "hooks/useFileReader";
+import { FormData } from "views/NftCreationView/components/NftCreate";
 
-import { ArtImage } from "components/ArtPreview";
-import { FormData } from "components/forms/NftCreate";
-import { FileType } from "components/MediaTypeSelector";
+import { ArtImage } from "components/DataDisplay/ArtImage";
 
 import { PreviewSale } from "./components/PreviewSale";
 import { PreviewStepField } from "./components/PreviewStepField";
@@ -12,14 +11,9 @@ import { PreviewStepField } from "./components/PreviewStepField";
 interface IPrevieewBodyProps {
   formData: Partial<FormData> | null;
   file: File | null;
-  type: FileType;
 }
 
-export const PreviewStep: FC<IPrevieewBodyProps> = ({
-  formData,
-  file,
-  type,
-}) => {
+export const PreviewStep: FC<IPrevieewBodyProps> = ({ formData, file }) => {
   const { title, desc, supply, secondaryRoyalties, primaryRoyalties, royalty } =
     formData || {};
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -33,22 +27,12 @@ export const PreviewStep: FC<IPrevieewBodyProps> = ({
 
   return (
     <>
-      {sourceUrl && type === FileType.IMAGE && (
+      {sourceUrl && (
         <ArtImage
           uri={sourceUrl}
           mb={12}
           bgColor="whiteAlpha.50"
           borderRadius="xl"
-        />
-      )}
-      {sourceUrl && type === FileType.VIDEO && (
-        <video
-          style={{
-            position: "relative",
-            zIndex: -1,
-            width: "100%",
-          }}
-          src={sourceUrl}
         />
       )}
       <VStack spacing={6}>

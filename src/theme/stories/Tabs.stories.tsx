@@ -2,7 +2,7 @@ import { Tab, TabList, Tabs } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
 export default {
-  title: "Simple/UI kit/Tabs",
+  title: "UI kit/Tabs",
   component: Tabs,
   argTypes: {
     size: {

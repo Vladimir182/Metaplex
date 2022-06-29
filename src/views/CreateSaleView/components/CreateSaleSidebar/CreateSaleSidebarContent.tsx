@@ -5,8 +5,8 @@ import { BoxProps, Heading, Spacer } from "@chakra-ui/react";
 import { useStore } from "effector-react";
 import { createSaleFactory } from "views/CreateSaleView/state";
 
-import { Commission } from "components/Commission/Commission";
-import { SidebarMenuItemWrapper } from "components/Sidebar/SidebarMenuItemWrapper";
+import { Commission } from "components/DataDisplay/Commission";
+import { SidebarMenuItemWrapper } from "components/Navigation/Sidebar/SidebarMenuItemWrapper";
 
 import { CreateSaleSidebarEnum } from "./types";
 
