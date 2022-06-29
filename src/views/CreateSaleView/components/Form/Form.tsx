@@ -4,10 +4,11 @@ import {
   Box,
   Flex,
   Heading,
-  Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
+  NumberInput,
+  NumberInputField,
   Text,
 } from "@chakra-ui/react";
 import { createSaleFactory } from "views/CreateSaleView/state";
@@ -18,6 +19,8 @@ import { MaximumSupply } from "components/forms/NftCreate/MaximumSupply";
 import { SolanaIcon } from "components/Icons";
 
 import { FormState } from "./interface";
+
+const MIN_COST = 0.00001;
 
 export const Form: FC = () => {
   const {
@@ -92,14 +95,26 @@ export const Form: FC = () => {
               pointerEvents="none"
               children={<Text>SOL</Text>}
             />
-            <Input
-              id="price"
-              type="number"
-              color="whiteAlpha.700"
-              bg="whiteAlpha.50"
-              pl={12}
-              placeholder="Price"
-              {...register("price", { required: true })}
+            <Controller
+              control={control}
+              render={({ field }) => (
+                <NumberInput
+                  step={MIN_COST}
+                  min={MIN_COST}
+                  onChange={field.onChange}
+                  width="100%"
+                >
+                  <NumberInputField
+                    id="price"
+                    color="whiteAlpha.700"
+                    bg="whiteAlpha.50"
+                    pl={12}
+                    placeholder="Price"
+                    {...register("price", { required: true })}
+                  />
+                </NumberInput>
+              )}
+              name="price"
             />
           </InputGroup>
 
