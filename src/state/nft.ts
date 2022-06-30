@@ -1,6 +1,7 @@
-import { ArweaveStorage, MetadataJson } from "@metaplex/js";
+import { ArweaveStorage } from "@metaplex/js";
 import { File } from "@web-std/file";
 import { attach, createEffect, StoreValue } from "effector";
+import { MetadataJson } from "sdk/createNft";
 import { ENftProgress, mintArweaveNFT } from "sdk/createNft/mintArveaweNFT";
 
 import { AddressRow } from "../views/NftCreationView";

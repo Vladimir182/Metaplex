@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { MetadataJsonCreator } from "@metaplex/js";
 import { StringPublicKey } from "@metaplex-foundation/mpl-core";
 import { PublicKey } from "@solana/web3.js";
 import { createEvent, restore } from "effector";
+import { MetadataJsonCreator } from "sdk/createNft";
 import { AddressRow } from "views/NftCreationView";
 
 export const getCreators = (

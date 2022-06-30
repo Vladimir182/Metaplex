@@ -1,5 +1,4 @@
 import { RefObject, useCallback, useMemo } from "react";
-import { MetadataJson, MetadataJsonCreator } from "@metaplex/js";
 import debug from "debug";
 import {
   attach,
@@ -11,6 +10,7 @@ import {
 } from "effector";
 import { useStore } from "effector-react";
 import { reshape } from "patronum/reshape";
+import { MetadataJson, MetadataJsonCreator } from "sdk/createNft";
 import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
 import { $connection } from "state/connection";
 import { mintArweaveFx } from "state/nft";

@@ -1,5 +1,4 @@
 import { calculate } from "@metaplex/arweave-cost";
-import { Connection, MetadataJson } from "@metaplex/js";
 import {
   MAX_CREATOR_LEN,
   MAX_NAME_LENGTH,
@@ -7,7 +6,8 @@ import {
   MAX_URI_LENGTH,
 } from "@metaplex-foundation/mpl-token-metadata";
 import { MintLayout } from "@solana/spl-token";
-import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { MetadataJson } from "sdk/createNft";
 export const METADATA_FILE_NAME = "metadata.json";
 
 export function createFilePack(

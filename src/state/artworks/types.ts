@@ -1,14 +1,18 @@
+import { StringPublicKey } from "@metaplex-foundation/mpl-core";
 import {
   MetaDataJsonCategory,
   MetadataJsonCreator,
   MetadataJsonFile,
-} from "@metaplex/js";
-import { StringPublicKey } from "@metaplex-foundation/mpl-core";
+} from "sdk/createNft";
 
 export enum ArtType {
   Master = "Master",
   Print = "Print",
   NFT = "NFT",
+}
+
+export interface IArtCreator extends MetadataJsonCreator {
+  verified: boolean;
 }
 
 export interface IArt {
@@ -22,7 +26,7 @@ export interface IArt {
   image: string;
   title: string;
   description?: string;
-  creators: MetadataJsonCreator[];
+  creators: IArtCreator[];
   format: MetaDataJsonCategory;
   assets?: MetadataJsonFile[];
   type: ArtType;

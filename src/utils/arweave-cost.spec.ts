@@ -1,5 +1,5 @@
-import { MetadataJson } from "@metaplex/js";
 import { File } from "@web-std/file";
+import { MetadataJson } from "sdk/createNft";
 
 import {
   createFilePack,

@@ -1,4 +1,3 @@
-import { MetadataJsonCreator } from "@metaplex/js";
 import {
   createWithdrawInstruction,
   findPayoutTicketAddress,
@@ -9,6 +8,7 @@ import {
   TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { PublicKey, SYSVAR_CLOCK_PUBKEY } from "@solana/web3.js";
+import { MetadataJsonCreator } from "sdk/createNft";
 import { IFixedPrice } from "state/sales";
 import { toPubkey } from "utils/toPubkey";
 import { Wallet } from "wallet";

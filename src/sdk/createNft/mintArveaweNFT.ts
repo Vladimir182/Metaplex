@@ -1,11 +1,4 @@
-import {
-  actions,
-  ArweaveStorage,
-  ArweaveUploadResult,
-  Connection,
-  MetadataJson,
-  Wallet,
-} from "@metaplex/js";
+import { actions, ArweaveStorage, ArweaveUploadResult } from "@metaplex/js";
 import { createFilePack, METADATA_FILE_NAME } from "utils/arweave-cost";
 import { Pipeline } from "utils/pipeline";
 
@@ -26,10 +19,13 @@ import {
 import { tokenVerification } from "./utils";
 const { prepareTokenAccountAndMintTxs } = actions;
 
-import { PublicKey } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
 import BN from "bn.js";
 import { createPrimaryMetadataCreatorsTransaction } from "sdk/creators/transactions/createPrimaryMetadataCreatorsTransaction";
 import { AddressRow } from "views/NftCreationView";
+import { Wallet } from "wallet";
+
+import { MetadataJson } from "./types";
 
 const EMPTY_URI = " ".repeat(64);
 
@@ -119,8 +115,12 @@ export async function mintArweaveNFT(
       };
     }, ENftProgress.preparing_assets);
 
+    const walletAddress = wallet.publicKey.toString();
+    const creators = metadata.properties.creators.map(
+      (c) => new Creator({ ...c, verified: c.address === walletAddress })
+    );
+
     const createMetadataTx = pipe.exec(() => {
-      const creators = metadata.properties.creators.map((c) => new Creator(c));
       const metadataData = new DataV2({
         name: metadata.name,
         symbol: metadata.symbol,
@@ -200,7 +200,7 @@ export async function mintArweaveNFT(
             name: metadata.name,
             symbol: metadata.symbol,
             uri: `https://arweave.net/${transactionId}`,
-            creators: metadata.properties.creators.map((c) => new Creator(c)),
+            creators,
             sellerFeeBasisPoints: metadata.seller_fee_basis_points,
             collection: null,
             uses: null,

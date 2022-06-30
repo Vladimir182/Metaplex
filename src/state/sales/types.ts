@@ -1,6 +1,6 @@
-import { MetadataJsonCreator } from "@metaplex/js";
 import { StringPublicKey } from "@metaplex-foundation/mpl-core";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
+import { MetadataJsonCreator } from "sdk/createNft";
 import { IArt } from "state/artworks";
 
 export type UnixTimestamp = number;

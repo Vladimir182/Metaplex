@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ArweaveStorage, MetadataJson } from "@metaplex/js";
+import { ArweaveStorage } from "@metaplex/js";
 import { Connection } from "@solana/web3.js";
 import { File } from "@web-std/file";
 import { allSettled, fork } from "effector";
+import { MetadataJson } from "sdk/createNft";
 import { MintArveaweNFTResponse } from "sdk/createNft/mintArveaweNFT";
 
 import { $network } from "./connection";

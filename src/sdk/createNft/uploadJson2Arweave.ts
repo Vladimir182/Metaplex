@@ -1,12 +1,8 @@
-import {
-  actions,
-  ArweaveStorage,
-  ArweaveUploadResult,
-  Connection,
-  Wallet,
-} from "@metaplex/js";
+import { actions, ArweaveStorage, ArweaveUploadResult } from "@metaplex/js";
+import { Connection } from "@solana/web3.js";
 import { METADATA_FILE_NAME } from "utils/arweave-cost";
 import { Pipeline } from "utils/pipeline";
+import { Wallet } from "wallet";
 
 import { EUploadProgress } from "../../enums/uploadProgress";
 

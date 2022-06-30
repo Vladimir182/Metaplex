@@ -1,9 +1,9 @@
-import { MetadataJsonCreator } from "@metaplex/js";
 import {
   findPrimaryMetadataCreatorsAddress,
   PrimaryMetadataCreators,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection } from "@solana/web3.js";
+import { MetadataJsonCreator } from "sdk/createNft";
 import { ArtType, IArt } from "state/artworks";
 import { excludesFalsy } from "utils/excludeFalsy";
 import { toPubkey } from "utils/toPubkey";

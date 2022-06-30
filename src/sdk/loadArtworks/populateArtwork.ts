@@ -1,4 +1,4 @@
-import { MetadataJson } from "@metaplex/js";
+import { MetadataJson } from "sdk/createNft";
 import { loadExtraContent } from "sdk/loadExtraContent";
 import { IArt } from "state/artworks";
 
