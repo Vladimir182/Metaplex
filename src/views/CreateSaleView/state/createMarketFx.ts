@@ -2,7 +2,7 @@ import { Market } from "@metaplex-foundation/mpl-fixed-price-sale";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { attach, createEffect } from "effector";
-import { createMarket } from "sdk/createSale/createMarket";
+import { createMarket } from "sdk/market/actions";
 import { loadAccountAndDeserialize } from "sdk/share";
 import { IArt } from "state/artworks";
 import { $connection } from "state/connection";

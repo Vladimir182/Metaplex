@@ -13,7 +13,7 @@ import { IFixedPrice } from "state/sales";
 import { toPubkey } from "utils/toPubkey";
 import { Wallet } from "wallet";
 
-import { createCreatorWithdraw } from "../instructions/createCreatorWithdraw";
+import { createCreatorWithdraw } from "./createCreatorWithdraw";
 
 interface WithdrawProps {
   connection: Connection;

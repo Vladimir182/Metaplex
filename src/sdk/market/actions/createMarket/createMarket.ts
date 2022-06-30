@@ -6,9 +6,9 @@ import { throwTransactionError } from "sdk/transactions/throwTransactionError";
 import { waitConfirmation } from "sdk/transactions/waitConfirmation";
 import { Wallet } from "wallet";
 
-import { createMarketTransaction } from "./createMarketTransaction";
-import { createTreasury } from "./createTreasury";
-import { initSellingResource } from "./initSellingResource";
+import { createMarketTransaction } from "./transactions/createMarketTransaction";
+import { createTreasuryTransaction } from "./transactions/createTreasuryTransaction";
+import { createVaultTransaction } from "./transactions/createVaultTransaction";
 
 export interface CreateMarketTransactionProps {
   wallet: Wallet;
@@ -72,7 +72,7 @@ const createTransaction = async ({
     initSellingResourceInstructions,
     sellingResourceSigners,
     sellingResource,
-  } = await initSellingResource({
+  } = await createVaultTransaction({
     resourceMint,
     resourceToken,
     store,
@@ -88,7 +88,7 @@ const createTransaction = async ({
     treasuryOwner,
     treasuryOwnerBump,
     treasuryHolder,
-  } = await createTreasury({
+  } = await createTreasuryTransaction({
     sellingResource: sellingResource.publicKey,
     connection,
     wallet,

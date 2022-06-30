@@ -11,9 +11,8 @@ import {
   PublicKey,
   TransactionInstruction,
 } from "@solana/web3.js";
+import { createTokenAccount } from "sdk/createTokenAccount";
 import { Wallet } from "wallet";
-
-import { createTokenAccount } from "../createTokenAccount";
 
 import { createInitSellingResourceTransaction } from "./initSellingResourceTransaction";
 
@@ -26,7 +25,7 @@ export interface InitSellingResourceProps {
   wallet: Wallet;
 }
 
-export const initSellingResource = async ({
+export const createVaultTransaction = async ({
   resourceMint,
   resourceToken,
   store,

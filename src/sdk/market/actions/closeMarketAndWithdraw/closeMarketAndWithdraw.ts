@@ -6,9 +6,9 @@ import { toPubkey } from "utils/toPubkey";
 import { waitForResponse } from "utils/waitForResponse";
 import { Wallet } from "wallet";
 
-import { createClaimTransaction } from "../transactions/createClaimTransaction";
-import { createCloseMarketTransaction } from "../transactions/createCloseMarketTransaction";
-import { createWithdrawTransaction } from "../transactions/createWithdrawTransaction";
+import { createClaimTransaction } from "./transactions/createClaimTransaction";
+import { createCloseMarketTransaction } from "./transactions/createCloseMarketTransaction";
+import { createWithdrawTransaction } from "./transactions/createWithdrawTransaction";
 
 interface Props {
   connection: Connection;

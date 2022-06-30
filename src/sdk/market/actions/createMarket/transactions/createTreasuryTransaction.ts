@@ -6,9 +6,8 @@ import {
   PublicKey,
   TransactionInstruction,
 } from "@solana/web3.js";
+import { createTokenAccount } from "sdk/createTokenAccount";
 import { Wallet } from "wallet";
-
-import { createTokenAccount } from "../createTokenAccount";
 
 export interface CreateTreasuryProps {
   connection: Connection;
@@ -16,7 +15,7 @@ export interface CreateTreasuryProps {
   sellingResource: PublicKey;
 }
 
-export const createTreasury = async ({
+export const createTreasuryTransaction = async ({
   sellingResource,
   connection,
   wallet,
