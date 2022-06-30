@@ -1,4 +1,4 @@
-import { loadExtraContent } from "sdk/loadExtraContent";
+import { loadExtraContent } from "sdk/createNft";
 
 import { ConversionRatePair, Currency, CURRENCY_TRANSLATE } from "./types";
 

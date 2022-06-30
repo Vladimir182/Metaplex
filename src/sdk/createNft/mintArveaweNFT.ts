@@ -1,5 +1,4 @@
 import { actions, ArweaveStorage, ArweaveUploadResult } from "@metaplex/js";
-import { createFilePack, METADATA_FILE_NAME } from "utils/arweave-cost";
 import { Pipeline } from "utils/pipeline";
 
 import { payForFiles } from "./payForFiles";
@@ -25,6 +24,7 @@ import { createPrimaryMetadataCreatorsTransaction } from "sdk/creators/transacti
 import { AddressRow } from "views/NftCreationView";
 import { Wallet } from "wallet";
 
+import { createFilePack, METADATA_FILE_NAME } from "./createFilePack";
 import { MetadataJson } from "./types";
 
 const EMPTY_URI = " ".repeat(64);
@@ -95,6 +95,7 @@ export async function mintArweaveNFT(
       const files = [file, fileMetadata];
 
       const payForFilesTx = await payForFiles({
+        connection,
         wallet,
         files,
       });

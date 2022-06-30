@@ -1,11 +1,11 @@
 import { actions, ArweaveStorage, ArweaveUploadResult } from "@metaplex/js";
 import { Connection } from "@solana/web3.js";
-import { METADATA_FILE_NAME } from "utils/arweave-cost";
 import { Pipeline } from "utils/pipeline";
 import { Wallet } from "wallet";
 
 import { EUploadProgress } from "../../enums/uploadProgress";
 
+import { METADATA_FILE_NAME } from "./createFilePack";
 import { payForFiles } from "./payForFiles";
 
 const { sendTransaction } = actions;
@@ -45,10 +45,7 @@ export async function uploadJson2Arweave({
       const metadataFile = new File([JSON.stringify(json)], METADATA_FILE_NAME);
       const files = [...uploadFiles, metadataFile];
 
-      const payForFilesTx = await payForFiles({
-        wallet,
-        files,
-      });
+      const payForFilesTx = await payForFiles({ files, connection, wallet });
 
       return {
         payForFilesTx,

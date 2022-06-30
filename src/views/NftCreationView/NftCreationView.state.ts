@@ -10,18 +10,19 @@ import {
 } from "effector";
 import { useStore } from "effector-react";
 import { reshape } from "patronum/reshape";
-import { MetadataJson, MetadataJsonCreator } from "sdk/createNft";
-import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
+import {
+  createFilePack,
+  ENftProgress,
+  getFilesCost,
+  getMetadataCost,
+  METADATA_FILE_NAME,
+  MetadataJson,
+  MetadataJsonCreator,
+} from "sdk/createNft";
 import { $connection } from "state/connection";
 import { mintArweaveFx } from "state/nft";
 import { createEntry } from "state/utils";
 import { $user, $walletAddress } from "state/wallet";
-import {
-  createFilePack,
-  getFilesCost,
-  getMetadataCost,
-  METADATA_FILE_NAME,
-} from "utils/arweave-cost";
 import { toNumber } from "utils/base";
 import { createProgressTools } from "utils/createProgressTools";
 import { throttle } from "utils/throttle";

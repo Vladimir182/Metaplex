@@ -1,31 +1,50 @@
-import { programs } from "@metaplex/js";
-import { PublicKey } from "@solana/web3.js";
-import { getFilesCost } from "utils/arweave-cost";
-import { getFileHash } from "utils/crypto";
+import { config } from "@metaplex-foundation/mpl-core";
+import {
+  Connection,
+  SystemProgram,
+  TransactionInstruction,
+} from "@solana/web3.js";
+import { createAndSignTransaction } from "sdk/transactions/createAndSignTransaction";
 import { solToLamports } from "utils/solToLamports";
+import { toPubkey } from "utils/toPubkey";
 import { Wallet } from "wallet";
-const { PayForFiles } = programs;
 
-export const ARWEAVE_WALLET = new PublicKey(
+import { getFileHash } from "./getFileHash";
+import { getFilesCost } from "./getFilesCost";
+
+export const ARWEAVE_WALLET = toPubkey(
   "6FKvsq4ydWFci6nGq9ckbjYMtnmaqAoatz5c9XWjiDuS"
 );
 
 export interface IPayForFilesParams {
+  connection: Connection;
   wallet: Wallet;
   files: File[];
 }
 
-export async function payForFiles({ files, wallet: w }: IPayForFilesParams) {
+export async function payForFiles({
+  connection,
+  files,
+  wallet,
+}: IPayForFilesParams) {
   const fileHashes = await Promise.all(files.map((file) => getFileHash(file)));
   const { solana } = await getFilesCost(files);
   const lamports = solToLamports(solana);
 
-  return new PayForFiles(
-    { feePayer: w.publicKey },
-    {
-      arweaveWallet: ARWEAVE_WALLET,
-      lamports,
-      fileHashes,
-    }
+  const ix = SystemProgram.transfer({
+    fromPubkey: wallet.publicKey,
+    toPubkey: ARWEAVE_WALLET,
+    lamports,
+  });
+
+  const ixs = fileHashes.map(
+    (data) =>
+      new TransactionInstruction({
+        keys: [],
+        programId: toPubkey(config.programs.memo),
+        data,
+      })
   );
+
+  return createAndSignTransaction([ix, ...ixs], connection, wallet, []);
 }
