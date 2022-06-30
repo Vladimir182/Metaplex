@@ -80,7 +80,7 @@ export function route<T extends (string | Var<string>)[]>(
     return Object.keys(paramsT).reduce((urlPath, key) => {
       const rx = new RegExp(key, "g");
       return urlPath.replace(rx, `${paramsT[key]}`);
-    }, path) as ConvertToString<T>;
+    }, path);
   };
   const ret = fn as IRouteResult<T>;
   ret.args = args;

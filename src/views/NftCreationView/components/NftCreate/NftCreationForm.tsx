@@ -11,7 +11,7 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import { Box, Textarea, VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { useStore } from "effector-react";
 import { $user } from "state/wallet";
 import { FormData } from "views/NftCreationView";
@@ -151,13 +151,15 @@ export const NftCreationForm: FC<NftCreationFormProps> = ({
             title="title"
             placeholder="Title"
             options={{ required: "Title field is required", minLength: 1 }}
+            maxLength={32}
           />
 
           <FormField
             id="desc"
             title="description"
-            placeholder="Share a little bit about your collectible."
-            customInputFactory={(register) => <Textarea h={32} {...register} />}
+            placeholder="e. g. “Share a little bit about your collectible."
+            maxLength={240}
+            type="textarea"
           />
 
           <MaximumSupply
