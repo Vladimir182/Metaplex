@@ -10,7 +10,7 @@ export const MODAL_COPY: Record<
       "After you approve the transaction with your wallet, the sale will be stopped.",
   },
   [ActionType.Withdraw]: {
-    title: "Withdraw is in progress",
+    title: "Transaction is in Progress",
     subtitle:
       "After you approve the transaction with your wallet, SOL will be transferred to wallets.",
   },
