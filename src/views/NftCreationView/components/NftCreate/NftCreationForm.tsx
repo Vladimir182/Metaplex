@@ -14,7 +14,7 @@ import {
 import { Box, Textarea, VStack } from "@chakra-ui/react";
 import { useStore } from "effector-react";
 import { $user } from "state/wallet";
-import { AddressRow } from "views/NftCreationView";
+import { FormData } from "views/NftCreationView";
 
 import { TitledBlock } from "components/DataDisplay/TitledBlock";
 import { FileUpload } from "components/Forms/FileUpload";
@@ -25,19 +25,6 @@ import { MaximumSupply } from "./MaximumSupply";
 import { PrimarySale } from "./PrimarySale";
 import { SecondarySale } from "./SecondarySale";
 import { MAXIMUM_SUPPLY_DEFAULT } from "./SupplyType";
-
-export interface FormData {
-  preview: File | Record<string, never>;
-  file: File | Record<string, never>;
-  title: string;
-  desc: string;
-  supply: string;
-  royalty: string;
-  primaryRoyalties: Array<AddressRow>;
-  secondaryRoyalties: Array<AddressRow>;
-  attributes: Array<{ key: string; value: string }>;
-  piecesInOneWallet: number;
-}
 
 export interface NftCreationFormProps {
   onSubmit?(form: FormData): void;

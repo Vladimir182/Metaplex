@@ -3,7 +3,7 @@ import { File } from "@web-std/file";
 import { allSettled, fork } from "effector";
 import { ENftProgress } from "sdk/createNft/mintArveaweNFT";
 import { walletChange } from "state/wallet";
-import { FormData } from "views/NftCreationView/components/NftCreate";
+import { FormData } from "views/NftCreationView";
 
 import {
   createMetadataTools,

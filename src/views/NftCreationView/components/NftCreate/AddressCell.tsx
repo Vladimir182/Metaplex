@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { Box, Button, Flex, FormControl, Text } from "@chakra-ui/react";
-import { AddressRow } from "views/NftCreationView";
-import { FormData } from "views/NftCreationView/components/NftCreate/NftCreationForm";
+import { AddressRow, FormData } from "views/NftCreationView";
 
 import { FormField } from "components/Forms/FormField";
 import { PinkTrashIcon } from "components/Icons/PinkTrashIcon";

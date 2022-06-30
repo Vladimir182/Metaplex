@@ -26,11 +26,10 @@ import { toNumber } from "utils/base";
 import { createProgressTools } from "utils/createProgressTools";
 import { throttle } from "utils/throttle";
 import { getCreators } from "views/NftCreationView/components/NftCreate/helper";
-import type { FormData } from "views/NftCreationView/components/NftCreate/NftCreationForm";
 
 import { useToast } from "components/Modals/Toast";
 
-import { AddressRow } from "./interface";
+import { AddressRow, FormData } from "./interface";
 import { NftCreationSteps } from "./types";
 
 const LOGErr = debug("error:NftCreationView.state");

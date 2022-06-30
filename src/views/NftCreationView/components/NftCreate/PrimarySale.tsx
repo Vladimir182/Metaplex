@@ -1,13 +1,12 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { AddressRow } from "views/NftCreationView";
+import { AddressRow, FormData } from "views/NftCreationView";
 
 import { PlusIcon } from "components/Icons/PlusIcon";
 
 import { AddressCell } from "./AddressCell";
 import { calcProportionsSum } from "./helper";
-import { FormData } from "./NftCreationForm";
 
 const MAX_PRIMARY_ROYALTIES = 4; // due to limitation in contract
 

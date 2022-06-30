@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { VStack } from "@chakra-ui/react";
 import { useFileReader } from "hooks/useFileReader";
-import { FormData } from "views/NftCreationView/components/NftCreate";
+import { FormData } from "views/NftCreationView";
 
 import { ArtImage } from "components/DataDisplay/ArtImage";
 

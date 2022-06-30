@@ -12,8 +12,8 @@ import {
   NumberInputField,
   RequiredIndicator,
 } from "@chakra-ui/react";
+import { FormData } from "views/NftCreationView";
 
-import { FormData } from "./NftCreationForm";
 import {
   MAXIMUM_SUPPLY_DEFAULT,
   SupplyType,
