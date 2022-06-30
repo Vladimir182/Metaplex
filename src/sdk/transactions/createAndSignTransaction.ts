@@ -1,10 +1,10 @@
-import { Wallet } from "@metaplex/js";
 import {
   Connection,
   Keypair,
   Transaction,
   TransactionInstruction,
 } from "@solana/web3.js";
+import { Wallet } from "wallet";
 
 export async function createAndSignTransaction(
   instructions: TransactionInstruction[],

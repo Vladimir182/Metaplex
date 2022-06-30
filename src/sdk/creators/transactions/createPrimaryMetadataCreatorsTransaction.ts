@@ -1,6 +1,7 @@
-import { MetadataJsonCreator, Wallet } from "@metaplex/js";
+import { MetadataJsonCreator } from "@metaplex/js";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { createAndSignTransaction } from "sdk/transactions/createAndSignTransaction";
+import { Wallet } from "wallet";
 
 import { createPrimaryMetadataCreators } from "../instructions/createPrimaryMetadataCreators";
 

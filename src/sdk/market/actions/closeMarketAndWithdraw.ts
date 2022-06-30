@@ -1,10 +1,10 @@
-import { Wallet } from "@metaplex/js";
 import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { IFixedPrice, isEndedSale } from "state/sales";
 import { sendTransactions } from "utils/sendTransactions";
 import { toPubkey } from "utils/toPubkey";
 import { waitForResponse } from "utils/waitForResponse";
+import { Wallet } from "wallet";
 
 import { createClaimTransaction } from "../transactions/createClaimTransaction";
 import { createCloseMarketTransaction } from "../transactions/createCloseMarketTransaction";

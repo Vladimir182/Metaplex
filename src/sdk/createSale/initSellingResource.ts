@@ -1,4 +1,3 @@
-import { Wallet } from "@metaplex/js";
 import { bignum, COption } from "@metaplex-foundation/beet";
 import { findVaultOwnerAddress } from "@metaplex-foundation/mpl-fixed-price-sale";
 import {
@@ -12,6 +11,7 @@ import {
   PublicKey,
   TransactionInstruction,
 } from "@solana/web3.js";
+import { Wallet } from "wallet";
 
 import { createTokenAccount } from "../createTokenAccount";
 

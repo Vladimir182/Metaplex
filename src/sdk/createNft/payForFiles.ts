@@ -1,8 +1,9 @@
-import { programs, Wallet } from "@metaplex/js";
+import { programs } from "@metaplex/js";
 import { PublicKey } from "@solana/web3.js";
 import { getFilesCost } from "utils/arweave-cost";
 import { getFileHash } from "utils/crypto";
 import { solToLamports } from "utils/solToLamports";
+import { Wallet } from "wallet";
 const { PayForFiles } = programs;
 
 export const ARWEAVE_WALLET = new PublicKey(

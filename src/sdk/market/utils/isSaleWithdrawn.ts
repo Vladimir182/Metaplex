@@ -1,6 +1,6 @@
-import { Wallet } from "@metaplex/js";
 import { findPayoutTicketAddress } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection, PublicKey } from "@solana/web3.js";
+import { Wallet } from "wallet";
 
 export const isSaleWithdrawn = async ({
   connection,

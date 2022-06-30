@@ -1,9 +1,9 @@
-import { Wallet } from "@metaplex/js";
 import { createCreateStoreInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { Connection, Keypair, Transaction } from "@solana/web3.js";
 import { ETransactionProgress } from "enums/transactionProgress";
 import { waitConfirmation } from "sdk/transactions/waitConfirmation";
 import { IStore } from "state/store";
+import { Wallet } from "wallet";
 
 export interface InitStoreProps {
   name: string;

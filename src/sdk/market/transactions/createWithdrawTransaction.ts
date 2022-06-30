@@ -1,4 +1,3 @@
-import { Wallet } from "@metaplex/js";
 import {
   findPrimaryMetadataCreatorsAddress,
   findTreasuryOwnerAddress,
@@ -12,6 +11,7 @@ import { createPrimaryMetadataCreators } from "sdk/creators/instructions/createP
 import { createAndSignTransaction } from "sdk/transactions/createAndSignTransaction";
 import { IFixedPrice } from "state/sales";
 import { toPubkey } from "utils/toPubkey";
+import { Wallet } from "wallet";
 
 import { createCreatorWithdraw } from "../instructions/createCreatorWithdraw";
 

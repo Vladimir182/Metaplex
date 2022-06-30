@@ -1,7 +1,7 @@
-import { Wallet } from "@metaplex/js";
 import { Transaction } from "@metaplex-foundation/mpl-core";
 import { Connection, TransactionSignature } from "@solana/web3.js";
 import { log } from "debug";
+import { Wallet } from "wallet";
 
 import { prepareTransactions } from "../sdk/transactions/prepareTransactions";
 import { throwTransactionError } from "../sdk/transactions/throwTransactionError";

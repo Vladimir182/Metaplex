@@ -1,4 +1,3 @@
-import { Wallet } from "@metaplex/js";
 import {
   createClaimResourceInstruction,
   findVaultOwnerAddress,
@@ -18,6 +17,7 @@ import {
 import { createAndSignTransaction } from "sdk/transactions/createAndSignTransaction";
 import { IFixedPrice } from "state/sales";
 import { toPubkey } from "utils/toPubkey";
+import { Wallet } from "wallet";
 
 interface ClaimProps {
   connection: Connection;

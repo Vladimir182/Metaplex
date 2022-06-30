@@ -1,4 +1,3 @@
-import { Wallet } from "@metaplex/js";
 import { createCloseMarketInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
 import {
   Connection,
@@ -7,6 +6,7 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { createAndSignTransaction } from "sdk/transactions/createAndSignTransaction";
+import { Wallet } from "wallet";
 
 interface EndSaleProps {
   market: PublicKey;

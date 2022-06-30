@@ -1,4 +1,3 @@
-import { Wallet } from "@metaplex/js";
 import { findTreasuryOwnerAddress } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { NATIVE_MINT } from "@solana/spl-token";
 import {
@@ -7,6 +6,7 @@ import {
   PublicKey,
   TransactionInstruction,
 } from "@solana/web3.js";
+import { Wallet } from "wallet";
 
 import { createTokenAccount } from "../createTokenAccount";
 
