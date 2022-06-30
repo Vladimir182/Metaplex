@@ -116,6 +116,7 @@ interface ErrorResult {
   isSumError: boolean;
   isEmptyAddress: boolean;
   isCorrectSum: boolean;
+  hasDuplicates: boolean;
   errorMessage: string;
 }
 
@@ -145,6 +146,9 @@ export const calcAllErrors = (
     !isSumError &&
     !!control[0].share &&
     control[control.length - 1].share == "0";
+  const hasDuplicates =
+    isIdExist &&
+    control.filter((ad) => ad.address === control[id].address).length > 1;
 
   let errorMessage = "";
   if (isLastItem || !isIdExist) {
@@ -153,6 +157,10 @@ export const calcAllErrors = (
         "Part of the royalties remained undivided. You must distribute all 100%";
     }
     if (isCorrectSum) errorMessage = "Free up some royalties in other wallets";
+  }
+
+  if (hasDuplicates) {
+    errorMessage = "Duplicated address";
   }
 
   if (isIdExist && !!control[id].address) {
@@ -168,7 +176,13 @@ export const calcAllErrors = (
     errorMessage = "Required field not filled";
   }
 
-  setErrors({ isEmptyAddress, isSumError, isCorrectSum, errorMessage });
+  setErrors({
+    isEmptyAddress,
+    isSumError,
+    isCorrectSum,
+    hasDuplicates,
+    errorMessage,
+  });
 
   return {
     isEmptyAddress,
