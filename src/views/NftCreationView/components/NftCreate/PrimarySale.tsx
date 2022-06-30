@@ -39,7 +39,7 @@ export const PrimarySale: React.FC<FormFieldProps> = ({
           </Text>
           <Text display="flex" color="whiteAlpha.500" fontSize={14}>
             Undistributed part of royalties
-            <Text ml={1} fontWeight={600} color="whiteAlpha.900">
+            <Text ml={1} as="span" fontWeight={600} color="whiteAlpha.900">
               {undistributed}%
             </Text>
           </Text>
