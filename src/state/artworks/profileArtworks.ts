@@ -1,12 +1,13 @@
-import { attach, createStore, forward, sample, StoreValue } from "effector";
+import { attach, createStore, sample, StoreValue } from "effector";
 import { loadArtworksByOwner } from "sdk/loadArtworks";
 import { IArt } from "state/artworks/types";
 import { $connection } from "state/connection";
 import { $wallet } from "state/wallet";
 
+import { createCachedStore } from "../cache";
 import { $store } from "../store";
 
-export const $profileArtworks = createStore<IArt[]>([]);
+import { readCachedSalesFx, writeCachedSalesFx } from "./cached";
 
 export const fetchProfileArtworksFx = attach({
   effect: async ({
@@ -36,17 +37,51 @@ export const fetchProfileArtworksFx = attach({
   },
 });
 
-export const $pendingProfileArtworks = fetchProfileArtworksFx.pending;
 export const $isInitalLoadHappened = createStore<boolean>(false);
+const cachedArtworks = createCachedStore<IArt[]>({
+  defaultValue: [],
+  checkEmpty: (v) => !!v.length,
+  readCacheFx: readCachedSalesFx,
+  writeCacheFx: writeCachedSalesFx,
+  fetchFx: fetchProfileArtworksFx,
+});
 
-forward({ from: fetchProfileArtworksFx.doneData, to: $profileArtworks });
+export const $profileArtworks = cachedArtworks.$store;
+export const $pendingProfileArtworks = cachedArtworks.$pending;
+
+const fetchCachedArtworksFx = attach({
+  effect: async ({
+    artworks,
+  }: {
+    artworks: StoreValue<typeof $profileArtworks>;
+  }) => {
+    if (artworks && artworks.length > 0) {
+      return artworks;
+    }
+
+    try {
+      const cachedArts = await readCachedSalesFx();
+      if (cachedArts && cachedArts.length > 0) {
+        return cachedArts;
+      }
+    } catch (e) {
+      //ignore
+    }
+
+    return await fetchProfileArtworksFx();
+  },
+  source: {
+    artworks: $profileArtworks,
+  },
+});
+
 sample({
-  clock: fetchProfileArtworksFx.doneData,
+  clock: fetchCachedArtworksFx.doneData,
   fn: (s) => !!s,
   target: $isInitalLoadHappened,
 });
 
 sample({
-  clock: [$connection, $store],
-  target: fetchProfileArtworksFx,
+  clock: [$connection, $store, $wallet],
+  target: fetchCachedArtworksFx,
 });
