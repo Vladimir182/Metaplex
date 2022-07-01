@@ -43,6 +43,9 @@ export const AddressCell: React.FC<FormFieldProps> = ({
 
   const proportionSum = calcProportionsSum(control, id);
   const maxValueForTotal = (100 - proportionSum) * Number(royalty) * 0.01;
+  const share = Number(control[id].share);
+  const royaltyNum = Number(royalty) || 0;
+  const defaultPercent = (royaltyNum / (share + proportionSum)) * share;
 
   useUpdateCalculationsOnSecondary(onUpdate, secondaryRoyalties, royalty, id);
 
@@ -105,7 +108,7 @@ export const AddressCell: React.FC<FormFieldProps> = ({
               type="number"
               id={`secondaryRoyalties.${id}.total`}
               title="% of total"
-              placeholder="0%"
+              placeholder={defaultPercent.toFixed(2) + "%"}
             />
           </Box>
         )}
