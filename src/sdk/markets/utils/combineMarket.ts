@@ -8,6 +8,7 @@ import { Connection } from "@solana/web3.js";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import { isSaleWithdrawn } from "sdk/market/utils/isSaleWithdrawn";
+import { mapFromMarketState, SaleState } from "state/sales";
 import { lamportsToSol } from "utils/lamportsToSol";
 import { parseBN } from "utils/parseBN";
 import { Wallet } from "wallet";
@@ -32,12 +33,14 @@ export const combineMarket = async (
 
   const piecesInOneWallet = parseBN(market.piecesInOneWallet);
   const maxSupply = parseBN(sellingResource.maxSupply);
+  const isSoldOut = (maxSupply || 0) - Number(sellingResource.supply) === 0;
 
   const isMarketStarted =
     !!startDate &&
     dayjs(startDate).isSameOrBefore(dayjs()) &&
     [MarketState.Active, MarketState.Created].includes(market.state);
-  const state = isMarketStarted ? MarketState.Active : market.state;
+  const mState = isMarketStarted ? MarketState.Active : market.state;
+  const state = isSoldOut ? SaleState.SoldOut : mapFromMarketState(mState);
 
   const statusesShouldCheckWithdraw = [
     MarketState.Ended,

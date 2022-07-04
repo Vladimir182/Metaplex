@@ -1,10 +1,9 @@
 import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Button, HStack } from "@chakra-ui/react";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { ROUTES } from "routes";
 import { IArt } from "state/artworks";
-import { IFixedPrice } from "state/sales";
+import { IFixedPrice, SaleState } from "state/sales";
 import { useLocalState } from "views/HomePage/components/TokensList/state";
 
 interface ActionsProps {
@@ -23,9 +22,10 @@ export const Actions: React.FC<ActionsProps> = ({
   const { isWithdrawn, state, endDate } = sale || {};
 
   const shouldRenderSell =
-    (state === MarketState.Uninitialized || !state) && !isSoldOut;
-  const shouldRenderEndSale = state === MarketState.Active && !endDate;
-  const shouldRenderWithdraw = state === MarketState.Ended && !isWithdrawn;
+    (state === SaleState.Uninitialized || !state) && !isSoldOut;
+  const shouldRenderEndSale = state === SaleState.Active && !endDate;
+  const shouldRenderWithdraw =
+    (state === SaleState.Ended || state === SaleState.SoldOut) && !isWithdrawn;
 
   const handleWithdraw = useCallback(
     (e: React.SyntheticEvent) => {

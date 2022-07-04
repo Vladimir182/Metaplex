@@ -1,9 +1,17 @@
 import { StringPublicKey } from "@metaplex-foundation/mpl-core";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { MetadataJsonCreator } from "sdk/createNft";
 import { IArt } from "state/artworks";
 
 export type UnixTimestamp = number;
+
+export enum SaleState {
+  Uninitialized = 0,
+  Created = 1,
+  Suspended = 2,
+  Active = 3,
+  SoldOut = 4,
+  Ended = 5,
+}
 
 export interface ISaleFPGate {
   collection: StringPublicKey;
@@ -14,7 +22,7 @@ export interface ISaleFPGate {
 export interface ISaleBase {
   id: StringPublicKey;
   artwork: IArt;
-  state: MarketState;
+  state: SaleState;
   endDate?: UnixTimestamp;
 }
 

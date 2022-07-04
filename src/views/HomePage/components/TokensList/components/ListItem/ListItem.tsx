@@ -1,8 +1,7 @@
 import React from "react";
 import { Flex, HStack, StackDivider, Text } from "@chakra-ui/react";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { IArt } from "state/artworks";
-import { IFixedPrice } from "state/sales";
+import { IFixedPrice, SaleState } from "state/sales";
 
 import { ArtworkStats } from "components/DataDisplay/ArtworkStats";
 
@@ -13,18 +12,12 @@ import { Header } from "./components/Header";
 interface Props {
   artwork: IArt;
   sale?: IFixedPrice;
-  isSoldOut?: boolean;
   onClick?: (id: string) => void;
 }
 
-export const ListItem: React.FC<Props> = ({
-  artwork,
-  sale,
-  onClick,
-  isSoldOut,
-}) => {
+export const ListItem: React.FC<Props> = ({ artwork, sale, onClick }) => {
   const { id, image, title } = artwork;
-  const { earnings, state = MarketState.Uninitialized } = sale || {};
+  const { earnings, state = SaleState.Uninitialized } = sale || {};
 
   const type = artwork.type;
 
@@ -56,7 +49,7 @@ export const ListItem: React.FC<Props> = ({
               <Earnings title="Primary Sale" saleAmount={earnings} />
             )}
           </HStack>
-          <Actions artwork={artwork} sale={sale} isSoldOut={isSoldOut} />
+          <Actions artwork={artwork} sale={sale} />
         </Flex>
         <Text
           fontSize={14}

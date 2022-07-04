@@ -1,6 +1,6 @@
 import { Box, HStack, Image, Text } from "@chakra-ui/react";
-import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import { useCustomBreakpoints } from "hooks/useCustomBreakpoints";
+import { SaleState } from "state/sales";
 
 import { Status } from "../Status";
 
@@ -8,13 +8,13 @@ interface Props {
   imgUrl: string;
   name: string;
   type?: string;
-  state?: MarketState;
+  state?: SaleState;
 }
 
 export const Header: React.FC<Props> = ({
   imgUrl,
   name,
-  state = MarketState.Uninitialized,
+  state = SaleState.Uninitialized,
 }) => {
   const { smDown } = useCustomBreakpoints();
 

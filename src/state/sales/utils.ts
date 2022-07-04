@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import { IArt } from "../artworks";
 
-import { IFixedPrice } from "./types";
+import { IFixedPrice, SaleState } from "./types";
 
 export function isSale(sale: IFixedPrice | IArt): sale is IFixedPrice {
   return (sale as IFixedPrice).artwork !== undefined;
@@ -16,8 +16,12 @@ export function isEndedSale(sale: IFixedPrice): boolean {
 
   return (
     isEnded ||
-    sale.state === MarketState.Ended ||
-    sale.state === MarketState.Suspended ||
+    sale.state === SaleState.Ended ||
+    sale.state === SaleState.Suspended ||
     false
   );
+}
+
+export function mapFromMarketState(state: MarketState): SaleState {
+  return SaleState[MarketState[state] as keyof typeof SaleState];
 }

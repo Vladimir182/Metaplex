@@ -2,9 +2,10 @@ import React from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { MarketState } from "@metaplex-foundation/mpl-fixed-price-sale";
 import dayjs from "dayjs";
+import { SaleState } from "state/sales";
 
 interface Props {
-  state?: MarketState;
+  state?: SaleState;
   endDate?: dayjs.Dayjs;
   startDate?: dayjs.Dayjs;
 }
@@ -33,11 +34,12 @@ const StatusTheme: StatusThemeType = {
     [MarketState.Created]: "Sale Not Started",
     [MarketState.Active]: "On Sale",
     [MarketState.Ended]: "Sale Ended",
+    [SaleState.SoldOut]: "Sold Out",
   },
 };
 
 export const Status: React.FC<Props> = ({
-  state = MarketState.Uninitialized,
+  state = SaleState.Uninitialized,
 }) => {
   return (
     <Box
