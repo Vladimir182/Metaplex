@@ -8,6 +8,7 @@ import { useLocalState } from "views/HomePage/components/TokensList/state";
 
 interface ActionsProps {
   artwork: IArt;
+  state?: SaleState;
   sale?: IFixedPrice;
   isSoldOut?: boolean;
 }
@@ -15,11 +16,12 @@ interface ActionsProps {
 export const Actions: React.FC<ActionsProps> = ({
   artwork,
   sale,
+  state = SaleState.Uninitialized,
   isSoldOut,
 }) => {
   const { onWithdraw } = useLocalState();
 
-  const { isWithdrawn, state, endDate } = sale || {};
+  const { isWithdrawn = true, endDate } = sale || {};
 
   const shouldRenderSell =
     (state === SaleState.Uninitialized || !state) && !isSoldOut;

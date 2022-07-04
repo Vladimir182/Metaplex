@@ -15,9 +15,15 @@ interface Props {
   onClick?: (id: string) => void;
 }
 
+const getInitialState = (artwork: IArt) => {
+  return artwork.prints?.supply === artwork.prints?.maxSupply
+    ? SaleState.SoldOut
+    : SaleState.Uninitialized;
+};
+
 export const ListItem: React.FC<Props> = ({ artwork, sale, onClick }) => {
   const { id, image, title } = artwork;
-  const { earnings, state = SaleState.Uninitialized } = sale || {};
+  const { earnings, state = getInitialState(artwork) } = sale || {};
 
   const type = artwork.type;
 
@@ -49,7 +55,7 @@ export const ListItem: React.FC<Props> = ({ artwork, sale, onClick }) => {
               <Earnings title="Primary Sale" saleAmount={earnings} />
             )}
           </HStack>
-          <Actions artwork={artwork} sale={sale} />
+          <Actions artwork={artwork} sale={sale} state={state} />
         </Flex>
         <Text
           fontSize={14}
