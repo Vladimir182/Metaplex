@@ -19,6 +19,7 @@ import {
   MetadataJson,
   MetadataJsonCreator,
 } from "sdk/createNft";
+import { fetchProfileArtworksFx } from "state/artworks";
 import { $connection } from "state/connection";
 import { mintArweaveFx } from "state/nft";
 import { createEntry } from "state/utils";
@@ -364,6 +365,7 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
       data: formData as FormData,
       maxSupply: formData.supply ? parseInt(formData.supply) : 0,
     });
+    await fetchProfileArtworksFx();
   }, [refForm, formData, user]);
   const toast = useToast();
 
