@@ -35,8 +35,6 @@ export const Details: FC<DetailsProps> = ({ artwork, sale }) => {
   const artist = creators[0]?.address;
 
   const usd = useSolToUsd(earnings);
-  const isSoldOut =
-    artwork && artwork.prints?.supply === artwork.prints?.maxSupply;
 
   const artistClipboard = useClipboard(artist ?? "");
   const ownerClipboard = useClipboard(ownerAddress ?? "");
@@ -102,9 +100,7 @@ export const Details: FC<DetailsProps> = ({ artwork, sale }) => {
         </VStack>
       </VStack>
       <Box mt="auto" alignSelf="flex-end" paddingX={6} pb={6}>
-        {artwork && (
-          <Actions artwork={artwork} sale={sale} isSoldOut={isSoldOut} />
-        )}
+        {artwork && <Actions artwork={artwork} sale={sale} />}
       </Box>
     </Flex>
   );

@@ -4,27 +4,25 @@ import { Button, HStack } from "@chakra-ui/react";
 import { ROUTES } from "routes";
 import { IArt } from "state/artworks";
 import { IFixedPrice, SaleState } from "state/sales";
+import { getArtworkState } from "utils/getArtworkState";
 import { useLocalState } from "views/HomePage/components/TokensList/state";
 
 interface ActionsProps {
   artwork: IArt;
   state?: SaleState;
   sale?: IFixedPrice;
-  isSoldOut?: boolean;
 }
 
 export const Actions: React.FC<ActionsProps> = ({
   artwork,
   sale,
-  state = SaleState.Uninitialized,
-  isSoldOut,
+  state = sale?.state || getArtworkState(artwork),
 }) => {
   const { onWithdraw } = useLocalState();
 
   const { isWithdrawn = true, endDate } = sale || {};
 
-  const shouldRenderSell =
-    (state === SaleState.Uninitialized || !state) && !isSoldOut;
+  const shouldRenderSell = state === SaleState.Uninitialized || !state;
   const shouldRenderEndSale = state === SaleState.Active && !endDate;
   const shouldRenderWithdraw =
     (state === SaleState.Ended || state === SaleState.SoldOut) && !isWithdrawn;

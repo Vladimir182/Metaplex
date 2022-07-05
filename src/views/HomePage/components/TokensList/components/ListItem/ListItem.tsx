@@ -1,7 +1,8 @@
 import React from "react";
 import { Flex, HStack, StackDivider, Text } from "@chakra-ui/react";
 import { IArt } from "state/artworks";
-import { IFixedPrice, SaleState } from "state/sales";
+import { IFixedPrice } from "state/sales";
+import { getArtworkState } from "utils/getArtworkState";
 
 import { ArtworkStats } from "components/DataDisplay/ArtworkStats";
 
@@ -15,15 +16,9 @@ interface Props {
   onClick?: (id: string) => void;
 }
 
-const getInitialState = (artwork: IArt) => {
-  return artwork.prints?.supply === artwork.prints?.maxSupply
-    ? SaleState.SoldOut
-    : SaleState.Uninitialized;
-};
-
 export const ListItem: React.FC<Props> = ({ artwork, sale, onClick }) => {
   const { id, image, title } = artwork;
-  const { earnings, state = getInitialState(artwork) } = sale || {};
+  const { earnings, state = getArtworkState(artwork) } = sale || {};
 
   const type = artwork.type;
 
