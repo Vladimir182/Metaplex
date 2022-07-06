@@ -1,4 +1,5 @@
-import { loadExtraContent, MetadataJson } from "sdk/createNft";
+import { MetadataJson } from "sdk/createNft";
+import { loadExtraContent } from "sdk/createNft/utils";
 import { IArt } from "state/artworks";
 
 import { IArtLight } from "./combineArtwork";

@@ -23,6 +23,20 @@ export async function loadAccountsAndDeserialize<T>(
   return accounts;
 }
 
+export async function loadAccountsAndDeserializeAsArray<T>(
+  connection: Connection,
+  dataClass: Deserializable<T> | Decodable<T>,
+  addresses: PublicKey[],
+  programId?: PublicKey
+) {
+  const accounts: (T & { address: PublicKey })[] = [];
+  const fn: ApplyAccountFn<T> = (address, data) =>
+    accounts.push({ address, ...data });
+
+  await loadAccountsByChunks(fn, connection, dataClass, addresses, programId);
+  return accounts;
+}
+
 export async function loadAccountsByChunks<T>(
   fn: ApplyAccountFn<T>,
   connection: Connection,

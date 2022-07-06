@@ -1,12 +1,13 @@
 import { bignum, COption } from "@metaplex-foundation/beet";
 import { Connection, PublicKey } from "@solana/web3.js";
-import { ETransactionProgress } from "enums/transactionProgress";
-import { createAndSignTransaction } from "sdk/transactions/createAndSignTransaction";
-import { throwTransactionError } from "sdk/transactions/throwTransactionError";
-import { waitConfirmation } from "sdk/transactions/waitConfirmation";
+import { TransactionsBatch } from "sdk/transactions";
 import { Wallet } from "wallet";
 
-import { createMarketTransaction } from "./transactions/createMarketTransaction";
+import {
+  createMarketTransaction,
+  MarketSettings,
+} from "./transactions/createMarketTransaction";
+import { createSellingResourceTransaction } from "./transactions/createSellingResourceTransaction";
 import { createTreasuryTransaction } from "./transactions/createTreasuryTransaction";
 import { createVaultTransaction } from "./transactions/createVaultTransaction";
 
@@ -16,74 +17,41 @@ export interface CreateMarketTransactionProps {
   store: PublicKey;
   resourceMint: PublicKey;
   resourceToken: PublicKey;
-  name: string;
-  description: string;
-  mutable: boolean;
-  price: bignum;
-  piecesInOneWallet: COption<bignum>;
-  startDate: bignum;
-  endDate: COption<bignum>;
+  marketSettings: MarketSettings;
   maxSupply: COption<bignum>;
-  updateProgress: (status: ETransactionProgress | null) => void;
 }
 
-export const createMarket = async (
-  params: CreateMarketTransactionProps
-): Promise<{ market: string }> => {
-  const { connection, wallet, updateProgress } = params;
-
-  const { market, marketTx } = await createTransaction(params);
-  updateProgress(ETransactionProgress.creating_transaction);
-
-  const signedTx = await wallet.signTransaction(marketTx);
-  updateProgress(ETransactionProgress.signing_transaction);
-
-  updateProgress(ETransactionProgress.sending_transaction_to_solana);
-  const rawTx = signedTx.serialize();
-  const txId = await connection.sendRawTransaction(rawTx, {
-    skipPreflight: true,
-  });
-
-  updateProgress(ETransactionProgress.waiting_for_final_confirmation);
-
-  const error = await waitConfirmation(connection, rawTx, txId);
-
-  error && throwTransactionError(txId, error);
-
-  return { market: market.publicKey.toBase58() };
-};
-
-const createTransaction = async ({
+export const createMarket = async ({
   wallet,
   connection,
   store,
   resourceMint,
   resourceToken,
-  name,
-  description,
-  mutable,
-  price,
-  piecesInOneWallet,
-  startDate,
-  endDate,
+  marketSettings,
   maxSupply,
 }: CreateMarketTransactionProps) => {
-  const {
-    initSellingResourceInstructions,
-    sellingResourceSigners,
-    sellingResource,
-  } = await createVaultTransaction({
-    resourceMint,
-    resourceToken,
-    store,
-    maxSupply,
-    connection,
-    wallet,
-  });
+  const { vault, vaultOwner, vaultOwnerBump, createVaultTx } =
+    await createVaultTransaction({
+      resourceMint,
+      store,
+      connection,
+      wallet,
+    });
+
+  const { sellingResource, createSellingResourceTx } =
+    await createSellingResourceTransaction({
+      payer: wallet,
+      store,
+      resourceMint,
+      resourceToken,
+      vault,
+      owner: vaultOwner,
+      vaultOwnerBump,
+      maxSupply,
+    });
 
   const {
-    createTreasuryInstructions,
-    createTreasurySigners,
+    createTreasuryTx,
     treasuryMint,
     treasuryOwner,
     treasuryOwnerBump,
@@ -94,37 +62,34 @@ const createTransaction = async ({
     wallet,
   });
 
-  const { createMarketInstruction, createMarketSigner, market } =
-    createMarketTransaction({
-      store,
-      wallet,
-      sellingResource: sellingResource.publicKey,
-      mint: treasuryMint,
-      treasuryHolder: treasuryHolder.publicKey,
-      owner: treasuryOwner,
-      treasuryOwnerBump,
-      name,
-      description,
-      mutable,
-      price,
-      piecesInOneWallet,
-      startDate,
-      endDate,
-    });
-
-  const marketTx = await createAndSignTransaction(
-    [
-      ...initSellingResourceInstructions,
-      ...createTreasuryInstructions,
-      createMarketInstruction,
-    ],
-    connection,
+  const { createMarketTx, market } = createMarketTransaction({
+    store,
     wallet,
-    [...sellingResourceSigners, ...createTreasurySigners, createMarketSigner]
-  );
+    sellingResource: sellingResource.publicKey,
+    mint: treasuryMint,
+    treasuryHolder: treasuryHolder.publicKey,
+    owner: treasuryOwner,
+    treasuryOwnerBump,
+    marketSettings,
+  });
+
+  const tx = new TransactionsBatch({
+    transactions: [
+      ...createVaultTx.toTransactions(),
+      ...createSellingResourceTx.toTransactions(),
+      ...createTreasuryTx.toTransactions(),
+      ...createMarketTx.toTransactions(),
+    ],
+    signers: [
+      ...createVaultTx.signers,
+      ...createSellingResourceTx.signers,
+      ...createTreasuryTx.signers,
+      ...createMarketTx.signers,
+    ],
+  });
 
   return {
     market,
-    marketTx,
+    txs: [tx],
   };
 };

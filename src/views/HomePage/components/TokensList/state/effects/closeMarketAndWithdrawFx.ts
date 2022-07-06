@@ -1,10 +1,15 @@
+import { AccountLayout } from "@solana/spl-token";
 import { PublicKey } from "@solana/web3.js";
 import { attach, createEffect, StoreValue } from "effector";
 import { closeMarketAndWithdraw } from "sdk/market/actions/closeMarketAndWithdraw";
+import { loadAccountAndDeserialize } from "sdk/share";
 import { $connection } from "state/connection";
 import { IFixedPrice } from "state/sales";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
+import { parseBN } from "utils/parseBN";
+import { toPubkey } from "utils/toPubkey";
+import { waitForResponse } from "utils/waitForResponse";
 
 export interface ISource {
   connection: StoreValue<typeof $connection>;
@@ -22,11 +27,20 @@ export const closeMarketAndWithdrawFx = attach({
         return;
       }
 
-      return closeMarketAndWithdraw({
+      await closeMarketAndWithdraw({
         connection,
         wallet,
         sale,
         store: new PublicKey(store.storeId),
+      });
+
+      await waitForResponse(async () => {
+        const tokenAccount = await loadAccountAndDeserialize(
+          connection,
+          AccountLayout,
+          toPubkey(sale.refs.vault)
+        );
+        return parseBN(tokenAccount.amount) === 0;
       });
     }
   ),

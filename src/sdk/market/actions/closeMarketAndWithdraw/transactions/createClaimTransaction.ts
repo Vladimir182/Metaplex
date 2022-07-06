@@ -2,12 +2,8 @@ import {
   createClaimResourceInstruction,
   findVaultOwnerAddress,
 } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { MetadataProgram } from "@metaplex-foundation/mpl-token-metadata";
-import {
-  ASSOCIATED_TOKEN_PROGRAM_ID,
-  Token,
-  TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
+import { PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
+import { getAssociatedTokenAddress } from "@solana/spl-token";
 import {
   Connection,
   PublicKey,
@@ -39,9 +35,7 @@ export const createClaimTransaction = async ({
     store
   );
 
-  const claimToken = await Token.getAssociatedTokenAddress(
-    ASSOCIATED_TOKEN_PROGRAM_ID,
-    TOKEN_PROGRAM_ID,
+  const claimToken = await getAssociatedTokenAddress(
     toPubkey(resource),
     wallet.publicKey
   );
@@ -56,7 +50,7 @@ export const createClaimTransaction = async ({
       metadata: toPubkey(sale.artwork.accountAddress),
       owner: vaultOwner,
       destination: claimToken,
-      tokenMetadataProgram: MetadataProgram.PUBKEY,
+      tokenMetadataProgram: PROGRAM_ID,
       clock: SYSVAR_CLOCK_PUBKEY,
     },
     {

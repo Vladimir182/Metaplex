@@ -1,77 +1,96 @@
-import { AnyPublicKey } from "@metaplex-foundation/mpl-core";
 import {
   Edition,
-  MasterEdition,
-  Metadata,
-  MetadataKey,
+  Key,
+  MasterEditionV1,
+  MasterEditionV2,
 } from "@metaplex-foundation/mpl-token-metadata";
-import { Connection } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { loadAccountAndDeserialize } from "sdk/share";
 import { ArtType, IArt } from "state/artworks/types";
+import { parseBN } from "utils/parseBN";
+
+import { findEditionAddress } from "./utils";
 
 export type ArtEditionProps = Pick<IArt, "type" | "prints">;
+export type AnyEdition = Edition | MasterEditionV1 | MasterEditionV2;
 
 export const loadArtworkEdition = async ({
   connection,
   mint,
 }: {
   connection: Connection;
-  mint: AnyPublicKey;
+  mint: PublicKey;
 }): Promise<ArtEditionProps> => {
-  const edition = await Metadata.getEdition(connection, mint);
+  try {
+    const [editionPda] = await findEditionAddress(mint);
+    const edition = await loadAccountAndDeserialize(
+      connection,
+      AnyEditionDeserializer,
+      editionPda
+    );
+    const master = isEdition(edition)
+      ? await loadAccountAndDeserialize(
+          connection,
+          AnyEditionDeserializer,
+          edition.parent
+        )
+      : undefined;
 
-  return {
-    type: getArtType(edition.data.key),
-    prints: await getPrintNumbers(edition, connection),
-  };
+    return getEditionProps(edition, master);
+  } catch (e) {
+    // This is still an NFT but not on Metaplex standard, or a semi-fungible token
+    return getEditionProps();
+  }
 };
 
-const getArtType = (editionKey?: number) => {
-  switch (editionKey) {
-    case MetadataKey.EditionV1:
+export const getEditionProps = (edition?: AnyEdition, master?: AnyEdition) => ({
+  type: getArtType(edition),
+  prints: getPrintNumbers(edition, master),
+});
+
+const getArtType = (edition?: AnyEdition) => {
+  switch (edition?.key) {
+    case Key.EditionV1:
       return ArtType.Print;
-    case MetadataKey.MasterEditionV1:
-    case MetadataKey.MasterEditionV2:
+    case Key.MasterEditionV1:
+    case Key.MasterEditionV2:
       return ArtType.Master;
     default:
       return ArtType.NFT;
   }
 };
 
-const getPrintNumbers = async (
-  edition: Edition | MasterEdition,
-  connection: Connection
-) => {
-  if (isEdition(edition)) {
-    const masterEdition = await MasterEdition.load(
-      connection,
-      edition.data.parent
-    );
+const getPrintNumbers = (edition?: AnyEdition, master?: AnyEdition) => {
+  if (!edition) return undefined;
+  if (isEdition(edition))
+    return { edition: parseBN(edition.edition), ...getSupply(master) };
+  return getSupply(edition);
+};
 
-    return {
-      edition: edition.data.edition.toNumber(),
-      ...getSupply(masterEdition),
-    };
+const getSupply = (edition?: AnyEdition) => {
+  if (!edition || isEdition(edition)) return undefined;
+  return {
+    supply: parseBN(edition.supply),
+    maxSupply: parseBN(edition.maxSupply),
+  };
+};
+
+export const isEdition = (value: AnyEdition): value is Edition => {
+  return value.key === Key.EditionV1;
+};
+
+export class AnyEditionDeserializer {
+  static deserialize(buf: Buffer, offset?: number): [AnyEdition, number] {
+    const key = buf[0];
+    switch (key) {
+      case Key.EditionV1:
+        return Edition.deserialize(buf, offset);
+      case Key.MasterEditionV1:
+        return MasterEditionV1.deserialize(buf, offset);
+      case Key.MasterEditionV2:
+        return MasterEditionV2.deserialize(buf, offset);
+      default:
+        throw Error(`Unknown Edition key`);
+    }
   }
-  if (isMasterEdition(edition)) {
-    return getSupply(edition);
-  }
-  return undefined;
-};
-
-const getSupply = (edition?: MasterEdition) => ({
-  supply: edition?.data.supply.toNumber(),
-  maxSupply: edition?.data.maxSupply?.toNumber(),
-});
-
-const isEdition = (value: Edition | MasterEdition): value is Edition => {
-  return value.data.key === MetadataKey.EditionV1;
-};
-
-const isMasterEdition = (
-  value: Edition | MasterEdition
-): value is MasterEdition => {
-  return (
-    value.data.key === MetadataKey.MasterEditionV1 ||
-    value.data.key === MetadataKey.MasterEditionV2
-  );
-};
+}

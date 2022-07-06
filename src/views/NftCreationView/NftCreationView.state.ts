@@ -13,15 +13,13 @@ import { reshape } from "patronum/reshape";
 import {
   createFilePack,
   ENftProgress,
-  getFilesCost,
-  getMetadataCost,
   METADATA_FILE_NAME,
   MetadataJson,
   MetadataJsonCreator,
 } from "sdk/createNft";
-import { fetchProfileArtworksFx } from "state/artworks";
+import { getFilesCost, getMetadataCost } from "sdk/createNft/utils";
+import { fetchProfileArtworksFx, mintArweaveFx } from "state/artworks";
 import { $connection } from "state/connection";
-import { mintArweaveFx } from "state/nft";
 import { createEntry } from "state/utils";
 import { $user, $walletAddress } from "state/wallet";
 import { toNumber } from "utils/base";
@@ -142,7 +140,7 @@ export function getContent(state: ENftProgress | null) {
         title: "Signing Token Transaction",
         subtitle: "Approve the final transaction from your wallet",
       };
-    case ENftProgress.is_nft_created:
+    case ENftProgress.loading_account:
       return {
         title: "Loading NFT you've just created",
         subtitle: "",
@@ -266,7 +264,8 @@ export function createLocalState(WebFile = File) {
         updateProgress: (state) => $progress.set(state),
       });
       $progress.set(null);
-      return response.arweaveResult;
+
+      return response;
     }
   );
 

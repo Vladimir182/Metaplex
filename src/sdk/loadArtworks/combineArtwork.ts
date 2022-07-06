@@ -1,6 +1,6 @@
-import { TokenAccount } from "@metaplex-foundation/mpl-core";
-import { MetadataData } from "@metaplex-foundation/mpl-token-metadata";
+import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
 import { PublicKey } from "@solana/web3.js";
+import { TokenAccount } from "sdk/share";
 import { IArt } from "state/artworks/types";
 import { parseBN } from "utils/parseBN";
 
@@ -11,7 +11,7 @@ export const DEFAULT_ART_IMAGE =
 
 interface Params {
   pubkey: PublicKey;
-  metadata: MetadataData;
+  metadata: Metadata;
   editionProps: ArtEditionProps;
   token: TokenAccount;
 }
@@ -30,9 +30,9 @@ export const combineArtwork = ({
   id: metadata.mint.toString(),
   mint: metadata.mint.toString(),
   accountAddress: pubkey.toString(),
-  token: token.pubkey.toString(),
-  tokenAmount: parseBN(token.data.amount),
-  ownerAddress: token.data.owner.toString(),
+  token: token.address.toString(),
+  tokenAmount: parseBN(token.amount),
+  ownerAddress: token.owner.toString(),
   primarySaleHappened: metadata.primarySaleHappened,
   sellerFeeBasisPoints: metadata.data.sellerFeeBasisPoints,
   creators: (metadata.data.creators ?? []).map((c) => ({

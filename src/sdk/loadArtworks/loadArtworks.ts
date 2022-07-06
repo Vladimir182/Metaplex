@@ -1,6 +1,6 @@
-import { TokenAccount } from "@metaplex-foundation/mpl-core";
 import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
-import { Connection } from "@solana/web3.js";
+import { Connection, PublicKey } from "@solana/web3.js";
+import { TokenAccount } from "sdk/share";
 import { ArtType } from "state/artworks/types";
 
 import { combineArtwork, IArtLight } from "./combineArtwork";
@@ -12,10 +12,11 @@ export const loadArtworks = async ({
   accountByMint,
 }: {
   connection: Connection;
-  account: Metadata;
+  account: [PublicKey, Metadata];
   accountByMint: Map<string, TokenAccount>;
 }): Promise<undefined | IArtLight> => {
-  const mint = account.data.mint;
+  const [publicKey, metadata] = account;
+  const { mint } = metadata;
 
   const editionProps = await loadArtworkEdition({ connection, mint });
   // We ignore non-master editions
@@ -23,7 +24,7 @@ export const loadArtworks = async ({
     return;
   }
 
-  const token = accountByMint.get(mint);
+  const token = accountByMint.get(mint.toBase58());
 
   if (!token) {
     return;
@@ -32,7 +33,7 @@ export const loadArtworks = async ({
   return combineArtwork({
     editionProps,
     token,
-    pubkey: account.pubkey,
-    metadata: account.data,
+    metadata,
+    pubkey: publicKey,
   });
 };

@@ -4,8 +4,7 @@ import {
 } from "@metaplex-foundation/mpl-fixed-price-sale";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
-  Token,
-  TOKEN_PROGRAM_ID,
+  getAssociatedTokenAddress,
 } from "@solana/spl-token";
 import { PublicKey, SYSVAR_CLOCK_PUBKEY } from "@solana/web3.js";
 import { MetadataJsonCreator } from "sdk/createNft";
@@ -38,9 +37,7 @@ export const createCreatorWithdraw = async ({
     toPubkey(creator.address)
   );
 
-  const destination = await Token.getAssociatedTokenAddress(
-    ASSOCIATED_TOKEN_PROGRAM_ID,
-    TOKEN_PROGRAM_ID,
+  const destination = await getAssociatedTokenAddress(
     toPubkey(treasuryMint),
     toPubkey(creator.address)
   );

@@ -1,6 +1,7 @@
 import { bignum, COption } from "@metaplex-foundation/beet";
 import { createCreateMarketInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { Keypair, PublicKey, TransactionInstruction } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
+import { TransactionsBatch } from "sdk/transactions";
 import { Wallet } from "wallet";
 
 export interface CreateMarketTransactionProps {
@@ -11,6 +12,10 @@ export interface CreateMarketTransactionProps {
   treasuryHolder: PublicKey;
   owner: PublicKey;
   treasuryOwnerBump: number;
+  marketSettings: MarketSettings;
+}
+
+export interface MarketSettings {
   name: string;
   description: string;
   mutable: boolean;
@@ -18,6 +23,9 @@ export interface CreateMarketTransactionProps {
   piecesInOneWallet: COption<bignum>;
   startDate: bignum;
   endDate: COption<bignum>;
+  gatingTime?: number | null;
+  gatingCollection?: string;
+  expireOnUse?: boolean;
 }
 
 export const createMarketTransaction = ({
@@ -28,24 +36,14 @@ export const createMarketTransaction = ({
   treasuryHolder,
   owner,
   treasuryOwnerBump,
-  name,
-  description,
-  mutable,
-  price,
-  piecesInOneWallet,
-  startDate,
-  endDate,
-}: CreateMarketTransactionProps): {
-  market: Keypair;
-  createMarketInstruction: TransactionInstruction;
-  createMarketSigner: Keypair;
-} => {
+  marketSettings,
+}: CreateMarketTransactionProps) => {
   const market = Keypair.generate();
 
-  const instruction = createCreateMarketInstruction(
+  const ix = createCreateMarketInstruction(
     {
       market: market.publicKey,
-      store: store,
+      store,
       sellingResourceOwner: wallet.publicKey,
       sellingResource,
       mint,
@@ -53,21 +51,19 @@ export const createMarketTransaction = ({
       owner,
     },
     {
-      name,
-      description,
+      ...marketSettings,
       treasuryOwnerBump,
-      mutable,
-      price,
-      piecesInOneWallet,
-      startDate,
-      endDate,
       gatingConfig: null,
     }
   );
 
+  const createMarketTx = new TransactionsBatch({
+    instructions: [ix],
+    signers: [market],
+  });
+
   return {
     market,
-    createMarketInstruction: instruction,
-    createMarketSigner: market,
+    createMarketTx,
   };
 };

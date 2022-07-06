@@ -1,44 +1,45 @@
 import { bignum, COption } from "@metaplex-foundation/beet";
 import { createInitSellingResourceInstruction } from "@metaplex-foundation/mpl-fixed-price-sale";
-import { Keypair, PublicKey, TransactionInstruction } from "@solana/web3.js";
+import { Keypair, PublicKey } from "@solana/web3.js";
+import {
+  findEditionAddress,
+  findMetadataAddress,
+} from "sdk/loadArtworks/utils";
+import { TransactionsBatch } from "sdk/transactions";
 import { Wallet } from "wallet";
 
 export interface CreateInitSellingResourceTransactionProps {
   payer: Wallet;
   store: PublicKey;
   resourceMint: PublicKey;
-  masterEdition: PublicKey;
   vault: Keypair;
   owner: PublicKey;
   resourceToken: PublicKey;
-  masterEditionBump: number;
   vaultOwnerBump: number;
   maxSupply: COption<bignum>;
-  metadata: PublicKey;
 }
 
-export const createInitSellingResourceTransaction = ({
+export const createSellingResourceTransaction = async ({
   payer,
   store,
   resourceMint,
-  masterEdition,
   vault,
   owner,
   resourceToken,
-  masterEditionBump,
   vaultOwnerBump,
   maxSupply,
-  metadata,
-}: CreateInitSellingResourceTransactionProps): {
-  sellingResource: Keypair;
-  instruction: TransactionInstruction;
-  signers: Keypair[];
-} => {
+}: CreateInitSellingResourceTransactionProps) => {
   const sellingResource = Keypair.generate();
 
-  const instruction = createInitSellingResourceInstruction(
+  const [masterEdition, masterEditionBump] = await findEditionAddress(
+    resourceMint
+  );
+
+  const [metadataPDA] = await findMetadataAddress(resourceMint);
+
+  const ix = createInitSellingResourceInstruction(
     {
-      store: store,
+      store,
       admin: payer.publicKey,
       sellingResource: sellingResource.publicKey,
       sellingResourceOwner: payer.publicKey,
@@ -47,7 +48,7 @@ export const createInitSellingResourceTransaction = ({
       resourceToken,
       vault: vault.publicKey,
       owner,
-      metadata,
+      metadata: metadataPDA,
     },
     {
       masterEditionBump,
@@ -56,9 +57,13 @@ export const createInitSellingResourceTransaction = ({
     }
   );
 
+  const createSellingResourceTx = new TransactionsBatch({
+    instructions: [ix],
+    signers: [sellingResource],
+  });
+
   return {
     sellingResource,
-    instruction,
-    signers: [sellingResource, vault],
+    createSellingResourceTx,
   };
 };

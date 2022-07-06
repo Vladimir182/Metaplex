@@ -9,8 +9,7 @@ import { solToLamports } from "utils/solToLamports";
 import { toPubkey } from "utils/toPubkey";
 import { Wallet } from "wallet";
 
-import { getFileHash } from "./getFileHash";
-import { getFilesCost } from "./getFilesCost";
+import { getFileHash, getFilesCost } from "./utils";
 
 export const ARWEAVE_WALLET = toPubkey(
   "6FKvsq4ydWFci6nGq9ckbjYMtnmaqAoatz5c9XWjiDuS"

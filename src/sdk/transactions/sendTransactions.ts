@@ -1,18 +1,26 @@
 import { Transaction } from "@metaplex-foundation/mpl-core";
-import { Connection, TransactionSignature } from "@solana/web3.js";
+import {
+  Connection,
+  TransactionError,
+  TransactionSignature,
+} from "@solana/web3.js";
 import { log } from "debug";
 import { Wallet } from "wallet";
 
-import { prepareTransactions } from "../sdk/transactions/prepareTransactions";
-import { throwTransactionError } from "../sdk/transactions/throwTransactionError";
-import { waitConfirmation } from "../sdk/transactions/waitConfirmation";
+import { prepareTransactions } from "./prepareTransactions";
+import { throwTransactionError } from "./throwTransactionError";
+import { TransactionsBatch } from "./TransactionsBatch";
+import { waitConfirmation } from "./waitConfirmation";
+
 export async function sendTransactions(
   connection: Connection,
   wallet: Wallet,
-  txs: Transaction[],
+  txs: (Transaction | TransactionsBatch | undefined)[],
   retry = 1
 ) {
   const txIds: TransactionSignature[] = [];
+  let error: TransactionError | Error | null | undefined;
+
   const latestBlockhash = await connection.getLatestBlockhash();
   const options = {
     feePayer: wallet.publicKey,
@@ -35,7 +43,8 @@ export async function sendTransactions(
     });
 
     log(`sending tx [${index + 1}/${signedTxns.length}]: ${txId}`);
-    const error = await waitConfirmation(connection, rawTx, txId);
+
+    error = await waitConfirmation(connection, rawTx, txId);
     if (error) {
       log(`transaction ${txId} failed`);
 

@@ -1,50 +1,50 @@
-import { TokenAccount } from "@metaplex-foundation/mpl-core";
-import { Metadata } from "@metaplex-foundation/mpl-token-metadata";
+import { Metadata, PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
 import { Connection, PublicKey } from "@solana/web3.js";
+import {
+  ApplyChunkFn,
+  getMultipleAccounts,
+  processAccountInfo,
+  TokenAccount,
+} from "sdk/share";
 import { IArt } from "state/artworks";
 import { excludesFalsy } from "utils/excludeFalsy";
-import { parseBN } from "utils/parseBN";
 
 import { loadArtworks } from "./loadArtworks";
 import { populateArtwork } from "./populateArtwork";
+import { findMetadataAddress } from "./utils";
+
+const decodeMetadata = processAccountInfo(Metadata, PROGRAM_ID);
 
 export const loadArtworksByAccounts = async ({
   connection,
-  accounts,
+  tokens,
 }: {
   connection: Connection;
-  accounts: TokenAccount[];
+  tokens: TokenAccount[];
 }): Promise<IArt[]> => {
-  const accountsWithAmount = accounts.filter(
-    ({ data: { amount } }) => parseBN(amount) === 1
-  );
+  const metadataAccounts: [PublicKey, Metadata][] = [];
+  const accountByMint = getAccountByMint(tokens);
 
-  const accountByMint = accounts.reduce<Map<string, TokenAccount>>(
-    (prev: Map<string, TokenAccount>, acc: TokenAccount) => {
-      prev.set(acc.data.mint.toBase58(), acc);
-      return prev;
-    },
-    new Map<string, TokenAccount>()
-  );
+  const metadataAddresses = (
+    await Promise.all(tokens.map(({ mint }) => findMetadataAddress(mint)))
+  ).map(([publicKey]) => publicKey);
 
-  const PDAs = await Promise.all(
-    accountsWithAmount.map(({ data: { mint } }) => Metadata.getPDA(mint))
-  );
+  const metadataChunkHandler: ApplyChunkFn = (infos, addresses) => {
+    infos.forEach((info, index) => {
+      const account = decodeMetadata(info, addresses[index]);
+      if (!account) return;
+      metadataAccounts.push([...account]);
+    });
+  };
 
-  const metadataAccounts = await Metadata.getInfos(connection, PDAs);
-  const metadata: Metadata[] = [];
-  metadataAccounts.forEach((account, key) => {
-    try {
-      metadata.push(
-        new Metadata(key, { ...account, owner: new PublicKey(account.owner) })
-      );
-    } catch {
-      return;
-    }
-  });
+  await getMultipleAccounts(
+    connection,
+    metadataAddresses,
+    metadataChunkHandler
+  );
 
   const results = await Promise.all(
-    metadata.map((account) =>
+    metadataAccounts.map((account) =>
       loadArtworks({ connection, account, accountByMint }).catch(() => null)
     )
   );
@@ -57,3 +57,12 @@ export const loadArtworksByAccounts = async ({
 
   return Promise.all(lightArtworks.map((art) => populateArtwork(art)));
 };
+
+const getAccountByMint = (tokens: TokenAccount[]) =>
+  tokens.reduce<Map<string, TokenAccount>>(
+    (prev: Map<string, TokenAccount>, token: TokenAccount) => {
+      prev.set(token.mint.toBase58(), token);
+      return prev;
+    },
+    new Map<string, TokenAccount>()
+  );

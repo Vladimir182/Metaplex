@@ -1,6 +1,4 @@
-import { MetadataJson } from "sdk/createNft";
-
-export const METADATA_FILE_NAME = "metadata.json";
+import { METADATA_FILE_NAME, MetadataJson } from "sdk/createNft";
 
 export function createFilePack(
   {

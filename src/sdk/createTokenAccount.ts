@@ -1,4 +1,8 @@
-import { AccountLayout, Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import {
+  AccountLayout,
+  createInitializeAccountInstruction,
+  TOKEN_PROGRAM_ID,
+} from "@solana/spl-token";
 import {
   Connection,
   Keypair,
@@ -41,8 +45,7 @@ export const createTokenAccount = async ({
   );
 
   instructions.push(
-    Token.createInitAccountInstruction(
-      new PublicKey(TOKEN_PROGRAM_ID),
+    createInitializeAccountInstruction(
       mint,
       tokenAccount.publicKey,
       owner ?? payer

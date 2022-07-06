@@ -41,3 +41,13 @@ export interface MetadataJson {
   collection?: MetadataJsonCollection;
   properties: MetadataJsonProperties;
 }
+
+export interface ArweaveUploadResult {
+  error?: string;
+  messages?: {
+    filename: string;
+    status: "success" | "fail";
+    transactionId?: string;
+    error?: string;
+  }[];
+}

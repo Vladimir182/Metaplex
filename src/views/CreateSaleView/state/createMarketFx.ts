@@ -2,9 +2,9 @@ import { Market } from "@metaplex-foundation/mpl-fixed-price-sale";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { attach, createEffect } from "effector";
-import { createMarket } from "sdk/market/actions";
+import { MarketSettings } from "sdk/market/actions/createMarket/transactions/createMarketTransaction";
+import { initMarket } from "sdk/market/initMarket";
 import { loadAccountAndDeserialize } from "sdk/share";
-import { IArt } from "state/artworks";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
@@ -14,7 +14,7 @@ import { waitForResponse } from "utils/waitForResponse";
 
 import { FormState } from "../components/Form";
 
-import { MarketSettings, Params, Source } from "./interface";
+import { Params, Source } from "./interface";
 
 dayjs.extend(utc);
 
@@ -26,9 +26,9 @@ export const createMarketFx = attach({
       store,
       wallet,
       connection,
-      updateProgress,
       saleDetails,
       artwork,
+      updateProgress,
     }: Source & Params) => {
       if (
         !wallet ||
@@ -40,14 +40,19 @@ export const createMarketFx = attach({
         return;
       }
 
-      const { market } = await createMarket({
+      const maxSupply = artwork.prints?.maxSupply
+        ? artwork.prints.maxSupply - (artwork.prints.supply || 0)
+        : null;
+
+      const { market } = await initMarket({
         connection,
         wallet,
+        maxSupply,
+        updateProgress,
         store: toPubkey(store.storeId),
         resourceMint: toPubkey(artwork.mint),
         resourceToken: toPubkey(artwork.token),
-        updateProgress,
-        ...prepareSettings(saleDetails, artwork),
+        marketSettings: prepareSettings(saleDetails),
       });
 
       await waitForResponse(
@@ -69,14 +74,10 @@ export const createMarketFx = attach({
   }),
 });
 
-const prepareSettings = (data: FormState, artwork: IArt): MarketSettings => {
+const prepareSettings = (data: FormState): MarketSettings => {
   const startDate = dayjs.utc(data.startDate).unix() + DELAY_IN_SECONDS;
 
   const piecesInOneWallet = data.piecesInOneWallet || null;
-
-  const maxSupply = artwork.prints?.maxSupply
-    ? artwork.prints.maxSupply - (artwork.prints.supply || 0)
-    : null;
 
   return {
     name: "",
@@ -86,6 +87,5 @@ const prepareSettings = (data: FormState, artwork: IArt): MarketSettings => {
     piecesInOneWallet,
     startDate,
     endDate: null,
-    maxSupply,
   };
 };
