@@ -41,10 +41,7 @@ export const ListItem: React.FC<Props> = ({ artwork, sale, onClick }) => {
             divider={<StackDivider borderColor="whiteAlpha.100" />}
           >
             <Header imgUrl={image} name={title} type={type} state={state} />
-            <ArtworkStats
-              supply={artwork.prints?.supply}
-              maxSupply={artwork.prints?.maxSupply}
-            />
+            <ArtworkStats artwork={artwork} />
 
             {earnings !== undefined && (
               <Earnings title="Primary Sale" saleAmount={earnings} />

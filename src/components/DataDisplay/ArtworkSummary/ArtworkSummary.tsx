@@ -2,14 +2,14 @@ import React from "react";
 import { Image } from "@chakra-ui/image";
 import { Flex, FlexProps, Text, VStack } from "@chakra-ui/layout";
 
-import { Fraction } from "components/DataDisplay/Fraction";
+import { SupplyDetails } from "../shared/SupplyDetails";
 
 export interface ArtworkSummaryProps extends FlexProps {
   img?: string;
   title: string;
   artist: string;
-  edition: string | number;
-  total: string | number;
+  edition?: number;
+  total?: number;
 }
 
 export const ArtworkSummary: React.FC<ArtworkSummaryProps> = ({
@@ -34,13 +34,13 @@ export const ArtworkSummary: React.FC<ArtworkSummaryProps> = ({
         <Text variant="body-bold">{title}</Text>
         <Text variant="body">{artist}</Text>
       </VStack>
-      <Fraction
+      <SupplyDetails
         flexShrink={0}
-        variant="short"
-        current={edition}
-        total={total}
+        edition={edition}
+        maxSupply={total}
         m={2}
         ml="auto"
+        variant="short"
       />
     </Flex>
   );

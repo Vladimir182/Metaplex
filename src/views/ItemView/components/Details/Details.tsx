@@ -15,6 +15,8 @@ import { IFixedPrice } from "state/sales";
 import { truncateDecimals } from "utils/truncateDecimals";
 import { Actions } from "views/HomePage/components/TokensList/components/ListItem/components/Actions";
 
+import { SupplyDetails } from "components/DataDisplay/shared/SupplyDetails";
+
 import { CopyButton } from "./components/CopyButton";
 import { TitledField } from "./components/TitledField";
 import { getShortAddress, getSolExplorerLink } from "./utils";
@@ -31,7 +33,7 @@ export const Details: FC<DetailsProps> = ({ artwork, sale }) => {
   };
 
   const { earnings } = sale || {};
-  const { title, description, ownerAddress, creators, prints } = artwork;
+  const { title, description, ownerAddress, creators } = artwork;
   const artist = creators[0]?.address;
 
   const usd = useSolToUsd(earnings);
@@ -79,8 +81,8 @@ export const Details: FC<DetailsProps> = ({ artwork, sale }) => {
               </>
             )}
           </TitledField>
-          <TitledField childProps={fieldProps} title="Minted" noDivider>
-            {`${prints?.supply || 0}/${prints?.maxSupply || "Unlimited"}`}
+          <TitledField childProps={fieldProps} title="Supply" noDivider>
+            <SupplyDetails {...artwork.prints} />
           </TitledField>
           {earnings !== undefined && (
             <TitledField childProps={fieldProps} title="Primary Sale">

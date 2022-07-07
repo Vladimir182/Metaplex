@@ -68,8 +68,8 @@ export const createSaleFactory = modelFactory((defaults: ModelDefaults) => {
       img: artwork.image,
       title: artwork.title,
       artist: "",
-      edition: artwork.prints.supply || 0,
-      total: artwork.prints.maxSupply || "Unlimited",
+      edition: artwork.prints.supply,
+      total: artwork.prints.maxSupply,
     };
   }, [artwork]);
 

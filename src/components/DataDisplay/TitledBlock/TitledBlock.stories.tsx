@@ -2,8 +2,9 @@ import { HStack, Text } from "@chakra-ui/layout";
 import { Tag } from "@chakra-ui/tag";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { Fraction } from "components/DataDisplay/Fraction";
 import { Person } from "components/DataDisplay/Person";
+
+import { SupplyDetails } from "../shared/SupplyDetails";
 
 import { TitledBlock } from ".";
 
@@ -46,8 +47,8 @@ TitledPerson.args = {
   content: <Person name="Dan Abramov" avatarUrl="https://bit.ly/dan-abramov" />,
 };
 
-export const TitledFraction = Template.bind({});
-TitledFraction.args = {
+export const TitledSupply = Template.bind({});
+TitledSupply.args = {
   title: "Edition",
-  content: <Fraction current={1} total={25} />,
+  content: <SupplyDetails edition={1} maxSupply={25} />,
 };
