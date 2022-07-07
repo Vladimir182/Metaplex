@@ -1,10 +1,12 @@
 import {
   Box,
+  BoxProps,
   Divider,
+  forwardRef,
   Popover,
   PopoverBody,
   PopoverContent,
-  PopoverTrigger,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 
@@ -21,7 +23,6 @@ import {
 interface Props extends NetworkSelectorProps {
   user: PersonProps;
   balance?: React.ComponentProps<typeof SolUsd>;
-  forceOpen?: boolean;
 }
 
 export const UserProfile: React.FC<Props> = ({
@@ -31,24 +32,26 @@ export const UserProfile: React.FC<Props> = ({
   setNetwork,
   currentNetwork,
   balance,
-  forceOpen,
 }) => {
+  const { isOpen, onToggle, onClose } = useDisclosure();
+
+  const ButtonUserProfile = forwardRef<BoxProps, "div">((props, ref) => (
+    <Box onClick={onToggle} ref={ref} {...props}>
+      {children}
+    </Box>
+  ));
+
   return (
-    <Popover
-      modifiers={[
-        {
-          name: "preventOverflow",
-          options: {
-            padding: 32,
-          },
-        },
-      ]}
-      isOpen={forceOpen}
-    >
-      <PopoverTrigger>
-        <Box>{children}</Box>
-      </PopoverTrigger>
-      <PopoverContent>
+    <Popover isOpen={isOpen} onClose={onClose}>
+      <ButtonUserProfile />
+      <PopoverContent
+        top={0}
+        right={0}
+        left="auto"
+        position="fixed"
+        mt="3.7rem"
+        mr="1.6rem"
+      >
         <PopoverBody bgColor="gray.800" borderRadius="md" p={4}>
           <UserInfo user={user} variant="profile-popover" />
           <Divider my={4} />

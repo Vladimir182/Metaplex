@@ -22,5 +22,4 @@ Default.args = {
   networks: NETWORK_LIST,
   currentNetwork: "devnet",
   setNetwork: action("Set network"),
-  forceOpen: true,
 };
