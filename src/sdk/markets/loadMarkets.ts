@@ -14,6 +14,7 @@ import {
 } from "sdk/share";
 import { IFixedPrice } from "state/sales";
 import { excludesFalsy } from "utils/excludeFalsy";
+import { parseBN } from "utils/parseBN";
 import { toPubkey } from "utils/toPubkey";
 import { Wallet } from "wallet";
 
@@ -57,7 +58,7 @@ const getMarkets = async (
   );
   const artworks = await loadArtworksByAccounts({
     connection,
-    tokens,
+    tokens: tokens.filter((account) => parseBN(account.amount) !== 0),
   });
 
   const artToPrimaryCreatorsMap = await loadPrimaryCreatorsForArtworks(

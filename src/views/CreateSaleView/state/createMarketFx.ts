@@ -5,6 +5,7 @@ import { attach, createEffect } from "effector";
 import { MarketSettings } from "sdk/market/actions/createMarket/transactions/createMarketTransaction";
 import { initMarket } from "sdk/market/initMarket";
 import { loadAccountAndDeserialize } from "sdk/share";
+import { fetchProfileArtworksFx } from "state/artworks";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
@@ -59,6 +60,7 @@ export const createMarketFx = attach({
         async () =>
           await loadAccountAndDeserialize(connection, Market, toPubkey(market))
       );
+      await fetchProfileArtworksFx();
     }
   ),
   source: {
