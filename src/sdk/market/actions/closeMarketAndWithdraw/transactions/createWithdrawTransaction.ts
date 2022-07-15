@@ -31,7 +31,7 @@ export const createWithdrawTransaction = async ({
 
   const instructions: TransactionInstruction[] = [];
   const [primaryMetadataCreators] = await findPrimaryMetadataCreatorsAddress(
-    toPubkey(artwork.accountAddress)
+    toPubkey(sale.artwork.accountAddress)
   );
 
   const [treasuryOwner, treasuryOwnerBump] = await findTreasuryOwnerAddress(
@@ -42,9 +42,10 @@ export const createWithdrawTransaction = async ({
   let primaryCreators = sale.primaryCreators;
   const creators = sale.artwork.creators;
 
+  if (artwork.primarySaleHappened) primaryCreators = creators;
+
   if (!primaryCreators.length) {
     primaryCreators = creators;
-
     const createPrimaryMetadataCreatorsInstruction =
       await createPrimaryMetadataCreators({
         wallet,
@@ -56,7 +57,7 @@ export const createWithdrawTransaction = async ({
   }
 
   const withdrawInstructions = await Promise.all(
-    creators.map(async (creator) =>
+    primaryCreators.map(async (creator) =>
       createCreatorWithdraw({
         creator,
         sale,
