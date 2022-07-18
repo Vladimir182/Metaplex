@@ -104,6 +104,7 @@ export const createSaleFactory = modelFactory((defaults: ModelDefaults) => {
 
   return {
     $step,
+    $progress,
     $progressMeta,
     $saleDetails,
     $error,

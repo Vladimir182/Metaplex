@@ -1,11 +1,13 @@
 import { ReactNode } from "react";
-import { Flex, FlexProps, Text } from "@chakra-ui/react";
+import { Flex, FlexProps, Text, TextProps } from "@chakra-ui/react";
 
 interface TitledBlockProps extends FlexProps {
   title: string;
   subtitle?: string | string[];
   content?: ReactNode;
   variant?: "xs" | "sm" | "md" | "lg";
+  titleProps?: TextProps;
+  subtitleProps?: TextProps;
 }
 
 const spacing = {
@@ -23,6 +25,8 @@ export const TitledBlock: React.FC<TitledBlockProps> = (props) => {
     children,
     variant = "md",
     fontWeight,
+    titleProps,
+    subtitleProps,
     ...rest
   } = props;
   const isXs = variant === "xs";
@@ -38,6 +42,7 @@ export const TitledBlock: React.FC<TitledBlockProps> = (props) => {
         variant={isXs ? "small" : "label"}
         mb={subtitleString ? 1 : spacing[variant]}
         color="white"
+        {...titleProps}
       >
         {title}
       </Text>
@@ -47,6 +52,7 @@ export const TitledBlock: React.FC<TitledBlockProps> = (props) => {
           color="whiteAlpha.500"
           whiteSpace="pre-wrap"
           mb={spacing[variant]}
+          {...subtitleProps}
         >
           {subtitleString}
         </Text>

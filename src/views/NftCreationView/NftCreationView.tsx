@@ -1,16 +1,18 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { useStore } from "effector-react";
+import { ENftProgress } from "sdk/createNft";
+import { IArt } from "state/artworks";
 import { NftCreationForm } from "views/NftCreationView/components/NftCreate";
 
 import { Layout } from "components/Layout";
-import { InfiniteProgress } from "components/Modals/InfiniteProgress";
+import { StepperProgress } from "components/Modals/StepperProgress";
 import { useToast } from "components/Modals/Toast";
 
 import { MintedStep } from "./components/MintedStep";
 import { NftCreationFooter } from "./components/NftCreationFooter";
 import { NftCreationHeader } from "./components/NftCreationHeader";
 import { PreviewStep } from "./components/PreviewStep";
-import { useLocalState } from "./NftCreationView.state";
+import { getContent, useLocalState } from "./NftCreationView.state";
 import { NftCreationSteps } from "./types";
 
 export const NftCreationView: FC = () => {
@@ -18,7 +20,9 @@ export const NftCreationView: FC = () => {
   const {
     price,
     step,
+    progressStep,
     file,
+    contentUrl,
     setStep,
     progressMeta,
     onUpdateForm,
@@ -63,10 +67,19 @@ export const NftCreationView: FC = () => {
       <Layout narrow focused>
         <NftCreationHeader step={step} />
         {content}
-        <InfiniteProgress
+        <StepperProgress
           isOpen={progressMeta.isOpen}
-          title={progressMeta.title}
-          subtitle={progressMeta.subtitle}
+          artwork={
+            {
+              image: contentUrl,
+              type: "Master",
+              title: formData?.title,
+              description: formData?.desc,
+            } as IArt
+          }
+          getStepTitle={(key) => getContent(key).title}
+          stepsEnum={ENftProgress}
+          step={progressStep}
         />
       </Layout>
       <NftCreationFooter

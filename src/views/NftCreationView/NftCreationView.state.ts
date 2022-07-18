@@ -9,6 +9,7 @@ import {
   StoreValue,
 } from "effector";
 import { useStore } from "effector-react";
+import { useFileReader } from "hooks/useFileReader";
 import { reshape } from "patronum/reshape";
 import {
   createFilePack,
@@ -293,6 +294,7 @@ export function createLocalState(WebFile = File) {
 
   forward({ from: submitMetadataFx.fail, to: $error });
   forward({ from: submitMetadataSourceFx.fail, to: $error });
+  $progressMeta.reset(submitMetadataSourceFx.fail);
 
   sample({
     clock: submitMetadataFx,
@@ -313,6 +315,7 @@ export function createLocalState(WebFile = File) {
     maxSupply: $maxSupply,
     error: $error,
     $progressMeta,
+    $progress,
     $state,
     $price,
     metadataObject: {
@@ -328,6 +331,7 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
     metadataObject,
     fileObject,
     maxSupply,
+    $progress,
     $progressMeta,
     $state,
     $price,
@@ -345,6 +349,7 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const progressStep = useStore($progress.$node);
   const formData = useStore($formData);
   const supply = useStore(maxSupply);
   const user = useStore($user);
@@ -373,11 +378,13 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
   const step = useStore($state.$node);
   const metadata = useStore(metadataObject);
   const file = useStore(fileObject);
+  const [contentUrl] = useFileReader(file);
   const progressMeta = useStore($progressMeta);
   const price = useStore($price);
 
   return {
     file,
+    contentUrl,
     error,
     metadata,
     progressMeta,
@@ -389,6 +396,7 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
       updateCost();
     },
     step,
+    progressStep,
     setStep: $state.set,
     embed,
     price,

@@ -1,10 +1,12 @@
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 import { useStore } from "effector-react";
+import { ETransactionProgress } from "enums/transactionProgress";
+import { IArt } from "state/artworks";
 
 import { Layout } from "components/Layout";
-import { InfiniteProgress } from "components/Modals/InfiniteProgress";
 import { ListingSuccess } from "components/Modals/ListingSuccess";
+import { StepperProgress } from "components/Modals/StepperProgress";
 import { ModalTemplate } from "components/Modals/template";
 import { TransactionFailure } from "components/Modals/TransactionFailure";
 
@@ -14,6 +16,7 @@ import {
 } from "./components/CreateSaleSidebar";
 import { Form } from "./components/Form";
 import { PreviewStep } from "./components/PreviewStep";
+import { getContent } from "./utils/getContent";
 import { createSaleFactory } from "./state";
 
 export const CreateSaleView: FC = () => {
@@ -33,6 +36,7 @@ export const CreateSaleView: FC = () => {
 export const ViewContent: FC = () => {
   const {
     $step,
+    $progress,
     $progressMeta,
     artworkSummary,
     onCloseModal,
@@ -44,6 +48,7 @@ export const ViewContent: FC = () => {
   const transactionError = useStore($error);
   const step = useStore($step);
   const progressMeta = useStore($progressMeta);
+  const progressStep = useStore($progress.$node);
 
   const shouldShowModal = Boolean(shouldShowSuccessModal || transactionError);
 
@@ -52,10 +57,18 @@ export const ViewContent: FC = () => {
       {step === CreateSaleSidebarEnum.CONFIGURE && <Form />}
       {step === CreateSaleSidebarEnum.PREVIEW && <PreviewStep />}
 
-      <InfiniteProgress
+      <StepperProgress
         isOpen={progressMeta.isOpen}
-        title={progressMeta.title}
-        subtitle={progressMeta.subtitle}
+        artwork={
+          {
+            image: artworkSummary?.img,
+            type: "Master",
+            title: artworkSummary?.title,
+          } as IArt
+        }
+        getStepTitle={(key) => getContent(key).title}
+        stepsEnum={ETransactionProgress}
+        step={progressStep}
       />
 
       <ModalTemplate
