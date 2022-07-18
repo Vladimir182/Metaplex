@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { useStore } from "effector-react";
 import { ENftProgress } from "sdk/createNft";
 import { IArt } from "state/artworks";
@@ -6,7 +6,8 @@ import { NftCreationForm } from "views/NftCreationView/components/NftCreate";
 
 import { Layout } from "components/Layout";
 import { StepperProgress } from "components/Modals/StepperProgress";
-import { useToast } from "components/Modals/Toast";
+import { ModalTemplate } from "components/Modals/template";
+import { TransactionFailure } from "components/Modals/TransactionFailure";
 
 import { MintedStep } from "./components/MintedStep";
 import { NftCreationFooter } from "./components/NftCreationFooter";
@@ -25,6 +26,7 @@ export const NftCreationView: FC = () => {
     contentUrl,
     setStep,
     progressMeta,
+    onCloseModal,
     onUpdateForm,
     continueToMint,
     formData,
@@ -32,19 +34,8 @@ export const NftCreationView: FC = () => {
   } = useLocalState(refForm);
   const refTriggerValidationFn = useRef<null | (() => Promise<boolean>)>(null);
   const [isFormValid, setIsFormValid] = useState(false);
-
-  const formError = useStore(error);
-  const toast = useToast();
-
-  useEffect(() => {
-    if (formError?.error) {
-      toast({
-        title: formError.error.name,
-        text: formError.error.message,
-      });
-    }
-  }, [formError]);
-
+  const transactionError = useStore(error);
+  const shouldShowModal = !!transactionError;
   const content =
     step === NftCreationSteps.CREATE ? (
       <NftCreationForm
@@ -81,7 +72,18 @@ export const NftCreationView: FC = () => {
           stepsEnum={ENftProgress}
           step={progressStep}
         />
+        <ModalTemplate
+          isOpen={shouldShowModal}
+          onClose={onCloseModal}
+          bodyProps={{ p: 0 }}
+        >
+          <TransactionFailure
+            bodyText={transactionError?.error.message}
+            onDismiss={onCloseModal}
+          />
+        </ModalTemplate>
       </Layout>
+
       <NftCreationFooter
         price={price}
         step={step}

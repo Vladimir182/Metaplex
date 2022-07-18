@@ -3,6 +3,7 @@ import debug from "debug";
 import {
   attach,
   createEffect,
+  createEvent,
   createStore,
   forward,
   sample,
@@ -256,16 +257,20 @@ export function createLocalState(WebFile = File) {
       if (!metadata) {
         throw new Error("Invalid metadata");
       }
-
-      const response = await mintArweaveFx({
-        file,
-        metadata,
-        maxSupply,
-        primaryRoyalties,
-        updateProgress: (state) => $progress.set(state),
-      });
+      let response;
+      try {
+        response = await mintArweaveFx({
+          file,
+          metadata,
+          maxSupply,
+          primaryRoyalties,
+          updateProgress: (state) => $progress.set(state),
+        });
+        $state.set(NftCreationSteps.CONGRATULATION);
+      } catch {
+        $state.set(NftCreationSteps.PREVIEW);
+      }
       $progress.set(null);
-
       return response;
     }
   );
@@ -292,6 +297,7 @@ export function createLocalState(WebFile = File) {
     error: Error;
   } | null>(null);
 
+  forward({ from: mintArweaveFx.fail, to: $error });
   forward({ from: submitMetadataFx.fail, to: $error });
   forward({ from: submitMetadataSourceFx.fail, to: $error });
   $progressMeta.reset(submitMetadataSourceFx.fail);
@@ -353,6 +359,9 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
   const formData = useStore($formData);
   const supply = useStore(maxSupply);
   const user = useStore($user);
+  const onCloseModal = createEvent();
+  error.reset(onCloseModal);
+
   const continueToMint = useCallback(async () => {
     if (!formData) {
       throw new Error("Missing form data.");
@@ -365,12 +374,14 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
       });
       return;
     }
+
     await metadataObject.submit({
       data: formData as FormData,
       maxSupply: formData.supply ? parseInt(formData.supply) : 0,
     });
     await fetchProfileArtworksFx();
   }, [refForm, formData, user]);
+
   const toast = useToast();
 
   const embed = useCallback(() => {}, []);
@@ -386,6 +397,7 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
     file,
     contentUrl,
     error,
+    onCloseModal,
     metadata,
     progressMeta,
     continueToMint,

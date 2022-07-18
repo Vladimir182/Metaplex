@@ -1,5 +1,5 @@
-import { FC, useCallback, useEffect } from "react";
-import { WalletAdapterNetwork, WalletError } from "@solana/wallet-adapter-base";
+import { FC, useEffect } from "react";
+import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import {
   useWallet,
   WalletProvider as WalletProviderBase,
@@ -17,9 +17,6 @@ import {
 import { useEvent, useStoreMap } from "effector-react";
 import { $network } from "state/connection";
 import { walletChange } from "state/wallet";
-import { getWalletErrorDescription } from "utils/getWalletErrorDescription";
-
-import { useToast } from "components/Modals/Toast";
 
 export {
   WalletModalProvider,
@@ -45,8 +42,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({
   children,
   ...props
 }) => {
-  const toast = useToast();
-
   const wallets = useStoreMap($network, (network) => [
     getPhantomWallet(),
     getSlopeWallet(),
@@ -56,21 +51,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({
     getSolletExtensionWallet({ network: network as WalletAdapterNetwork }),
   ]);
 
-  const onError = useCallback(
-    (error: WalletError) => {
-      toast({
-        title: "Wallet error",
-        description: getWalletErrorDescription(error),
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    },
-    [toast]
-  );
-
   return (
-    <WalletProviderBase wallets={wallets} onError={onError} {...props}>
+    <WalletProviderBase wallets={wallets} {...props}>
       <WalletModalProvider>
         <WalletCatcher>{children}</WalletCatcher>
       </WalletModalProvider>

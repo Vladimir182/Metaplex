@@ -44,7 +44,6 @@ export const NftCreationFooter: FC<INftCreationFooterProps> = ({
       try {
         if (continueToMint) {
           await continueToMint(isActive);
-          setStep(NftCreationSteps.CONGRATULATION);
         }
       } catch {
         toast({
