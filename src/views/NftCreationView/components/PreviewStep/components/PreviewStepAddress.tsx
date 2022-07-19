@@ -17,6 +17,7 @@ export const PreviewStepAddress: FC<{
         minH={209}
         bg="whiteAlpha.50"
         borderRadius={12}
+        key={item.address}
       >
         <VStack w="90%" alignItems="flex-start">
           <Text variant="label-bold">Address {index + 1}</Text>

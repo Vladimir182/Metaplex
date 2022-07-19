@@ -121,6 +121,7 @@ export async function mintArweaveNFT({
 
   const creatorsPrimary: IArtCreator[] = primaryRoyalties.map((royalty) => ({
     ...royalty,
+    verified: Boolean(royalty.isOwner),
     share: Number(royalty.share),
   }));
 

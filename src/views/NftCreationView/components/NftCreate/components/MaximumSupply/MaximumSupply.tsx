@@ -18,7 +18,7 @@ import {
   MAXIMUM_SUPPLY_DEFAULT,
   SupplyType,
   SupplyTypesMap,
-} from "./SupplyType";
+} from "../../SupplyType";
 
 interface FormFieldProps {
   id: keyof FormData;

@@ -2,14 +2,13 @@ import { StringPublicKey } from "@metaplex-foundation/mpl-core";
 
 export interface AddressRow {
   address: StringPublicKey;
-  verified: boolean;
-  share: string;
-  total?: string;
+  share: number;
+  total?: number;
+  isOwner?: boolean;
 }
 
 export interface FormData {
-  preview: File | Record<string, never>;
-  file: File | Record<string, never>;
+  file: File;
   title: string;
   desc: string;
   supply: string;

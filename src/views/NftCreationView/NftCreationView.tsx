@@ -1,5 +1,7 @@
-import { FC, useRef, useState } from "react";
+import { FC, useRef } from "react";
+import { useNavigate } from "react-router";
 import { useStore } from "effector-react";
+import { ROUTES } from "routes";
 import { ENftProgress } from "sdk/createNft";
 import { IArt } from "state/artworks";
 import { NftCreationForm } from "views/NftCreationView/components/NftCreate";
@@ -10,16 +12,15 @@ import { ModalTemplate } from "components/Modals/template";
 import { TransactionFailure } from "components/Modals/TransactionFailure";
 
 import { MintedStep } from "./components/MintedStep";
-import { NftCreationFooter } from "./components/NftCreationFooter";
 import { NftCreationHeader } from "./components/NftCreationHeader";
 import { PreviewStep } from "./components/PreviewStep";
 import { getContent, useLocalState } from "./NftCreationView.state";
 import { NftCreationSteps } from "./types";
 
 export const NftCreationView: FC = () => {
+  const navigate = useNavigate();
   const refForm = useRef<HTMLFormElement | null>(null);
   const {
-    price,
     step,
     progressStep,
     file,
@@ -27,30 +28,25 @@ export const NftCreationView: FC = () => {
     setStep,
     progressMeta,
     onCloseModal,
-    onUpdateForm,
-    continueToMint,
-    formData,
+    onFormSubmit,
+    onMint,
+    previewForm,
     error,
   } = useLocalState(refForm);
-  const refTriggerValidationFn = useRef<null | (() => Promise<boolean>)>(null);
-  const [isFormValid, setIsFormValid] = useState(false);
+
   const transactionError = useStore(error);
   const shouldShowModal = !!transactionError;
   const content =
     step === NftCreationSteps.CREATE ? (
-      <NftCreationForm
-        onUpdate={(form, isValid) => {
-          onUpdateForm(form);
-          setIsFormValid(isValid);
-        }}
-        refForm={refForm}
-        refTriggerValidationFn={refTriggerValidationFn}
-        formData={formData}
-      />
+      <NftCreationForm onSubmit={onFormSubmit} cancel={() => navigate(-1)} />
     ) : step === NftCreationSteps.PREVIEW ? (
-      <PreviewStep formData={formData} file={file} />
+      <PreviewStep
+        previewForm={previewForm}
+        onBack={() => setStep(NftCreationSteps.CREATE)}
+        onMint={onMint}
+      />
     ) : step === NftCreationSteps.CONGRATULATION ? (
-      <MintedStep file={file} />
+      <MintedStep file={file} cancel={() => navigate(ROUTES.home())} />
     ) : null;
 
   return (
@@ -64,8 +60,8 @@ export const NftCreationView: FC = () => {
             {
               image: contentUrl,
               type: "Master",
-              title: formData?.title,
-              description: formData?.desc,
+              title: previewForm?.title,
+              description: previewForm?.desc,
             } as IArt
           }
           getStepTitle={(key) => getContent(key).title}
@@ -83,18 +79,6 @@ export const NftCreationView: FC = () => {
           />
         </ModalTemplate>
       </Layout>
-
-      <NftCreationFooter
-        price={price}
-        step={step}
-        setStep={setStep}
-        refTriggerValidationFn={refTriggerValidationFn}
-        continueToMint={(isActive) => {
-          isActive && refTriggerValidationFn.current?.();
-          return continueToMint();
-        }}
-        isFormValid={isFormValid}
-      />
     </>
   );
 };

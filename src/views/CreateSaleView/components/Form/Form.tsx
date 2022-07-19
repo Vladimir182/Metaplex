@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { createSaleFactory } from "views/CreateSaleView/state";
-import { MaximumSupply } from "views/NftCreationView/components/NftCreate/MaximumSupply";
+import { MaximumSupply } from "views/NftCreationView/components/NftCreate/components/MaximumSupply/MaximumSupply";
 
 import { ArtworkSummary } from "components/DataDisplay/ArtworkSummary";
 import { DateTimePicker } from "components/Forms/DateTimePicker";

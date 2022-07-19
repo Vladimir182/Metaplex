@@ -164,7 +164,7 @@ export const FormField: React.FC<FormFieldProps> = ({
           {maxLength && (
             <Text
               variant="subtitle"
-              color={currentLength <= maxLength ? "whiteAlpha.500" : "#d83aeb"}
+              color={currentLength <= maxLength ? "whiteAlpha.500" : "pink.600"}
             >
               {currentLength} / {maxLength}
             </Text>

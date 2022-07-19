@@ -1,5 +1,4 @@
-import { RefObject, useCallback, useMemo } from "react";
-import debug from "debug";
+import { RefObject, useCallback, useMemo, useState } from "react";
 import {
   attach,
   createEffect,
@@ -7,45 +6,30 @@ import {
   createStore,
   forward,
   sample,
-  StoreValue,
 } from "effector";
 import { useStore } from "effector-react";
 import { useFileReader } from "hooks/useFileReader";
 import { reshape } from "patronum/reshape";
-import {
-  createFilePack,
-  ENftProgress,
-  METADATA_FILE_NAME,
-  MetadataJson,
-  MetadataJsonCreator,
-} from "sdk/createNft";
-import { getFilesCost, getMetadataCost } from "sdk/createNft/utils";
+import { ENftProgress, MetadataJson, MetadataJsonCreator } from "sdk/createNft";
 import { fetchProfileArtworksFx, mintArweaveFx } from "state/artworks";
-import { $connection } from "state/connection";
 import { createEntry } from "state/utils";
 import { $user, $walletAddress } from "state/wallet";
 import { toNumber } from "utils/base";
 import { createProgressTools } from "utils/createProgressTools";
-import { throttle } from "utils/throttle";
-import { getCreators } from "views/NftCreationView/components/NftCreate/helper";
 
 import { useToast } from "components/Modals/Toast";
 
+import { getCreators } from "./utils/getCreators";
 import { AddressRow, FormData } from "./interface";
 import { NftCreationSteps } from "./types";
-
-const LOGErr = debug("error:NftCreationView.state");
 
 export function createMetadataTools(WebFile = File) {
   const $metadataObject = createStore<MetadataJson | null>(null);
   const { set: updateMetadata, $node } = createEntry<Partial<FormData>>({});
 
-  const { $maxSupply, $fileObject } = reshape({
+  const { $fileObject } = reshape({
     source: $node,
     shape: {
-      $maxSupply: (data) => {
-        return toNumber(data.supply ?? "0", 0);
-      },
       $fileObject: (data) => (data.file instanceof WebFile ? data.file : null),
     },
   });
@@ -91,7 +75,6 @@ export function createMetadataTools(WebFile = File) {
     updateMetadata,
     $metadataObject,
     $fileObject,
-    $maxSupply,
   };
 }
 
@@ -155,87 +138,14 @@ export function getContent(state: ENftProgress | null) {
   }
 }
 
-export function createPriceTools(
-  {
-    $fileObject,
-    $metadataObject,
-  }: Pick<
-    ReturnType<typeof createMetadataTools>,
-    "$metadataObject" | "$fileObject"
-  >,
-  WebFile = File
-) {
-  const { $node: $price, set: setPrice } = createEntry(0);
-
-  const metadataCostFx = createEffect(
-    (connection: StoreValue<typeof $connection>) => getMetadataCost(connection)
-  );
-
-  const updateCostFx = attach({
-    effect: createEffect(
-      async ({
-        metadata,
-        file,
-        connection,
-      }: {
-        metadata: StoreValue<typeof $metadataObject>;
-        file: StoreValue<typeof $fileObject>;
-        connection: StoreValue<typeof $connection>;
-      }) => {
-        if (!metadata) {
-          throw new Error("Missing metadata");
-        }
-        if (!file) {
-          throw new Error("Missing file");
-        }
-
-        try {
-          const deferMetadataCost = getFilesCost([
-            file,
-            createFilePack(metadata, METADATA_FILE_NAME, WebFile),
-          ]);
-          const [{ solana }, additionalSol] = await Promise.all([
-            deferMetadataCost,
-            metadataCostFx(connection),
-          ]);
-          const price = solana + additionalSol;
-          return price;
-        } catch (err) {
-          LOGErr.log(err);
-          throw err;
-        }
-      }
-    ),
-    source: {
-      metadata: $metadataObject,
-      file: $fileObject,
-      connection: $connection,
-    },
-  });
-
-  forward({
-    from: updateCostFx.doneData,
-    to: setPrice,
-  });
-  return { metadataCostFx, updateCostFx, $price };
-}
-
 export function createLocalState(WebFile = File) {
   const { $progress, $progressMeta } = createProgressTools(
     getContent,
     null as ENftProgress | null
   );
 
-  const { updateMetadata, $metadataObject, $fileObject, $maxSupply } =
+  const { updateMetadata, $metadataObject, $fileObject } =
     createMetadataTools(WebFile);
-
-  const { $price, updateCostFx } = createPriceTools(
-    {
-      $metadataObject,
-      $fileObject,
-    },
-    WebFile
-  );
 
   const $state = createEntry<NftCreationSteps>(NftCreationSteps.CREATE);
 
@@ -310,20 +220,12 @@ export function createLocalState(WebFile = File) {
     target: updateMetadata,
   });
 
-  const { $node: $formData, set: setFormData } =
-    createEntry<Partial<FormData> | null>(null);
-
   return {
-    $formData,
-    setFormData,
-    updateCostFx,
     fileObject: $fileObject,
-    maxSupply: $maxSupply,
     error: $error,
     $progressMeta,
     $progress,
     $state,
-    $price,
     metadataObject: {
       ...$metadataObject,
       update: updateMetadata,
@@ -336,36 +238,27 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
   const {
     metadataObject,
     fileObject,
-    maxSupply,
     $progress,
     $progressMeta,
     $state,
-    $price,
     error,
-    updateCost,
-    $formData,
-    setFormData,
   } = useMemo(() => {
     const ret = createLocalState();
 
     return {
       ...ret,
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      updateCost: throttle<void>(() => ret.updateCostFx(), 3000),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const progressStep = useStore($progress.$node);
-  const formData = useStore($formData);
-  const supply = useStore(maxSupply);
   const user = useStore($user);
   const onCloseModal = createEvent();
   error.reset(onCloseModal);
 
-  const continueToMint = useCallback(async () => {
-    if (!formData) {
-      throw new Error("Missing form data.");
-    }
+  const [previewForm, setPreviewForm] = useState<FormData | null>(null);
+
+  const onMint = useCallback(async () => {
+    if (!previewForm) return;
     if (!user) {
       toast({
         title: "Transaction Failed",
@@ -376,42 +269,36 @@ export function useLocalState(refForm: RefObject<HTMLFormElement>) {
     }
 
     await metadataObject.submit({
-      data: formData as FormData,
-      maxSupply: formData.supply ? parseInt(formData.supply) : 0,
+      data: previewForm,
+      maxSupply: previewForm.supply ? parseInt(previewForm.supply) : 0,
     });
     await fetchProfileArtworksFx();
-  }, [refForm, formData, user]);
+  }, [previewForm, refForm, user]);
 
+  const onFormSubmit = useCallback((formData: FormData) => {
+    setPreviewForm({
+      ...formData,
+    });
+    $state.set(NftCreationSteps.PREVIEW);
+  }, []);
   const toast = useToast();
 
-  const embed = useCallback(() => {}, []);
-
   const step = useStore($state.$node);
-  const metadata = useStore(metadataObject);
   const file = useStore(fileObject);
   const [contentUrl] = useFileReader(file);
   const progressMeta = useStore($progressMeta);
-  const price = useStore($price);
 
   return {
     file,
     contentUrl,
     error,
     onCloseModal,
-    metadata,
     progressMeta,
-    continueToMint,
-    formData,
-    onUpdateForm(payload: Partial<FormData>) {
-      metadataObject.update(payload);
-      setFormData(payload);
-      updateCost();
-    },
+    onMint,
+    onFormSubmit,
+    previewForm,
     step,
     progressStep,
     setStep: $state.set,
-    embed,
-    price,
-    supply,
   };
 }

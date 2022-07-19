@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { VStack } from "@chakra-ui/react";
+import { Button, Divider, Flex, VStack } from "@chakra-ui/react";
 import { useFileReader } from "hooks/useFileReader";
 import { FormData } from "views/NftCreationView";
 
@@ -9,16 +9,29 @@ import { PreviewSale } from "./components/PreviewSale";
 import { PreviewStepField } from "./components/PreviewStepField";
 
 interface IPrevieewBodyProps {
-  formData: Partial<FormData> | null;
-  file: File | null;
+  previewForm: Partial<FormData> | null;
+  onBack: () => void;
+  onMint: () => void;
 }
 
-export const PreviewStep: FC<IPrevieewBodyProps> = ({ formData, file }) => {
-  const { title, desc, supply, secondaryRoyalties, primaryRoyalties, royalty } =
-    formData || {};
+export const PreviewStep: FC<IPrevieewBodyProps> = ({
+  previewForm,
+  onBack,
+  onMint,
+}) => {
+  const {
+    file,
+    title,
+    desc,
+    supply,
+    secondaryRoyalties,
+    primaryRoyalties,
+    royalty,
+  } = previewForm || {};
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sourceUrl, _, read] = useFileReader();
   const supplyType = supply && parseInt(supply) > 0 ? "Limited" : "Unlimited";
+
   useEffect(() => {
     if (file) {
       read(file);
@@ -38,7 +51,7 @@ export const PreviewStep: FC<IPrevieewBodyProps> = ({ formData, file }) => {
       <VStack spacing={6}>
         <VStack spacing={6} w="100%">
           <PreviewStepField title="Title" value={title} />
-          <PreviewStepField title="Description" value={desc} />
+          {desc && <PreviewStepField title="Description" value={desc} />}
           <PreviewStepField
             title="maximum supply"
             description="Maximum amount of tokens could be distributed"
@@ -54,6 +67,23 @@ export const PreviewStep: FC<IPrevieewBodyProps> = ({ formData, file }) => {
           />
         </VStack>
       </VStack>
+
+      <Divider mt={10} mb={8} />
+
+      <Flex>
+        <Button variant="tertiary" px={12} onClick={onBack}>
+          Back
+        </Button>
+        <Button
+          px={7}
+          type="submit"
+          variant="primary"
+          ml="auto"
+          onClick={onMint}
+        >
+          Create NFT
+        </Button>
+      </Flex>
     </>
   );
 };

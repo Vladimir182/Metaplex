@@ -1,12 +1,13 @@
 import { FC, useEffect } from "react";
-import { Flex, Heading, Text } from "@chakra-ui/react";
+import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 import { useFileReader } from "hooks/useFileReader";
 
 import { ArtImage } from "components/DataDisplay/ArtImage";
 
 export const MintedStep: FC<{
   file: File | null;
-}> = ({ file }) => {
+  cancel: () => void;
+}> = ({ file, cancel }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sourceUrl, _, read] = useFileReader();
 
@@ -31,6 +32,12 @@ export const MintedStep: FC<{
           borderRadius="xl"
         />
       )}
+
+      <Flex>
+        <Button variant="tertiary" px={12} onClick={cancel}>
+          Back to list of tokens
+        </Button>
+      </Flex>
     </Flex>
   );
 };
