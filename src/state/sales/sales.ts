@@ -1,20 +1,14 @@
-import {
-  attach,
-  createEvent,
-  createStore,
-  forward,
-  sample,
-  StoreValue,
-} from "effector";
+import { attach, createEvent, forward, sample, StoreValue } from "effector";
 import { interval } from "patronum";
 import { loadMarkets } from "sdk/markets";
 import { $connection } from "state/connection";
 import { $store } from "state/store";
 import { $wallet } from "state/wallet";
 
-import { IFixedPrice } from "./types";
+import { createCachedStore } from "../cache";
 
-export const $sales = createStore<IFixedPrice[]>([]);
+import { readCachedSalesFx, writeCachedSalesFx } from "./cached";
+import { IFixedPrice } from "./types";
 
 export const startSalesFetch = createEvent();
 export const stopSalesFetch = createEvent();
@@ -52,6 +46,14 @@ export const fetchSalesFx = attach({
   },
 });
 
-forward({ from: fetchSalesFx.doneData, to: $sales });
+const cachedSales = createCachedStore<IFixedPrice[]>({
+  defaultValue: [],
+  checkEmpty: (v) => !!v.length,
+  readCacheFx: readCachedSalesFx,
+  writeCacheFx: writeCachedSalesFx,
+  fetchFx: fetchSalesFx,
+});
+export const $sales = cachedSales.$store;
+
 forward({ from: [$connection, $store], to: fetchSalesFx });
 sample({ clock: tick, target: fetchSalesFx });

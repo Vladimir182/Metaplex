@@ -13,7 +13,7 @@ const getKey = (network: Cluster, wallet: StoreValue<typeof $wallet>) =>
     [network, "artworks", wallet?.publicKey.toBase58()].filter((v) => !!v)
   );
 
-export const readCachedSalesFx = attach({
+export const readCachedArtsFx = attach({
   effect: readCacheFx,
   source: { network: $network, store: $store, wallet: $wallet },
   mapParams: (_: unknown, { network, wallet }) => ({
@@ -21,7 +21,7 @@ export const readCachedSalesFx = attach({
   }),
 }) as Effect<void, IArt[]>;
 
-export const writeCachedSalesFx = attach({
+export const writeCachedArtsFx = attach({
   effect: writeCacheFx,
   source: { network: $network, wallet: $wallet },
   mapParams: (value: IArt[], { network, wallet }) => ({

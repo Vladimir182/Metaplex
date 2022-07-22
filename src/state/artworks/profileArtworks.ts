@@ -7,7 +7,7 @@ import { $wallet } from "state/wallet";
 import { createCachedStore } from "../cache";
 import { $store } from "../store";
 
-import { readCachedSalesFx, writeCachedSalesFx } from "./cached";
+import { readCachedArtsFx, writeCachedArtsFx } from "./cached";
 
 export const fetchProfileArtworksFx = attach({
   effect: async ({
@@ -41,8 +41,8 @@ export const $isInitalLoadHappened = createStore<boolean>(false);
 const cachedArtworks = createCachedStore<IArt[]>({
   defaultValue: [],
   checkEmpty: (v) => !!v.length,
-  readCacheFx: readCachedSalesFx,
-  writeCacheFx: writeCachedSalesFx,
+  readCacheFx: readCachedArtsFx,
+  writeCacheFx: writeCachedArtsFx,
   fetchFx: fetchProfileArtworksFx,
 });
 
@@ -60,7 +60,7 @@ const fetchCachedArtworksFx = attach({
     }
 
     try {
-      const cachedArts = await readCachedSalesFx();
+      const cachedArts = await readCachedArtsFx();
       if (cachedArts && cachedArts.length > 0) {
         return cachedArts;
       }
