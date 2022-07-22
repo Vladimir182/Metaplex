@@ -37,7 +37,7 @@ export const combineMarket = async (
 
   const isMarketStarted =
     !!startDate &&
-    dayjs(startDate).isSameOrBefore(dayjs()) &&
+    dayjs.unix(startDate).isSameOrBefore(dayjs()) &&
     [MarketState.Active, MarketState.Created].includes(market.state);
   const mState = isMarketStarted ? MarketState.Active : market.state;
   const state = isSoldOut ? SaleState.SoldOut : mapFromMarketState(mState);

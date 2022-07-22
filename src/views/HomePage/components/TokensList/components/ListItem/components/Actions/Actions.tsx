@@ -23,7 +23,7 @@ export const Actions: React.FC<ActionsProps> = ({
   const { isWithdrawn = true, endDate } = sale || {};
 
   const shouldRenderSell = state === SaleState.Uninitialized || !state;
-  const shouldRenderEndSale = state === SaleState.Active && !endDate;
+  const shouldRenderEndSale = !endDate && [SaleState.Active].includes(state);
   const shouldRenderWithdraw =
     (state === SaleState.Ended || state === SaleState.SoldOut) && !isWithdrawn;
 
