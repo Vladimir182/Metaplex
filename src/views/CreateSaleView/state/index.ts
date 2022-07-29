@@ -56,7 +56,7 @@ export const createSaleFactory = modelFactory((defaults: ModelDefaults) => {
   const artwork = useMemo(
     () =>
       artworks.find(({ accountAddress }) => accountAddress === defaults.itemId),
-    [artworks, defaults.itemId]
+    [defaults.itemId]
   );
 
   const artworkSummary = useMemo(() => {
@@ -101,6 +101,7 @@ export const createSaleFactory = modelFactory((defaults: ModelDefaults) => {
   const $error = restore(createMarketFx.failData, null);
   const onCloseModal = createEvent();
   $error.reset(onCloseModal);
+  $createdSale.reset(onCloseModal);
 
   return {
     $step,
