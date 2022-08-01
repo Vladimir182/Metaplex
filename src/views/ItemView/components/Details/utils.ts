@@ -4,6 +4,9 @@ import { $network } from "state/connection";
 export const getShortAddress = (str: string) =>
   str.substring(0, 4) + "..." + str.substring(str.length - 4);
 
+export const getShortMarketId = (str: string) =>
+  str?.substring(0, 7) + "..." + str?.substring(str.length - 14);
+
 export const getSolExplorerLink = (address: string): string => {
   const network = useStore($network);
   let link = `https://explorer.solana.com/address/${address}`;

@@ -17,16 +17,17 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ clipboard }) => {
 
   return (
     <Button
+      size="sm"
       ml={2}
       onClick={value ? onCopy : undefined}
       variant="ghost"
-      p={1}
+      p={0}
       color="whiteAlpha.700"
     >
       {hasCopied ? (
-        <MdDone size={fontSizes["2xl"]} />
+        <MdDone size={fontSizes["lg"]} />
       ) : (
-        <MdContentCopy size={fontSizes["2xl"]} />
+        <MdContentCopy size={fontSizes["lg"]} />
       )}
     </Button>
   );

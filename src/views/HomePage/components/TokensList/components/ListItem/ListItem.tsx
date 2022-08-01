@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, HStack, StackDivider, Text } from "@chakra-ui/react";
+import { Flex, HStack, StackDivider } from "@chakra-ui/react";
 import { IArt } from "state/artworks";
 import { IFixedPrice } from "state/sales";
 import { getArtworkState } from "utils/getArtworkState";
@@ -21,6 +21,7 @@ export const ListItem: React.FC<Props> = ({ artwork, sale, onClick }) => {
   const { earnings, state = getArtworkState(artwork) } = sale || {};
 
   const type = artwork.type;
+  const marketId = sale?.id;
 
   return (
     <HStack
@@ -40,7 +41,13 @@ export const ListItem: React.FC<Props> = ({ artwork, sale, onClick }) => {
             align="middle"
             divider={<StackDivider borderColor="whiteAlpha.100" />}
           >
-            <Header imgUrl={image} name={title} type={type} state={state} />
+            <Header
+              imgUrl={image}
+              name={title}
+              marketId={marketId}
+              type={type}
+              state={state}
+            />
             <ArtworkStats artwork={artwork} />
 
             {earnings !== undefined && (
@@ -49,14 +56,6 @@ export const ListItem: React.FC<Props> = ({ artwork, sale, onClick }) => {
           </HStack>
           <Actions artwork={artwork} sale={sale} state={state} />
         </Flex>
-        <Text
-          fontSize={14}
-          textOverflow="ellipsis"
-          maxW="64px"
-          whiteSpace="nowrap"
-        >
-          {sale?.id}
-        </Text>
       </Flex>
     </HStack>
   );
