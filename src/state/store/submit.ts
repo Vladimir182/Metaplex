@@ -1,9 +1,10 @@
-import { attach, createEffect, StoreValue } from "effector";
+import { attach, createEffect, sample, StoreValue } from "effector";
 import { ETransactionProgress } from "enums/transactionProgress";
 import { $walletAddress } from "state/wallet";
 import { StoreFormProps } from "views/StoreCreate/components/Form";
 
 import { initStoreFx } from "./init";
+import { loadStoreFx } from "./store";
 
 export interface ISubmitProps {
   updateProgress: (status: ETransactionProgress | null) => void;
@@ -38,3 +39,5 @@ export const submitStoreFx = attach({
     return { data, updateProgress, walletAddress };
   },
 });
+
+sample({ clock: submitStoreFx.done, target: loadStoreFx });

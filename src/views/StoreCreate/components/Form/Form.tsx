@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Divider, Heading, Stack, Text } from "@chakra-ui/react";
 import { useStore } from "effector-react";
@@ -38,10 +37,6 @@ export const Form: React.FC<Props> = ({
 
   const notValidBalance = CREATION_TRANSACTION_PRICE > (balance?.sol || 0);
 
-  const handleSubmit = useCallback(() => {
-    methods.handleSubmit(onSubmit);
-  }, [methods.handleSubmit, onSubmit]);
-
   return (
     <>
       <Heading variant={mdUp ? "h2" : "h3"} mb={4}>
@@ -52,7 +47,7 @@ export const Form: React.FC<Props> = ({
       </Text>
 
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
           <Stack spacing={8} mt={14}>
             <FormField
               id="name"
