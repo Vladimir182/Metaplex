@@ -4,8 +4,15 @@ import { WalletSignTransactionError } from "@solana/wallet-adapter-base";
 import { createEffect } from "effector";
 import { useEvent, useStore } from "effector-react";
 import { ETransactionProgress } from "enums/transactionProgress";
-import { setShowStoreCongratulations, submitStoreFx } from "state/store";
+import {
+  loadStoreFx,
+  setShowStoreCongratulations,
+  submitStoreFx,
+} from "state/store";
 import { createProgressTools } from "utils/createProgressTools";
+import { waitForResponse } from "utils/waitForResponse";
+
+import { loadStoreAndWaitFx } from "../../state/store/loadStoreAndWait";
 
 import { StoreFormProps } from "./components/Form";
 
@@ -35,6 +42,11 @@ function getContent(state: ETransactionProgress | null) {
         title: "Waiting for Final Confirmation",
         subtitle: "",
       };
+    case ETransactionProgress.loading_store:
+      return {
+        title: "Loading Store",
+        subtitle: "",
+      };
     default:
       return {
         title: "",
@@ -54,6 +66,9 @@ function createLocalState({ goToSuccessPage, navigate }: IOptions) {
         data,
         updateProgress: (state) => $progress.set(state),
       });
+      $progress.set(ETransactionProgress.loading_store);
+      await waitForResponse(loadStoreAndWaitFx);
+      await loadStoreFx();
     } catch (e) {
       if (e instanceof WalletSignTransactionError) {
         $progress.set(null);

@@ -24,12 +24,10 @@ export const submitStoreFx = attach({
         throw new Error(`Wallet wasn't connected`);
       }
 
-      const result = await initStoreFx({
+      await initStoreFx({
         name: data.name,
         updateProgress,
       });
-
-      return result;
     }
   ),
   source: {
