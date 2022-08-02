@@ -22,6 +22,11 @@ export const getContent = (state: ETransactionProgress | null) => {
         title: "Waiting for Final Confirmation",
         subtitle: "",
       };
+    case ETransactionProgress.loading_store:
+      return {
+        title: "Loading Store",
+        subtitle: "",
+      };
     default:
       return {
         title: "",
