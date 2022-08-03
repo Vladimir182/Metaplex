@@ -20,21 +20,24 @@ export const Header: React.FC<Props> = ({
   marketId,
   state = SaleState.Uninitialized,
 }) => {
-  const { smDown } = useCustomBreakpoints();
+  const { smDown, customXlUp } = useCustomBreakpoints();
   const marketIdClipboard = useClipboard(marketId ?? "");
   return (
     <HStack overflow="hidden" width="40%">
       <Image boxSize="64px" objectFit="cover" borderRadius={12} src={imgUrl} />
       <Flex
         justifyContent="space-between"
+        flexWrap="wrap"
+        flexDirection={customXlUp ? "row" : "column"}
         width="100%"
-        alignItems="center"
+        alignItems={customXlUp ? "center" : "flex-start"}
         overflow="hidden"
       >
         <Flex ml="1rem" flexDirection="column">
           <Text
             variant="body-bold"
             mt={marketId ? 2 : 0}
+            mb={!marketId && !customXlUp ? "0.5rem" : "0"}
             isTruncated={smDown}
             maxW="200px"
             overflow="hidden"
@@ -55,7 +58,11 @@ export const Header: React.FC<Props> = ({
           )}
         </Flex>
 
-        <Flex justifyContent="flex-start" width="8rem" ml={12}>
+        <Flex
+          justifyContent="flex-start"
+          width="8rem"
+          ml={customXlUp ? "1.5rem" : "1rem"}
+        >
           <Status state={state} />
         </Flex>
       </Flex>
